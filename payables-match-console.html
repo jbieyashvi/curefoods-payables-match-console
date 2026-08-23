@@ -13,6 +13,7 @@
   --ground:#FFFFFF;       /* app, sidebar, content and card background */
   --surface:#FFFFFF;
   --surface-2:#F7F8F8;    /* subtle neutral section: card headers, footers, row hover */
+  --tray:#F6F8F7;         /* the tray a segmented control sits in */
   --surface-3:#EFF1F3;    /* pressed and hover states on controls */
   --surface-4:#E6E9EC;    /* document canvas behind the invoice page */
   --th:#F8FAF9;           /* table header */
@@ -252,14 +253,16 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 /* ============================================================
    COMPONENTS — tabs
    ============================================================ */
-/* Status filters and rule filters share one outlined shape: white always,
-   a green ring when selected, so the status dot inside stays readable. */
-.segbar{display:inline-flex;flex-wrap:wrap;gap:6px;padding:0;background:none;border:0}
-.seg{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s,border-color .12s}
-.seg:hover{background:var(--surface-2);color:var(--ink)}
-.seg[aria-selected="true"]{background:var(--surface);border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green);color:var(--green);font-weight:600}
+/* Status filter: a compact rectangular segmented bar. The container is a light
+   neutral tray; the selected tab lifts out of it as a white card with a green
+   label and a 2px green underline — never a green fill, so the coloured status
+   dot and the count inside it stay readable. */
+.segbar{display:inline-flex;flex-wrap:wrap;gap:2px;padding:3px;background:var(--tray);border:1px solid var(--line);border-radius:var(--r-sm)}
+.seg{height:26px;padding:0 11px;border-radius:3px;border:0;border-bottom:2px solid transparent;background:none;font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s,border-color .12s}
+.seg:hover{background:rgba(255,255,255,.72);color:var(--ink)}
+.seg[aria-selected="true"]{background:var(--surface);border-bottom-color:var(--green);color:var(--green-deep);font-weight:600;box-shadow:var(--sh-1)}
 .seg .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.seg[aria-selected="true"] .cnt{color:var(--green)}
+.seg[aria-selected="true"] .cnt{color:var(--green-deep)}
 
 .utabs{display:flex;gap:2px;align-items:flex-end}
 .utab{position:relative;height:40px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;transition:background .12s,color .12s}
@@ -312,14 +315,16 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
    COMPONENTS — summary cards
    ============================================================ */
 .statrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 13px;min-width:0;box-shadow:var(--sh-1);text-align:left;position:relative;overflow:hidden;transition:border-color .12s,box-shadow .12s,transform .12s}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-width:0;box-shadow:var(--sh-1);text-align:left;position:relative;overflow:hidden;transition:border-color .12s,box-shadow .12s,background .12s}
 button.stat:hover{border-color:var(--line-strong);box-shadow:var(--sh-2)}
-button.stat[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+/* The cards summarise; the segmented tab bar above the table is the labelled
+   selection control, so a pressed card stays quiet — a neutral tint, not a ring. */
+button.stat[aria-pressed="true"]{background:var(--surface-2);border-color:var(--line-strong)}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--stat-accent,var(--line-strong))}
 .stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
 .stat-label{font-size:var(--fs-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
 .stat-pct{font-size:10px;font-weight:700;padding:1px 5px;border-radius:var(--r-xs);border:1px solid;font-variant-numeric:tabular-nums}
-.stat-n{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;font-size:22px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:2px}
+.stat-n{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;font-size:19px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:1px}
 .stat-vol{display:block;font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ============================================================
@@ -354,6 +359,14 @@ button.stat[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 1px 
    table slides sideways inside its card without a second scrollbar. */
 .tscroll{overflow-x:auto;overflow-y:hidden}
 .tscroll.plain{overflow-y:visible}
+/* On the dashboard the card owns its own height instead: the column header
+   stays pinned, the rows scroll inside the card, the horizontal scrollbar sits
+   at the foot of the rows, and the pagination footer below it never moves. */
+.content.dash{display:flex;flex-direction:column;padding-bottom:20px}
+.content.dash > *{flex:none}
+.content.dash > .tablewrap{flex:1 1 auto;min-height:260px;display:flex;flex-direction:column}
+.content.dash .tscroll{flex:1 1 auto;min-height:0;overflow:auto}
+.content.dash .tfoot{flex:none}
 /* keep scrollbars visible so a wide table reads as scrollable, not truncated */
 .tscroll::-webkit-scrollbar,.docview::-webkit-scrollbar,.detailpane::-webkit-scrollbar{width:11px;height:11px}
 .tscroll::-webkit-scrollbar-track,.docview::-webkit-scrollbar-track,.detailpane::-webkit-scrollbar-track{background:var(--surface-3)}
@@ -372,10 +385,24 @@ table.dt td.wrap{white-space:normal;min-width:180px}
 table.dt th.sticky,table.dt td.sticky{position:sticky;z-index:15}
 table.dt th.sticky{z-index:25}
 table.dt .c1{left:0;min-width:212px}
-table.dt .c2{left:212px;min-width:196px}
-table.dt .c3{left:408px;min-width:112px;box-shadow:var(--sh-sticky)}
+table.dt .c2{left:var(--c1w,212px);min-width:196px}
+table.dt .c3{left:calc(var(--c1w,212px) + var(--c2w,196px));min-width:112px;box-shadow:var(--sh-sticky)}
 table.dt tbody tr:hover td.sticky{background:var(--surface-2)}
 table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
+/* Compact density — the dashboard table trades airiness for rows on screen,
+   without dropping any value below a comfortable reading size. */
+table.dt-compact th{height:36px;padding:0 14px;font-size:11.5px;letter-spacing:.03em}
+table.dt-compact td{height:52px;padding:9px 14px;font-size:13px}
+table.dt-compact .c1{min-width:216px}
+table.dt-compact .c2{min-width:200px}
+table.dt-compact .polink{font-size:13px;font-weight:600}
+table.dt-compact .grn-id{font-size:12.5px}
+table.dt-compact .cellstack{line-height:1.3}
+table.dt-compact .cellstack .trunc{font-size:13px;font-weight:500}
+table.dt-compact .cellstack .c-sub{font-size:11.5px}
+table.dt-compact .chip{height:23px;padding:0 8px;font-size:11.5px}
+table.dt-compact .chip.tiny{height:23px;padding:0 8px;font-size:11.5px;gap:5px}
+table.dt-compact .chip .glyph{width:11px;height:11px}
 .polink{font-family:var(--mono);font-size:var(--fs-table);font-weight:500;color:var(--green);text-decoration:none;border-bottom:1px solid transparent;padding:2px 0;cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;display:inline-block}
 .polink:hover{color:var(--green-deep);border-bottom-color:var(--green);background:var(--green-bg-2)}
 .polink:focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -1974,8 +2001,8 @@ generateRows();
    APP STATE + ROUTER
    ============================================================================ */
 const COLS = [
-  {k:'po',    label:'PO number',        lock:true,  w:212},
-  {k:'grn',   label:'GRN number',       lock:true,  w:196},
+  {k:'po',    label:'PO number',        lock:true,  w:216},
+  {k:'grn',   label:'GRN number',       lock:true,  w:200},
   {k:'status',label:'Match status',     lock:true,  w:150},
   {k:'sup',   label:'Supplier',         on:true,    w:238},
   {k:'brand', label:'Brand',            on:true,    w:130},
@@ -1995,7 +2022,7 @@ const COLS = [
 const S = {
   view:'dash', rowId:null, tab:'po',
   status:'ALL', q:'', entity:'ALL', supplier:'ALL', dateKey:'FY', from:'', to:'',
-  page:1, per:25, sort:{k:'gdate',d:-1},
+  page:1, per:20, sort:{k:'gdate',d:-1},
   cols:COLS.reduce((a,c)=>(a[c.k]=c.lock?true:!!c.on,a),{}),
   pop:null, tech:{}, matrix:null, ruleFilter:null, ruleOpen:null, liFilter:'ALL', lineHi:null, dialog:null, pipeStep:-1, pipeSteps:null, focus:null,
   split:42, zoom:1, rot:0, docFull:false, oracleHi:null,
@@ -2076,7 +2103,7 @@ window.addEventListener('hashchange', route);
 .rail-collapsed .navlater{display:none}
 .nav-item[aria-disabled="true"]{opacity:.55;cursor:default}
 .nav-item[aria-disabled="true"]:hover{background:transparent;color:var(--ink-2)}
-.stat-sub{display:block;font-size:var(--fs-xs);line-height:1.45;color:var(--ink-2);margin-top:7px;padding-top:6px;border-top:1px dashed var(--line)}
+.stat-sub{display:block;font-size:var(--fs-xs);line-height:1.4;color:var(--ink-2);margin-top:6px;padding-top:5px;border-top:1px dashed var(--line)}
 .stat-u{font-size:var(--fs-xs);font-weight:500;color:var(--ink-2);letter-spacing:0;white-space:nowrap}
 .stat-pct.p-all{background:var(--surface-3);color:var(--ink-2);border-color:var(--line-strong)}
 .stat-pct.p-pending{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
@@ -2135,11 +2162,11 @@ function render(){
    RENDER — dashboard
    ======================================================================= */
 const STAT_DEF = [
-  {k:'ALL',     label:'Total pairs', sub:'PO · GRN · Invoice',    accent:'var(--slate)',  p:'p-all'},
-  {k:'PENDING', label:'Pending',     sub:'Match not yet run',     accent:'var(--slate)',  p:'p-pending'},
+  {k:'ALL',     label:'Total pairs', sub:'PO · GRN · Invoice',    accent:'var(--line-strong)', p:'p-all'},
+  {k:'PENDING', label:'Pending',     sub:'Match not yet run',     accent:'var(--blue)',   p:'p-pending'},
   {k:'MATCHED', label:'Matched',     sub:'Eligible for Oracle',   accent:'var(--green)',  p:'p-matched'},
   {k:'BLOCKED', label:'Blocked',     sub:'Correction required',   accent:'var(--red)',    p:'p-blocked'},
-  {k:'SKIPPED', label:'Skipped',     sub:'Outside match scope',   accent:'var(--ink-3)',  p:'p-skipped'}
+  {k:'SKIPPED', label:'Skipped',     sub:'Outside match scope',   accent:'var(--slate)',  p:'p-skipped'}
 ];
 function pct(n,d){ return d ? Math.round(n*100/d) : 0; }
 
@@ -2310,9 +2337,9 @@ const CELL = {
   po:   r=>`<a class="polink" href="#/case/${r.id}/po">${esc(r.poNo)}</a>`,
   grn:  r=>`<span class="grn-id">${esc(r.grnNo)}</span>`,
   status:r=>statusChip(r.status,true) + (r.worstBreach && r.status==='MATCHED' && r.worstBreach!=='PASS' ? ' '+sevChip(r.worstBreach,true) : ''),
-  sup:  r=>`<span class="cellstack"><span class="trunc">${esc(r.supplier)}</span>${r.supplierGstin?`<span class="c-sub">${esc(r.supplierGstin)}</span>`:`<span class="c-sub f-empty">GSTIN not available</span>`}</span>`,
-  brand:r=>esc(r.brand),
-  loc:  r=>`<span class="cellstack"><span class="trunc">${esc(r.location)}</span><span class="c-sub">${esc(r.city)}</span></span>`,
+  sup:  r=>`<span class="cellstack"><span class="trunc" style="max-width:210px" title="${esc(r.supplier)}">${esc(r.supplier)}</span>${r.supplierGstin?`<span class="c-sub trunc" style="max-width:210px" title="GSTIN ${esc(r.supplierGstin)}">${esc(r.supplierGstin)}</span>`:`<span class="c-sub f-empty">GSTIN not available</span>`}</span>`,
+  brand:r=>`<span class="trunc" style="max-width:102px" title="${esc(r.brand)}">${esc(r.brand)}</span>`,
+  loc:  r=>`<span class="cellstack"><span class="trunc" style="max-width:202px" title="${esc(r.location)}">${esc(r.location)}</span><span class="c-sub trunc" style="max-width:202px" title="${esc(r.city)}">${esc(r.city)}</span></span>`,
   gdate:r=>fmtDate(r.grnDate),
   ino:  r=>r.invoiceNo?`<span class="grn-id">${esc(r.invoiceNo)}</span>`:`<span class="subtle">Not available</span>`,
   idate:r=>r.invoiceDate?fmtDate(r.invoiceDate):`<span class="subtle">—</span>`,
@@ -2368,10 +2395,10 @@ function pagerButtons(page,pages){
 
 function tableFoot(total,page,pages,from,to){
   return `<div class="tfoot">
-    <label class="foot-label" for="per">Rows
-      <select class="per-sel" id="per" data-act="per">${[25,50,100].map(n=>`<option value="${n}"${S.per===n?' selected':''}>${n}</option>`).join('')}</select>
+    <label class="foot-label" for="per">Rows per page
+      <select class="per-sel" id="per" data-act="per">${[10,20,50].map(n=>`<option value="${n}"${S.per===n?' selected':''}>${n}</option>`).join('')}</select>
     </label>
-    <span class="foot-label">${total?`${from.toLocaleString('en-IN')}–${to.toLocaleString('en-IN')} of ${total.toLocaleString('en-IN')} invoices`:'No invoices'}</span>
+    <span class="foot-label">${total?`Showing ${from.toLocaleString('en-IN')}–${to.toLocaleString('en-IN')} of ${total.toLocaleString('en-IN')} invoices`:'No invoices'}</span>
     <span class="grow"></span>
     <div class="pager" role="group" aria-label="Pagination">${pagerButtons(page,pages)}</div>
     <label class="foot-label" for="jump">Go to page
@@ -2422,7 +2449,7 @@ function renderDash(){
         </button>
       </div>
     </header>
-    <div class="content">
+    <div class="content dash">
       ${statCards()}
       ${controlRow()}
       ${S.exportFail?`<div class="alert alert-red" role="alert">
@@ -2433,7 +2460,7 @@ function renderDash(){
       </div>`:''}
       <div class="tablewrap">
         <div class="tscroll">
-          <table class="dt">
+          <table class="dt dt-compact">
             <caption class="vis-hidden">Purchase order, goods received note and invoice pairs with their match status</caption>
             <thead>${tableHead()}</thead>
             <tbody>${S.loading ? skeletonRows(12) : slice.map(tableRow).join('')}</tbody>
@@ -4188,7 +4215,7 @@ const PASSIVE_ACTS = {q:1, entity:1, supplier:1, per:1, jump:1, dfrom:1, dto:1, 
 function wireOnce(){
   if(WIRED) return; WIRED = true;
 
-  let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(fitDoc, 90); });
+  let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(()=>{ fitDoc(); syncStickyCols(); }, 90); });
 
   document.addEventListener('click', e=>{
     if(e.target.closest('[data-scrim="1"]') && !e.target.closest('.dialog')){ closeDialog(); return; }
@@ -4297,9 +4324,21 @@ function fitDoc(){
   });
 }
 
+/* The pinned columns park at the running width of the columns to their left.
+   Those widths come from the data on the page, so they are measured rather
+   than assumed — otherwise a long PO number slides underneath its neighbour. */
+function syncStickyCols(){
+  document.querySelectorAll('table.dt').forEach(t=>{
+    const c1 = t.querySelector('thead .c1'), c2 = t.querySelector('thead .c2');
+    if(c1) t.style.setProperty('--c1w', Math.round(c1.getBoundingClientRect().width)+'px');
+    if(c2) t.style.setProperty('--c2w', Math.round(c2.getBoundingClientRect().width)+'px');
+  });
+}
+
 function afterRender(){
   wireSplit();
   fitDoc();
+  syncStickyCols();
   const ch = document.querySelector('.case-head');
   document.documentElement.style.setProperty('--case-head-h', (ch ? Math.round(ch.getBoundingClientRect().height) : 160) + 'px');
 

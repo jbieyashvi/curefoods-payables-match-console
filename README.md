@@ -75,11 +75,13 @@ and ink, 15% functional status colour, 5% green.
 **Green is the product colour.** The 28px mark in the rail is a solid `#2F6B4F`
 tile with a white glyph, the active sidebar item is a soft green fill with a
 green left rule, and matched or safely normalized values read green.
-**Selection is outlined, never filled**: a pressed filter pill keeps its white
+**Selection is an edge, never a fill**: a pressed filter pill keeps its white
 background and states itself with a 2px green outline and a green label, so the
 status dot inside it — red for blocking, amber for flags, blue for notes, grey
 for skipped, green for passed — stays readable; the selected tab carries a green
-label and a 2.5px green underline on white.
+label and a 2.5px green underline on white; and the dashboard status bar is a
+compact rectangular segmented control on a `#F6F8F7` tray whose selected segment
+lifts out as a white card with a dark green label and a 2px green underline.
 
 **Red is blocking** — a commercial mismatch, a missing required Oracle field, a
 destructive action. **Amber appears only when something genuinely needs
@@ -106,11 +108,17 @@ Contrast is measured rather than assumed:
 Every tone that carries readable text clears 4.5:1. `--ink-3` `#98A2B3` is the
 disabled grey and never carries a readable value.
 
-Interface text sits at 13–14px, table headers at 12px, and no interactive
-control is shorter than 34px. At a 1280px laptop width the dashboard toolbar
-wraps to a second row rather than shrinking a control: Brand, Supplier and Dates
-keep their visible labels at every width, Export and Columns stay reachable, and
-the table scrolls horizontally with PO number, GRN number and status pinned.
+Interface text sits at 13–14px and no interactive control is shorter than 34px.
+The dashboard table is deliberately denser than the rest: 52px rows, 13px cell
+text, 11.5px uppercase headers, 23px status chips, and a long supplier or
+location that truncates with an ellipsis and keeps its full value in a tooltip
+rather than widening its column. Nothing inside a table row is set at 15px or
+larger. At a 1280px laptop width the dashboard toolbar wraps to a second row
+rather than shrinking a control: Brand, Supplier and Dates keep their visible
+labels at every width, Export and Columns stay reachable, and the table scrolls
+horizontally with PO number, GRN number and status pinned — at offsets measured
+after each render, so a long PO number widens its column without the next frozen
+column sliding underneath it.
 
 ## Scrolling
 
@@ -124,9 +132,14 @@ bottom of the rail.
 
 Wide comparison tables scroll horizontally inside their own card and never
 widen the page; every pane sets `min-width:0`, so a long identifier cannot force
-a page-level horizontal scrollbar. Dashboard pagination sits at the bottom of
-the table and is always reachable; a right-side action panel un-sticks itself
+a page-level horizontal scrollbar. A right-side action panel un-sticks itself
 when it is taller than the scrollport, so its bottom is never clipped.
+
+The dashboard is the one deliberate exception. There the content column stops
+scrolling and the table card takes the remaining height instead, in three parts:
+a pinned column header, a body of rows that scrolls, and a pagination footer
+that never leaves the screen. The horizontal scrollbar sits at the foot of the
+rows, above the footer. Rows per page is 10 / 20 / 50, default 20.
 
 The one deliberate second scroller is the extracted-details pane on the invoice
 screen, which scrolls against the document viewer beside it with both pane

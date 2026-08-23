@@ -13,7 +13,7 @@
 :root{
   /* --- surfaces: white paper. White is ~80% of every screen; the greys
          below appear only where two surfaces genuinely need separating --- */
-  --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F7F8F8; --surface-3:#EFF1F3; --surface-4:#E6E9EC;
+  --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F7F8F8; --tray:#F6F8F7; --surface-3:#EFF1F3; --surface-4:#E6E9EC;
   --th:#F8FAF9;
   --line:#E4E7EC; --line-strong:#D0D5DD;
   /* --- ink -------------------------------------------------------- */
@@ -271,16 +271,18 @@ table.spec .mono{font-size:var(--fs-sm)}
 .badge.grey{background:var(--surface-3);color:var(--ink-2);border:1px solid var(--line-strong)}
 
 /* segmented filter */
-.segbar{display:inline-flex;flex-wrap:wrap;padding:0;background:none;border:0;gap:6px}
-.seg{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);
-  background:var(--surface);font-size:var(--fs-sm);font-weight:500;
+.segbar{display:inline-flex;flex-wrap:wrap;padding:3px;background:var(--tray);
+  border:1px solid var(--line);border-radius:var(--r-sm);gap:2px}
+.seg{height:26px;padding:0 11px;border-radius:3px;border:0;border-bottom:2px solid transparent;
+  background:none;font-size:var(--fs-sm);font-weight:500;
   color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;
   transition:background .12s,color .12s,border-color .12s}
-.seg:hover,.seg.is-hover{background:var(--surface-2);color:var(--ink)}
-.seg[aria-selected="true"]{background:var(--surface);border-color:var(--green);color:var(--green);
-  font-weight:600;box-shadow:inset 0 0 0 1px var(--green)}
+.seg:hover,.seg.is-hover{background:rgba(255,255,255,.72);color:var(--ink)}
+.seg[aria-selected="true"]{background:var(--surface);border-bottom-color:var(--green);
+  color:var(--green-deep);font-weight:600;box-shadow:var(--sh-1)}
 .seg .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.seg[aria-selected="true"] .cnt{color:var(--green)}
+.seg[aria-selected="true"] .cnt{color:var(--green-deep)}
+.seg.is-focus{outline:none;box-shadow:0 0 0 3px rgba(47,107,79,.17)}
 .seg-dot{width:7px;height:7px;border-radius:50%;flex:none}
 
 /* filter pill */
@@ -343,10 +345,10 @@ table.spec .mono{font-size:var(--fs-sm)}
 .tscroll::-webkit-scrollbar-thumb:hover{background:#AEB5C1}
 table.dt{font-size:var(--fs-table);min-width:100%}
 table.dt th{position:sticky;top:0;z-index:20;background:var(--th);
-  border-bottom:1px solid var(--line-strong);padding:0 12px;height:36px;text-align:left;font-size:var(--fs-xs);
-  font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
-table.dt td{padding:0 12px;height:42px;border-bottom:1px solid var(--line);vertical-align:middle;
-  white-space:nowrap;background:var(--surface)}
+  border-bottom:1px solid var(--line-strong);padding:0 14px;height:36px;text-align:left;font-size:11.5px;
+  font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+table.dt td{padding:9px 14px;height:52px;border-bottom:1px solid var(--line);vertical-align:middle;
+  white-space:nowrap;background:var(--surface);font-size:13px}
 table.dt tbody tr:last-child td{border-bottom:0}
 table.dt tbody tr:hover td{background:var(--surface-2)}
 table.dt tbody tr.is-blocked:hover td{background:#FFFAF9}
@@ -360,6 +362,7 @@ table.dt tbody tr:hover td.sticky{background:var(--surface-2)}
 table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
 table.dt th[aria-sort="ascending"],table.dt th[aria-sort="descending"]{color:var(--ink)}
 table.dt th .sorter{display:inline-flex;align-items:center;gap:4px;height:36px}
+table.dt .polink{font-size:13px;font-weight:600}
 tr.is-current td{background:var(--green-bg-2) !important}
 tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--green)}
 .polink{color:var(--green);font-weight:600;text-decoration:underline;text-underline-offset:2px;
@@ -712,6 +715,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           <tr><td class="k">Two-column case</td><td class="k mono">1fr / 340px</td><td>PO and GRN screens: detail left, totals rail right</td></tr>
           <tr><td class="k">Split invoice</td><td class="k mono">42% / 58%</td><td>Document viewer against extracted details; the divider is draggable, and the two panes stack below 1080px</td></tr>
           <tr><td class="k">Rule resolution</td><td class="k mono">1fr / 360px</td><td>Rule list left, resolution actions right, sticky under the case header unless the panel is taller than the scrollport</td></tr>
+          <tr><td class="k">Dashboard table card</td><td class="k mono">1fr / auto</td><td>Pinned header, scrolling rows, and a pagination footer that keeps its place at the bottom of the card</td></tr>
         </tbody></table></div></div>
     </div>
     <p class="note" style="margin-top:10px"><strong>One scroll, everywhere.</strong> The shell is a full-height flex
@@ -724,6 +728,12 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <span class="mono">min-width:0</span> so a long identifier cannot force a page-level horizontal scrollbar. The
       one deliberate second scroller is the extracted-details pane on the invoice screen, which scrolls against the
       document viewer beside it — and below 1080px even that collapses back into normal page scrolling.</p>
+    <p class="note" style="margin-top:10px"><strong>The dashboard is the one exception, by design.</strong> There the
+      content column stops scrolling and the table card takes the remaining height instead: the column header stays
+      pinned, the rows scroll inside the card, the horizontal scrollbar sits at the foot of the rows, and the
+      pagination footer below it never leaves the screen — so the page you are on, the rows-per-page control and the
+      next-page button are reachable without scrolling back up. The summary cards and the toolbar hold their place
+      above it.</p>
   </div>
 
   <div class="block" id="shape">
@@ -929,7 +939,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       </div>
     </div>
     <div class="demo" style="margin-top:12px">
-      <div class="demo-h"><span class="t">Segmented filters</span><span class="s">34px, dot + label + count</span></div>
+      <div class="demo-h"><span class="t">Segmented filters</span><span class="s">34px bar · 26px tabs · dot + label + count</span></div>
       <div class="demo-b stack">
         <div>
           <h4>Dashboard status</h4>
@@ -939,29 +949,16 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
               <button class="seg" role="tab" aria-selected="false"><span class="seg-dot chip-pending"></span>Pending <span class="cnt">312</span></button>
               <button class="seg is-hover" role="tab" aria-selected="false"><span class="seg-dot chip-matched"></span>Matched <span class="cnt">742</span></button>
               <button class="seg" role="tab" aria-selected="false"><span class="seg-dot chip-blocked"></span>Blocked <span class="cnt">186</span></button>
-              <button class="seg" role="tab" aria-selected="false"><span class="seg-dot chip-skipped"></span>Skipped <span class="cnt">44</span></button>
+              <button class="seg is-focus" role="tab" aria-selected="false"><span class="seg-dot chip-skipped"></span>Skipped <span class="cnt">44</span></button>
             </div>
           </div>
+          <p class="note" style="margin-top:8px">One rectangular bar rather than five loose controls: the tray is
+            <span class="mono">--tray #F6F8F7</span>, the tabs are square-cornered and 26px tall, and the selected
+            tab lifts out of the tray as a white card with a dark green label and a 2px green underline. Never a
+            filled green tab — a solid fill would swallow the coloured status dot and the count beside it.</p>
         </div>
         <div>
-          <h4>Line items</h4>
-          <div class="row" style="margin-top:8px">
-            <div class="segbar" role="tablist" aria-label="Filter line items">
-              <button class="seg" role="tab" aria-selected="false">All <span class="cnt">18</span></button>
-              <button class="seg" role="tab" aria-selected="true">Unmatched <span class="cnt">3</span></button>
-              <button class="seg" role="tab" aria-selected="false">Matched <span class="cnt">14</span></button>
-              <button class="seg" role="tab" aria-selected="false">Non-commercial <span class="cnt">1</span></button>
-            </div>
-            <div class="segbar" role="tablist" aria-label="Filter rules">
-              <button class="seg" role="tab" aria-selected="true">Blocked <span class="cnt">2</span></button>
-              <button class="seg" role="tab" aria-selected="false">Flag <span class="cnt">4</span></button>
-              <button class="seg" role="tab" aria-selected="false">Note <span class="cnt">1</span></button>
-              <button class="seg" role="tab" aria-selected="false">Passed <span class="cnt">11</span></button>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h4>Filter pills</h4>
+          <h4>Filter pills — line items and rule violations</h4>
           <div class="pillbar" style="margin-top:8px">
             <button class="pill" aria-pressed="true">All lines <span class="cnt">18</span></button>
             <button class="pill is-hover" aria-pressed="false">Blocking <span class="cnt">2</span></button>
@@ -1140,9 +1137,10 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
 
   <div class="block" id="tables">
     <h3><span class="h-num">2.6</span> Tables</h3>
-    <p class="p">The dashboard table is the product’s spine. It scrolls horizontally inside its own container while
-      <strong>PO number, GRN number and match status stay frozen</strong>, the header stays pinned, and pagination
-      lives in the same container as the rows rather than floating below the page.</p>
+    <p class="p">The dashboard table is the product’s spine, and the card is built in three parts: a
+      <strong>pinned header</strong>, a <strong>scrolling body</strong> and an <strong>always-visible pagination
+      footer</strong>. Rows move; the header, the frozen <strong>PO number, GRN number and match status</strong>
+      columns, and the footer do not. The horizontal scrollbar sits at the foot of the rows, above the footer.</p>
     <div class="demo">
       <div class="demo-h"><span class="t">Invoice pairs</span>
         <span class="s">Scroll this table sideways — the first three columns hold</span></div>
@@ -1222,10 +1220,14 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
     <div class="demo" style="margin-top:12px">
       <div class="demo-h"><span class="t">Row and cell conventions</span></div>
       <div class="demo-b pad0"><table class="spec"><tbody>
-        <tr><td class="k">Frozen columns</td><td>PO number, GRN number, match status — <span class="mono">left: 0 / 172 / 330</span> with an edge shadow on the third.</td></tr>
-        <tr><td class="k">Header</td><td>Sticky, 36px, uppercase 11px. Sortable headers carry <span class="mono">aria-sort</span> and a direction glyph.</td></tr>
+        <tr><td class="k">Frozen columns</td><td>PO number, GRN number, match status. Their offsets are measured after each render rather than hard-coded — a long PO number widens its column, and the next frozen column has to park at the new edge instead of sliding underneath. An edge shadow marks the third.</td></tr>
+        <tr><td class="k">Header</td><td>Sticky, 36px, uppercase 11.5px at weight 600 with <span class="mono">0.03em</span> letter spacing. Sortable headers carry <span class="mono">aria-sort</span> and a direction glyph.</td></tr>
         <tr><td class="k">Numbers</td><td>Right-aligned, mono, tabular. A difference reads as words — <span class="mono">₹ 6,240 higher</span>, <span class="mono">12 kg short</span>.</td></tr>
-        <tr><td class="k">Row height</td><td>42px. Dense enough for an accountant, not so dense it becomes a raw database viewer.</td></tr>
+        <tr><td class="k">Row height</td><td>52px, from 9px vertical and 14px horizontal cell padding. Dense enough for an accountant, not so dense it becomes a raw database viewer.</td></tr>
+        <tr><td class="k">Cell type</td><td>13px throughout: PO number at weight 600, supplier at 500, GRN number 12.5px, GSTIN and the city under a location 11.5px. Nothing in a table row is set at 15px or larger.</td></tr>
+        <tr><td class="k">Long values</td><td>Supplier and delivery location truncate with an ellipsis at the column width and keep the complete value in a tooltip. A long name never widens the column or wraps the row.</td></tr>
+        <tr><td class="k">Status chips</td><td>23px tall with 11.5px text inside a row — small enough not to set the row height, large enough to keep the glyph and the word legible.</td></tr>
+        <tr><td class="k">Pagination</td><td>Rows per page 10 / 20 / 50, default 20. The footer reads <span class="mono">Showing 1–20 of 1,242 invoices</span>, then first / previous, a compact page window with the current page in green, next / last, and a “Go to page” input.</td></tr>
         <tr><td class="k">Hover</td><td>Whole row tints, frozen cells included, so the eye does not lose the row mid-scroll. Blocked rows tint warmer.</td></tr>
         <tr><td class="k">Current row</td><td><span class="badge-current"><svg class="gl sm"><use href="#i-right"/></svg>Current GRN</span> badge plus a 3px green left rule — the tint alone never carries it.</td></tr>
         <tr><td class="k">Loading</td><td>Skeleton rows keep the column widths, and the summary cards above skeleton at the same time. The interface never mixes real numbers with placeholder rows.</td></tr>
@@ -1415,10 +1417,13 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           <ol class="order">
             <li><b>Page title and Run all.</b> Run all is a temporary UAT control and is labelled as such.</li>
             <li><b>Five summary cards</b> — Total pairs, Pending, Matched, Blocked, Skipped. Each shows an invoice
-              count, a share of the total and a rupee volume, so “186 blocked” is immediately also “₹ 1.4 Cr held up”.</li>
-            <li><b>One compact control row</b> — status segments, search, entity, supplier, date preset, Export, Columns.</li>
-            <li><b>The table</b>, with its own scroll, frozen PO / GRN / status columns, pinned header, and
-              pagination inside the same container.</li>
+              count, a share of the total and a rupee volume, so “186 blocked” is immediately also “₹ 1.4 Cr held up”.
+              White cards on neutral borders, equal in height, each named by a 3px status-coloured left rule — a
+              summary the eye passes over on the way to the table, never a wall of dashboard tiles.</li>
+            <li><b>One compact control row</b> — the segmented status bar, search, entity, supplier, date preset,
+              Export, Columns.</li>
+            <li><b>The table</b>, taking the rest of the height: frozen PO / GRN / status columns, a pinned header,
+              rows that scroll inside the card, and a pagination footer that stays put beneath them.</li>
           </ol>
         </div>
         <div>
@@ -1431,7 +1436,9 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
             <li>Frozen identity columns mean a horizontal scan for a difference never loses which invoice you are
               looking at.</li>
             <li>Pagination inside the table container keeps the page itself from scrolling, so the control row
-              stays reachable.</li>
+              stays reachable and the footer never has to be chased down the page.</li>
+            <li>The cards select the same filter the status bar does, so a pressed card stays quiet — a neutral
+              tint, not a green ring. The named, counted segment above the table is what states the selection.</li>
           </ul>
         </div>
       </div>
@@ -1817,10 +1824,11 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <p>Visible focus on everything focusable, real labels on every control, <code>aria-sort</code> on sortable
         headers, <code>aria-expanded</code> on disclosures, live regions for toasts.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Green means selected</div>
-      <p>Selection is always green, and always outlined rather than filled: a soft-green fill with a green left
-        rule on the sidebar, a green outline and green label on a pressed filter pill, a green label and a 2.5px
-        green underline on the active tab. Never black, never yellow, and never a solid green block that hides the
-        status dot inside a pill.</p></div>
+      <p>Selection is always green, and always drawn as an edge rather than a fill: a soft-green fill with a green
+        left rule on the sidebar, a green outline and green label on a pressed filter pill, a green label and a
+        2.5px green underline on the active tab, a white card with a dark green label and a 2px green underline on
+        the selected segment of the status bar. Never black, never yellow, and never a solid green block that hides
+        the status dot beside the label.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Amber is an exception, not a state</div>
       <p>Amber appears for a GST mismatch, a low OCR confidence, a non-blocking variance and “Needs attention”.
         A selection, a navigation item or a build marker never earns it.</p></div>
@@ -1832,8 +1840,10 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <p>Input-style fields belong to the pre-push review, where editing is genuinely possible. Once an invoice is
         posted to Oracle its values are a record: plain value rows on hairlines, no boxes.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Dense, not raw</div>
-      <p>42px rows and 13px table text are for people who read hundreds of lines a day, with 12px headers and a
-        34px floor on every control a person clicks. Familiar to an Excel user; never an imitation of Excel.</p></div>
+      <p>The dashboard runs at 52px rows, 13px cell text and 11.5px headers — for people who read hundreds of
+        lines a day — with a 34px floor on every control a person clicks. A long supplier or location truncates
+        with an ellipsis and keeps its full value in a tooltip rather than widening the column. Familiar to an
+        Excel user; never an imitation of Excel.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>One neutral product</div>
       <p>Entity is a filter and a column, never a skin. No brand marketing surfaces anywhere in the console.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Presentation only</div>
@@ -1876,6 +1886,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       ['--ground','Page, rail and content ground — plain white'],
       ['--surface','Cards, table rows, inputs, dialogs — also white'],
       ['--surface-2','Table hover, card headers, footers, resting fills'],
+      ['--tray','The tray a segmented control sits in, behind its tabs'],
       ['--surface-3','Pressed and hover states on controls, Pending chip, ghost hover'],
       ['--surface-4','The neutral canvas behind a scanned invoice page, and the skeleton highlight'],
       ['--th','Table header fill — the one tinted band in a data table'],
@@ -1889,8 +1900,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       ['--ink-inv','Text on the green and red solid fills']
     ]},
     { t:'Green — selection, matched, primary', s:'The working colour: selection, success, normalised values and every primary action.', items:[
-      ['--green','Primary buttons, the product mark, the outline and label of a pressed filter pill, selected sidebar rule, selected-tab underline, matched state, focus ring'],
-      ['--green-deep','Primary hover, matched chip text, selected sidebar and selected-tab label'],
+      ['--green','Primary buttons, the product mark, the outline and label of a pressed filter pill, selected sidebar rule, selected-tab and selected-segment underline, matched state, focus ring'],
+      ['--green-deep','Primary hover, matched chip text, selected sidebar, selected-tab and selected-segment label'],
       ['--green-bg','Selected sidebar item, matched chip, success alert and Current-GRN badge fill'],
       ['--green-bg-2','Current row tint and the normalised-value tint on a line item'],
       ['--green-line','Matched chip, Current-GRN badge and success alert border']
