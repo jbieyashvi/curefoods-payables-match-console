@@ -8,12 +8,14 @@
    Single committed light theme (product spec: white / light-grey base)
    ============================================================ */
 :root{
-  /* --- Neutrals: a cool paper-grey base. ~80% of every screen. --- */
-  --ground:#F7F8F6;
+  /* --- Neutrals: white paper. White is ~80% of every screen; the greys
+         below appear only where two surfaces genuinely need separating. --- */
+  --ground:#FFFFFF;       /* app, sidebar, content and card background */
   --surface:#FFFFFF;
-  --surface-2:#FAFBFC;
-  --surface-3:#F2F4F7;
-  --surface-4:#E9ECF1;
+  --surface-2:#F7F8F8;    /* subtle neutral section: card headers, footers, row hover */
+  --surface-3:#EFF1F3;    /* pressed and hover states on controls */
+  --surface-4:#E6E9EC;    /* document canvas behind the invoice page */
+  --th:#F8FAF9;           /* table header */
   --line:#E4E7EC;
   --line-strong:#D0D5DD;
   --ink:#1F2933;
@@ -27,9 +29,6 @@
   --green-bg:#EAF4EE;
   --green-bg-2:#F3FAF6;
   --green-line:#BFDFCD;
-
-  /* --- CureFoods gold: reserved for the logo mark alone --- */
-  --gold-brand:#B68A2F;   /* the brand tone, used only inside the product mark */
 
   /* --- Amber: a difference to review, not necessarily blocking --- */
   --amber:#A15C16;        /* icons, borders, left rules */
@@ -73,7 +72,7 @@
   --fs-sm:12px; --fs-xs:11px;
 
   /* --- Layout --- */
-  --rail:236px; --gut:24px;
+  --rail:244px; --gut:24px;
 }
 
 *{box-sizing:border-box}
@@ -106,44 +105,51 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 
 /* ============================================================
    APP SHELL
+   One full-height flex layout, used identically by every screen:
+   the frame owns the viewport, the rail is fixed, and .content is the
+   single vertical scroll container. Nothing else scrolls vertically,
+   so the page never traps the reader inside an inner box.
    ============================================================ */
-.frame{overflow-x:auto;min-height:100vh;background:var(--ground)}
-.app{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);min-width:1180px;max-width:1440px;margin:0 auto;min-height:100vh;background:var(--ground)}
+.frame{height:100vh;overflow:hidden;background:var(--ground)}
+.app{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);width:100%;min-width:0;max-width:1440px;margin:0 auto;height:100%;min-height:0;background:var(--ground)}
 .app.rail-collapsed{--rail:60px}
 
-/* ---- Left rail ---- */
-.rail{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
-.rail-top{display:flex;align-items:center;gap:10px;padding:16px 14px 14px;border-bottom:1px solid var(--line);min-height:60px}
-.mark{width:28px;height:28px;border-radius:var(--r-sm);background:var(--gold-brand);display:grid;place-items:center;flex:none;box-shadow:inset 0 -1px 0 rgba(0,0,0,.12)}
+/* ---- Left rail — only the nav list scrolls, so the signed-in user
+       stays pinned to the bottom at any window height. ---- */
+.rail{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;height:100%;min-height:0;min-width:0}
+.rail-top{display:flex;align-items:center;gap:10px;padding:16px 14px 14px;border-bottom:1px solid var(--line);min-height:60px;flex:none}
+.mark{width:28px;height:28px;border-radius:var(--r-sm);background:var(--green);display:grid;place-items:center;flex:none;box-shadow:inset 0 -1px 0 rgba(0,0,0,.12)}
 svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to its flex parent */
 .mark svg{width:16px;height:16px}
 .brand{min-width:0;flex:1}
-.brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
-.brand-sub{font-size:var(--fs-xs);color:var(--ink-2);white-space:nowrap;letter-spacing:.01em}
+.brand-name{display:block;font-size:14px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.brand-sub{display:block;font-size:var(--fs-xs);color:var(--ink-2);white-space:nowrap;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
 .rail-toggle{width:26px;height:26px;border-radius:var(--r-sm);display:grid;place-items:center;color:var(--ink-3);flex:none}
 .rail-toggle:hover{background:var(--surface-3);color:var(--ink-2)}
 .rail-collapsed .brand,.rail-collapsed .navgroup-label,.rail-collapsed .nav-txt,.rail-collapsed .who-txt{display:none}
 .rail-collapsed .rail-top{justify-content:center;padding:16px 8px 14px}
 .rail-collapsed .rail-toggle{display:none}
-.nav{padding:14px 10px;flex:1;overflow-y:auto}
+.nav{padding:14px 10px;flex:1 1 auto;min-height:0;overflow-y:auto}
 .navgroup-label{font-size:var(--fs-xs);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);padding:12px 8px 6px}
 .nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:0 10px;height:var(--h-compact);border-radius:var(--r-sm);color:var(--ink-2);font-size:var(--fs-body);font-weight:500;text-align:left;transition:background .12s,color .12s}
 .nav-item:hover{background:var(--surface-3);color:var(--ink)}
 .nav-item svg{width:16px;height:16px;flex:none;opacity:.85}
 .nav-item[aria-current="page"]{background:var(--green-bg);color:var(--green-deep);font-weight:600;box-shadow:inset 3px 0 0 var(--green)}
 .nav-item[aria-current="page"] svg{opacity:1}
-.rail-foot{border-top:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;gap:10px}
+.rail-foot{border-top:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;gap:10px;flex:none;background:var(--surface)}
 .avatar{width:30px;height:30px;border-radius:var(--r-pill);background:var(--surface-3);border:1px solid var(--line);display:grid;place-items:center;font-size:var(--fs-xs);font-weight:600;color:var(--ink-2);flex:none}
 .who-txt{min-width:0}
 .who-name{font-size:var(--fs-sm);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .who-role{font-size:var(--fs-xs);color:var(--ink-2)}
 
 /* ---- Main column ---- */
-.main{min-width:0;display:flex;flex-direction:column}
-.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 var(--gut);min-height:60px}
+.main{min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;background:var(--surface)}
+/* The top bar and the case header are siblings of .content, not part of it,
+   so they stay put without position:sticky and never overlap the page. */
+.topbar{flex:none;position:relative;z-index:60;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 var(--gut);min-height:60px}
 .page-title{font-size:var(--fs-page);font-weight:600;letter-spacing:-.015em}
 .topbar-spacer{flex:1}
-.content{padding:20px var(--gut) 56px;min-width:0}
+.content{flex:1 1 auto;min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;padding:20px var(--gut) 56px;background:var(--surface);scrollbar-gutter:stable}
 </style>
 <style>
 /* ============================================================
@@ -183,7 +189,7 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .chip.tiny{height:20px;padding:0 6px;font-size:10px;gap:4px}
 .chip-matched{background:var(--green-bg);color:var(--green-deep);border-color:var(--green-line)}
 .chip-blocked{background:var(--red-bg);color:var(--red-deep);border-color:var(--red-line)}
-.chip-flag{background:var(--amber-bg);color:var(--amber-deep);border-color:var(--amber-line)}
+.chip-flag{background:var(--surface);color:var(--amber-deep);border-color:var(--amber)}
 .chip-note{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
 .chip-pending{background:var(--surface-3);color:var(--slate);border-color:var(--line-strong)}
 .chip-skipped{background:var(--slate-bg);color:var(--slate);border-color:var(--slate-line)}
@@ -223,8 +229,10 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .f-val.big{font-size:15px;font-weight:600}
 .f-val.muted,.f-empty{color:var(--ink-2);font-weight:400;font-style:normal}
 .f-note{font-size:var(--fs-xs);color:var(--ink-2);margin-top:2px}
-.f.flag-low{background:var(--amber-bg)}
+.f.flag-low{background:var(--surface);box-shadow:inset 3px 0 0 var(--amber)}
 .f.flag-low .f-label{color:var(--amber-deep)}
+.f.flag-low .f-note{color:var(--amber-deep)}
+.f-warn-ic{width:13px;height:13px;flex:none;color:var(--amber)}
 .f.span-2{grid-column:span 2}
 
 /* Layer label — makes the data layer explicit */
@@ -244,29 +252,31 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 /* ============================================================
    COMPONENTS — tabs
    ============================================================ */
-.segbar{display:inline-flex;padding:3px;background:var(--surface-3);border:1px solid var(--line);border-radius:var(--r-sm);gap:2px}
-.seg{height:var(--h-compact);padding:0 12px;border-radius:var(--r-xs);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s}
-.seg:hover{color:var(--ink)}
-.seg[aria-selected="true"]{background:var(--surface);color:var(--green-deep);font-weight:600;box-shadow:var(--sh-1),inset 0 -2px 0 var(--green)}
+/* Status filters and rule filters share one outlined shape: white always,
+   a green ring when selected, so the status dot inside stays readable. */
+.segbar{display:inline-flex;flex-wrap:wrap;gap:6px;padding:0;background:none;border:0}
+.seg{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s,border-color .12s}
+.seg:hover{background:var(--surface-2);color:var(--ink)}
+.seg[aria-selected="true"]{background:var(--surface);border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green);color:var(--green);font-weight:600}
 .seg .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.seg[aria-selected="true"] .cnt{color:var(--green-deep)}
+.seg[aria-selected="true"] .cnt{color:var(--green)}
 
 .utabs{display:flex;gap:2px;align-items:flex-end}
 .utab{position:relative;height:40px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;transition:background .12s,color .12s}
 .utab:hover{background:var(--surface-3);color:var(--ink)}
-.utab[aria-selected="true"]{color:var(--green-deep);font-weight:600}
-.utab[aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;background:var(--green);border-radius:2px 2px 0 0}
+.utab[aria-selected="true"]{color:var(--green);font-weight:600}
+.utab[aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2.5px;background:var(--green);border-radius:2px 2px 0 0}
 .utab .badge{min-width:18px;height:18px;padding:0 5px;border-radius:var(--r-pill);font-size:10px;font-weight:700;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
 .badge-red{background:var(--red-bg);color:var(--red-deep);border:1px solid var(--red-line)}
-.badge-amber{background:var(--amber-bg);color:var(--amber-deep);border:1px solid var(--amber-line)}
+.badge-amber{background:var(--surface);color:var(--amber-deep);border:1px solid var(--amber)}
 .badge-neutral{background:var(--surface-3);color:var(--ink-2);border:1px solid var(--line-strong)}
 
 /* Filter pills */
 .pillbar{display:flex;flex-wrap:wrap;gap:6px}
 .pill{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:all .12s}
 .pill:hover{background:var(--surface-2);color:var(--ink)}
-.pill[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--ink-inv);font-weight:600}
-.pill[aria-pressed="true"] .cnt{color:rgba(255,255,255,.78)}
+.pill[aria-pressed="true"]{background:var(--surface);border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green);color:var(--green);font-weight:600}
+.pill[aria-pressed="true"] .cnt{color:var(--green)}
 .pill .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
 .pill .dot{width:7px;height:7px;border-radius:50%;flex:none}
 </style>
@@ -295,8 +305,8 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .check:hover{background:var(--surface-3)}
 .check input{width:15px;height:15px;accent-color:var(--green);flex:none;margin:0}
 .conf{display:inline-flex;align-items:center;gap:4px;height:19px;padding:0 6px;border-radius:var(--r-xs);font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;border:1px solid}
-.conf-low{background:var(--red-bg);color:var(--red-deep);border-color:var(--red-line)}
-.conf-mid{background:var(--amber-bg);color:var(--amber-deep);border-color:var(--amber-line)}
+.conf-low{background:var(--surface);color:var(--red-deep);border-color:var(--red)}
+.conf-mid{background:var(--surface);color:var(--amber-deep);border-color:var(--amber)}
 
 /* ============================================================
    COMPONENTS — summary cards
@@ -340,8 +350,10 @@ button.stat[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 1px 
    COMPONENTS — data table
    ============================================================ */
 .tablewrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-1);overflow:hidden}
-.tscroll{overflow:auto;max-height:calc(100vh - 330px)}
-.tscroll.plain{max-height:none}
+/* Horizontal only: the page itself carries the vertical scroll, so a wide
+   table slides sideways inside its card without a second scrollbar. */
+.tscroll{overflow-x:auto;overflow-y:hidden}
+.tscroll.plain{overflow-y:visible}
 /* keep scrollbars visible so a wide table reads as scrollable, not truncated */
 .tscroll::-webkit-scrollbar,.docview::-webkit-scrollbar,.detailpane::-webkit-scrollbar{width:11px;height:11px}
 .tscroll::-webkit-scrollbar-track,.docview::-webkit-scrollbar-track,.detailpane::-webkit-scrollbar-track{background:var(--surface-3)}
@@ -349,7 +361,7 @@ button.stat[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 1px 
 .tscroll::-webkit-scrollbar-thumb:hover,.docview::-webkit-scrollbar-thumb:hover,.detailpane::-webkit-scrollbar-thumb:hover{background:#AEB5C1}
 .tscroll::-webkit-scrollbar-corner,.docview::-webkit-scrollbar-corner,.detailpane::-webkit-scrollbar-corner{background:var(--surface-3)}
 table.dt{font-size:var(--fs-table);min-width:100%}
-table.dt th{position:sticky;top:0;z-index:20;background:var(--surface-3);border-bottom:1px solid var(--line-strong);padding:0 12px;height:38px;text-align:left;font-size:var(--fs-sm);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+table.dt th{position:sticky;top:0;z-index:20;background:var(--th);border-bottom:1px solid var(--line-strong);padding:0 12px;height:38px;text-align:left;font-size:var(--fs-sm);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
 table.dt td{padding:0 12px;height:42px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap;background:var(--surface)}
 table.dt tbody tr:last-child td{border-bottom:0}
 table.dt tbody tr:hover td{background:var(--surface-2)}
@@ -390,16 +402,27 @@ table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
 /* ============================================================
    COMPONENTS — alerts, empty states, skeletons, toasts
    ============================================================ */
-.alert{display:flex;gap:11px;padding:12px 14px;border-radius:var(--r);border:1px solid;font-size:var(--fs-body)}
+/* An alert is a white card with a coloured rule down its leading edge: the
+   icon and heading carry the status colour, the body stays neutral, so
+   nothing needs a large tinted fill to be understood. */
+.alert{display:flex;gap:11px;padding:12px 14px;border-radius:var(--r);border:1px solid var(--line);border-left:3px solid var(--line-strong);background:var(--surface);font-size:var(--fs-body);color:var(--ink-2)}
 .alert svg.ic{width:17px;height:17px;flex:none;margin-top:1px}
 .alert-body{min-width:0;flex:1}
-.alert-title{font-weight:600;margin-bottom:2px}
-.alert-txt{color:inherit;opacity:.92}
-.alert-red{background:var(--red-bg);border-color:var(--red-line);color:var(--red-deep)}
-.alert-amber{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber-deep)}
-.alert-green{background:var(--green-bg);border-color:var(--green-line);color:var(--green-deep)}
-.alert-blue{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue)}
-.alert-neutral{background:var(--surface-2);border-color:var(--line);color:var(--ink-2)}
+.alert-title{font-weight:600;margin-bottom:2px;color:var(--ink)}
+.alert-txt{color:var(--ink-2)}
+.alert-red{border-left-color:var(--red)}
+.alert-red svg.ic{color:var(--red)}
+.alert-red .alert-title{color:var(--red-deep)}
+.alert-amber{border-left-color:var(--amber)}
+.alert-amber svg.ic{color:var(--amber)}
+.alert-amber .alert-title{color:var(--amber-deep)}
+.alert-green{border-left-color:var(--green)}
+.alert-green svg.ic{color:var(--green)}
+.alert-green .alert-title{color:var(--green-deep)}
+.alert-blue{border-left-color:var(--blue)}
+.alert-blue svg.ic{color:var(--blue)}
+.alert-blue .alert-title{color:var(--blue)}
+.alert-neutral svg.ic{color:var(--ink-2)}
 
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:52px 24px;gap:6px}
 .empty .glyphbox{width:44px;height:44px;border-radius:var(--r);background:var(--surface-3);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-3);margin-bottom:6px}
@@ -479,7 +502,7 @@ table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
 /* ============================================================
    MATCH RESULT — case summary shell
    ============================================================ */
-.case-head{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:55}
+.case-head{background:var(--surface);border-bottom:1px solid var(--line);flex:none;position:relative;z-index:55}
 .case-top{display:flex;align-items:flex-start;gap:14px;padding:14px var(--gut) 10px}
 .back{width:32px;height:32px;border-radius:var(--r-sm);border:1px solid var(--line-strong);background:var(--surface);display:grid;place-items:center;color:var(--ink-2);flex:none;box-shadow:var(--sh-1)}
 .back:hover{background:var(--surface-2);color:var(--ink)}
@@ -520,8 +543,8 @@ tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--green)}
 /* ============================================================
    INVOICE — split view
    ============================================================ */
-.split{display:flex;align-items:stretch;height:calc(100vh - 190px);min-height:560px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--sh-1);overflow:hidden}
-.split-l{width:var(--split-l,42%);min-width:280px;display:flex;flex-direction:column;background:var(--surface-4);min-height:0}
+.split{display:flex;align-items:stretch;height:calc(100vh - var(--case-head-h,150px) - 78px);min-height:440px;min-width:0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--sh-1);overflow:hidden}
+.split-l{width:var(--split-l,42%);min-width:280px;display:flex;flex-direction:column;background:var(--surface);min-height:0}
 .split-r{flex:1;min-width:340px;display:flex;flex-direction:column;min-height:0;background:var(--surface)}
 .gripper{width:9px;flex:none;background:var(--surface-3);border-left:1px solid var(--line);border-right:1px solid var(--line);cursor:col-resize;display:grid;place-items:center;position:relative}
 .gripper::after{content:"";width:2px;height:26px;border-radius:2px;background:var(--line-strong)}
@@ -531,11 +554,13 @@ tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--green)}
 .iconbtn{width:30px;height:30px;border-radius:var(--r-sm);display:grid;place-items:center;color:var(--ink-2);border:1px solid transparent}
 .iconbtn:hover{background:var(--surface-3);color:var(--ink);border-color:var(--line)}
 .iconbtn svg{width:15px;height:15px}
-.docview{flex:1;overflow:auto;padding:22px;display:flex;align-items:flex-start;justify-content:center;background:linear-gradient(0deg,rgba(0,0,0,.02),rgba(0,0,0,.02)),var(--surface-4)}
+/* The only grey canvas in the product: it exists so the white invoice page
+   reads as a separate document rather than part of the interface. */
+.docview{flex:1;overflow:auto;padding:22px;display:flex;align-items:flex-start;justify-content:center;background:var(--surface-4)}
 .doc-sizer{position:relative;flex:none;min-width:1px;min-height:1px}
 .doc-stage{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform}
-.paper{width:600px;background:#FDFCF8;box-shadow:0 3px 14px rgba(16,24,40,.22);padding:16px 18px;font-family:var(--mono);font-size:9.5px;color:#2B2E33;line-height:1.35;position:relative}
-.paper::after{content:"";position:absolute;inset:0;background:linear-gradient(103deg,rgba(0,0,0,.035) 0%,transparent 26%,transparent 72%,rgba(0,0,0,.05) 100%);pointer-events:none}
+.paper{width:600px;background:#FFFFFF;box-shadow:0 2px 12px rgba(16,24,40,.16);padding:16px 18px;font-family:var(--mono);font-size:9.5px;color:#2B2E33;line-height:1.35;position:relative}
+.paper::after{content:"";position:absolute;inset:0;background:linear-gradient(103deg,rgba(16,24,40,.02) 0%,transparent 24%,transparent 76%,rgba(16,24,40,.025) 100%);pointer-events:none}
 .paper .pbox{border:1px solid #74777D}
 .paper .prow{display:flex}
 .paper .pc{padding:3px 5px;border-right:1px solid #74777D;flex:1;min-width:0}
@@ -565,17 +590,17 @@ tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--green)}
 
 .li-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-1);overflow:hidden}
 .li-card + .li-card{margin-top:12px}
-.li-card.bad{border-color:var(--red-line)}
-.li-card.warn{border-color:var(--amber-line)}
+.li-card.bad{border-color:var(--line);border-left:3px solid var(--red)}
+.li-card.warn{border-color:var(--line);border-left:3px solid var(--amber)}
 .li-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface-2);flex-wrap:wrap}
 .li-card.bad .li-head{background:var(--red-bg)}
-.li-card.warn .li-head{background:var(--amber-bg)}
+.li-card.warn .li-head{background:var(--surface-2)}
 .li-sku{font-family:var(--mono);font-size:var(--fs-sm);font-weight:600;padding:2px 7px;border-radius:var(--r-xs);background:var(--surface);border:1px solid var(--line-strong)}
 .li-name{font-size:var(--fs-body);font-weight:600;min-width:0}
 .li-verdict{margin-left:auto;font-size:var(--fs-sm);font-weight:600;display:flex;align-items:center;gap:7px}
 .cmp-scroll{overflow-x:auto}
 table.cmp{font-size:var(--fs-table);min-width:920px}
-table.cmp th{background:var(--surface-3);border-bottom:1px solid var(--line);padding:0 12px;height:32px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);text-align:right;white-space:nowrap;position:sticky;top:0;z-index:6}
+table.cmp th{background:var(--th);border-bottom:1px solid var(--line);padding:0 12px;height:32px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);text-align:right;white-space:nowrap;position:sticky;top:0;z-index:6}
 table.cmp th:first-child{text-align:left}
 table.cmp td{padding:0 12px;height:44px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;background:var(--surface)}
 table.cmp td:first-child{text-align:left}
@@ -615,7 +640,7 @@ table.cmp th.srccol{z-index:8}
 .rule-detail{padding:2px 14px 16px 52px;background:var(--surface-2);border-top:1px solid var(--line)}
 .delta-hero{display:flex;align-items:center;gap:14px;padding:13px 15px;border-radius:var(--r-sm);border:1px solid;margin:12px 0}
 .delta-hero.bad{background:var(--red-bg);border-color:var(--red-line)}
-.delta-hero.warn{background:var(--amber-bg);border-color:var(--amber-line)}
+.delta-hero.warn{background:var(--surface);border-color:var(--line);border-left:3px solid var(--amber)}
 .delta-hero.note{background:var(--blue-bg);border-color:var(--blue-line)}
 .delta-hero .dv{font-size:24px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.05}
 .delta-hero.bad .dv{color:var(--red-deep)} .delta-hero.warn .dv{color:var(--amber-deep)} .delta-hero.note .dv{color:var(--blue)}
@@ -628,7 +653,8 @@ table.cmp th.srccol{z-index:8}
 .ea.actual .v{color:var(--red-deep)}
 .ea.actual.soft .v{color:var(--amber-deep)}
 .rulecode{font-family:var(--mono);font-size:10px;color:var(--ink-2);background:var(--surface-3);border:1px solid var(--line);padding:1px 6px;border-radius:var(--r-xs)}
-.resbox{position:sticky;top:calc(var(--case-head-h, 160px) + 16px)}
+.resbox{position:sticky;top:16px;align-self:start}
+.resbox.no-stick{position:static}
 .res-act{display:flex;align-items:flex-start;gap:11px;width:100%;text-align:left;padding:11px 12px;border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--surface);transition:all .12s;box-shadow:var(--sh-1)}
 .res-act + .res-act{margin-top:8px}
 .res-act:hover{border-color:var(--green);background:var(--green-bg-2)}
@@ -653,7 +679,7 @@ table.cmp th.srccol{z-index:8}
    ORACLE PUSH
    ============================================================ */
 .opush-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--sh-1);flex-wrap:wrap}
-.opush-bar.review{border-color:var(--amber-line);background:var(--amber-bg)}
+.opush-bar.review{border-color:var(--line);border-left:3px solid var(--amber);background:var(--surface)}
 .opush-bar.ready{border-color:var(--green-line);background:var(--green-bg)}
 .opush-bar.pushed{border-color:var(--green-line);background:var(--green-bg)}
 .opush-bar.failed{border-color:var(--red-line);background:var(--red-bg)}
@@ -697,8 +723,8 @@ table.cmp th.srccol{z-index:8}
           </svg>
         </span>
         <span class="brand">
-          <span class="brand-name">Payables</span>
-          <span class="brand-sub">Invoice matching</span>
+          <span class="brand-name">Curefoods</span>
+          <span class="brand-sub">Payables match console</span>
         </span>
         <button class="rail-toggle" id="railToggle" title="Collapse navigation" aria-label="Collapse navigation">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg>
@@ -2248,6 +2274,16 @@ table.dt th[aria-sort="ascending"],table.dt th[aria-sort="descending"]{color:var
 .sk{display:block;height:11px;border-radius:var(--r-xs);background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-4) 37%,var(--surface-3) 63%);background-size:400% 100%;animation:shimmer 1.3s ease-in-out infinite}
 @keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
 @media (prefers-reduced-motion:reduce){.sk{animation:none}}
+
+/* ---- Narrow laptops: stack the invoice panes and let the page scroll ---- */
+@media (max-width:1080px){
+  :root{--gut:18px}
+  .split{display:block;height:auto;min-height:0;overflow:visible}
+  .split-l{width:auto !important;min-width:0;height:460px;border-bottom:1px solid var(--line)}
+  .split-r{min-width:0}
+  .gripper{display:none}
+  .detailpane{overflow:visible}
+}
 .per-sel{height:30px;padding:0 24px 0 8px;font-size:var(--fs-sm);border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23667085' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m4.5 6.5 3.5 3.5 3.5-3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 5px center}
 .per-sel:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(47,107,79,.17)}
 </style>
@@ -2856,7 +2892,7 @@ function tabGRN(c,row){
 }
 </script>
 <style>
-.docfull{position:fixed;inset:0;z-index:200;background:var(--ground);display:flex;flex-direction:column}
+.docfull{position:fixed;inset:0;z-index:200;background:var(--surface);display:flex;flex-direction:column}
 .docfull .docview{padding:34px}
 .conf{border:1px solid var(--line-strong);background:var(--surface-3);color:var(--ink-2)}
 .qualbox{padding:12px 16px;display:flex;flex-direction:column;gap:10px}
@@ -2886,7 +2922,7 @@ function ocrField(label,value,conf,opts){
   opts = Object.assign({}, opts||{});
   const low = conf!=null && conf < CONF_TRUST;
   return fieldHTML(label, value, Object.assign(opts,{
-    low, badge: low?confBadge(conf):'',
+    low, badge: low?(ic('warn','class="f-warn-ic" aria-hidden="true"')+confBadge(conf)):'',
     note: low ? `Read at ${Math.round(conf*100)}% confidence — check this value against the document.` : opts.note
   }));
 }
@@ -2918,7 +2954,7 @@ function paperDoc(c){
         <div class="pc" style="flex:.85"><div class="dim">Place of supply</div><div>${esc(inv.placeOfSupply||'—')}</div>
           <div style="height:4px"></div><div class="dim">Buyer ref</div><div>${esc(c.poNo)}</div></div>
       </div>
-      <div class="prow pline" style="font-weight:600;background:#F1F0EA">
+      <div class="prow pline" style="font-weight:600;background:#F2F3F4">
         <div class="pc ctr" style="flex:0 0 20px">#</div><div class="pc" style="flex:3">Description of goods</div>
         <div class="pc rt" style="flex:.9">Qty</div><div class="pc rt" style="flex:1">Rate</div>
         <div class="pc rt" style="flex:.6">GST</div><div class="pc rt" style="flex:1.2">Amount</div>
@@ -2929,7 +2965,7 @@ function paperDoc(c){
         ? `<div class="prow pline"><div class="pc rt" style="flex:5.5">CGST</div><div class="pc rt" style="flex:1.2">${inr(inv.cgst)}</div></div>
            <div class="prow pline"><div class="pc rt" style="flex:5.5">SGST</div><div class="pc rt" style="flex:1.2">${inr(inv.sgst)}</div></div>`
         : `<div class="prow pline"><div class="pc rt" style="flex:5.5">IGST</div><div class="pc rt" style="flex:1.2">${inr(inv.igst)}</div></div>`}
-      <div class="prow" style="font-weight:600;background:#F1F0EA"><div class="pc rt" style="flex:5.5">Invoice total</div><div class="pc rt" style="flex:1.2">${inr(inv.total)}</div></div>
+      <div class="prow" style="font-weight:600;background:#F2F3F4"><div class="pc rt" style="flex:5.5">Invoice total</div><div class="pc rt" style="flex:1.2">${inr(inv.total)}</div></div>
     </div>
     <div style="height:8px"></div>
     <div class="dim">Subject to ${esc((inv.placeOfSupply||'local').split(',')[0])} jurisdiction. E. &amp; O.E.</div>
@@ -3069,7 +3105,7 @@ function tabInvoice(c,row){
 .li-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
 .li-outcome{padding:10px 14px;border-top:1px solid var(--line);background:var(--surface-2);display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:var(--fs-body)}
 .li-outcome.bad{background:var(--red-bg);border-top-color:var(--red-line)}
-.li-outcome.warn{background:var(--amber-bg);border-top-color:var(--amber-line)}
+.li-outcome.warn{background:var(--surface);border-top-color:var(--amber-line)}
 .li-delta{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
 .li-outcome.bad .li-delta{color:var(--red-deep)} .li-outcome.warn .li-delta{color:var(--amber-deep)}
 .li-outcome.ok .li-delta{color:var(--green-deep)}
@@ -3740,8 +3776,8 @@ function tabOracle(c,row){
 .d-list{margin:10px 0 0;padding-left:18px;line-height:1.75}
 .d-list li{margin-bottom:2px}
 .d-note{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.55;margin-top:12px;padding-top:11px;border-top:1px dashed var(--line)}
-.d-warn{display:flex;gap:9px;align-items:flex-start;margin-top:12px;padding:10px 12px;border-radius:var(--r-sm);border:1px solid var(--amber-line);background:var(--amber-bg);font-size:var(--fs-sm);color:var(--ink-2);line-height:1.5}
-.d-warn.danger{border-color:var(--red-line);background:var(--red-bg)}
+.d-warn{display:flex;gap:9px;align-items:flex-start;margin-top:12px;padding:10px 12px;border-radius:var(--r-sm);border:1px solid var(--line);border-left:3px solid var(--amber);background:var(--surface);font-size:var(--fs-sm);color:var(--ink-2);line-height:1.5}
+.d-warn.danger{border-left-color:var(--red);background:var(--surface)}
 .d-warn svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--amber-deep)}
 .d-warn.danger svg{color:var(--red)}
 .drop{border:1.5px dashed var(--line-strong);border-radius:var(--r);background:var(--surface-2);padding:26px 18px;text-align:center;color:var(--ink-2)}
@@ -4080,7 +4116,7 @@ function runAll(){
     toast('ok','Run all finished', stats(baseRows()).t.PENDING.toLocaleString('en-IN')+' pending pairs were queued. Results are unchanged in the prototype.');
   }, 2400);
 }
-function topScroll(){ const m=$('#main'); if(m) m.scrollTop=0; window.scrollTo({top:0,behavior:'smooth'}); }
+function topScroll(){ const c=document.querySelector('.content'); if(c) c.scrollTo({top:0,behavior:'smooth'}); }
 
 function act(name, arg, el){
   const R = ()=>render();
@@ -4266,6 +4302,14 @@ function afterRender(){
   fitDoc();
   const ch = document.querySelector('.case-head');
   document.documentElement.style.setProperty('--case-head-h', (ch ? Math.round(ch.getBoundingClientRect().height) : 160) + 'px');
+
+  /* A sticky panel taller than the scroll area can never show its own bottom,
+     so in that case let it scroll with the page instead. */
+  const rb = document.querySelector('.resbox'), sc = document.querySelector('.content');
+  if(rb && sc){
+    rb.classList.remove('no-stick');
+    if(rb.getBoundingClientRect().height > sc.clientHeight - 32) rb.classList.add('no-stick');
+  }
 
   if(S.focus){
     const el = document.getElementById(S.focus==='q'?'q':S.focus);

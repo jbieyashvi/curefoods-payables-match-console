@@ -11,15 +11,15 @@
    colour explicitly and does not re-map itself for a dark host.
    ============================================================ */
 :root{
-  /* --- surfaces: a cool paper-grey base, ~80% of every screen ------ */
-  --ground:#F7F8F6; --surface:#FFFFFF; --surface-2:#FAFBFC; --surface-3:#F2F4F7; --surface-4:#E9ECF1;
+  /* --- surfaces: white paper. White is ~80% of every screen; the greys
+         below appear only where two surfaces genuinely need separating --- */
+  --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F7F8F8; --surface-3:#EFF1F3; --surface-4:#E6E9EC;
+  --th:#F8FAF9;
   --line:#E4E7EC; --line-strong:#D0D5DD;
   /* --- ink -------------------------------------------------------- */
   --ink:#1F2933; --ink-2:#667085; --ink-3:#98A2B3; --ink-inv:#FFFFFF;
   /* --- green: matched, approved, normalized, selected tab, primary - */
   --green:#2F6B4F; --green-deep:#255840; --green-bg:#EAF4EE; --green-bg-2:#F3FAF6; --green-line:#BFDFCD;
-  /* --- gold: the logo mark and nothing else ------------------------ */
-  --gold-brand:#B68A2F;
   /* --- amber: a genuine exception to review ------------------------ */
   --amber:#A15C16; --amber-deep:#A15C16; --amber-bg:#FFF7ED; --amber-line:#E8C9A6;
   /* --- red: blocking, failed, destructive -------------------------- */
@@ -155,9 +155,9 @@ table.spec .mono{font-size:var(--fs-sm)}
 .bseg b{font-weight:700;font-variant-numeric:tabular-nums}
 .b-neutral{background:var(--surface-3);color:var(--ink-2)}
 .b-status{background:var(--green-bg);color:var(--green-deep)}
-/* The 5% sliver: a gold hairline is the whole of the brand's presence in the interface */
+/* The 5% sliver: a green hairline is the whole of the brand's presence in the interface */
 .b-brand{background:var(--surface-3);color:var(--ink-2);padding-left:6px;padding-right:6px;
-  justify-content:center;box-shadow:inset 0 2px 0 var(--gold-brand)}
+  justify-content:center;box-shadow:inset 0 2px 0 var(--green)}
 .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:1px;background:var(--surface);
   border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
 .swx{background:var(--surface);padding:0;box-shadow:0 0 0 1px var(--line)}
@@ -240,7 +240,7 @@ table.spec .mono{font-size:var(--fs-sm)}
 .chip.tiny{height:20px;padding:0 6px;font-size:10px;gap:4px}
 .chip-matched{background:var(--green-bg);color:var(--green-deep);border-color:var(--green-line)}
 .chip-blocked{background:var(--red-bg);color:var(--red-deep);border-color:var(--red-line)}
-.chip-flag{background:var(--amber-bg);color:var(--amber-deep);border-color:var(--amber-line)}
+.chip-flag{background:var(--surface);color:var(--amber-deep);border-color:var(--amber)}
 .chip-note{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
 .chip-pending{background:var(--surface-3);color:var(--slate);border-color:var(--line-strong)}
 .chip-skipped{background:var(--slate-bg);color:var(--slate);border-color:var(--slate-line)}
@@ -261,9 +261,9 @@ table.spec .mono{font-size:var(--fs-sm)}
 .utab{position:relative;height:40px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);
   display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;
   transition:background .12s,color .12s}
-.utab:hover,.utab.is-hover{background:var(--surface-3);color:var(--ink)}
-.utab[aria-selected="true"]{color:var(--green-deep);font-weight:600}
-.utab[aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;
+.utab:hover,.utab.is-hover{background:var(--surface-2);color:var(--ink)}
+.utab[aria-selected="true"]{color:var(--green);font-weight:600}
+.utab[aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2.5px;
   background:var(--green);border-radius:2px 2px 0 0}
 .utab .badge{min-width:18px;height:18px;padding:0 5px;border-radius:var(--r-pill);font-size:10px;
   font-weight:700;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
@@ -271,15 +271,16 @@ table.spec .mono{font-size:var(--fs-sm)}
 .badge.grey{background:var(--surface-3);color:var(--ink-2);border:1px solid var(--line-strong)}
 
 /* segmented filter */
-.segbar{display:inline-flex;padding:3px;background:var(--surface-3);border:1px solid var(--line);
-  border-radius:var(--r-sm);gap:2px}
-.seg{height:var(--h-compact);padding:0 12px;border-radius:var(--r-xs);font-size:var(--fs-sm);font-weight:500;
-  color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s}
-.seg:hover,.seg.is-hover{color:var(--ink)}
-.seg[aria-selected="true"]{background:var(--surface);color:var(--green-deep);font-weight:600;
-  box-shadow:var(--sh-1),inset 0 -2px 0 var(--green)}
+.segbar{display:inline-flex;flex-wrap:wrap;padding:0;background:none;border:0;gap:6px}
+.seg{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);
+  background:var(--surface);font-size:var(--fs-sm);font-weight:500;
+  color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;
+  transition:background .12s,color .12s,border-color .12s}
+.seg:hover,.seg.is-hover{background:var(--surface-2);color:var(--ink)}
+.seg[aria-selected="true"]{background:var(--surface);border-color:var(--green);color:var(--green);
+  font-weight:600;box-shadow:inset 0 0 0 1px var(--green)}
 .seg .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.seg[aria-selected="true"] .cnt{color:var(--green-deep)}
+.seg[aria-selected="true"] .cnt{color:var(--green)}
 .seg-dot{width:7px;height:7px;border-radius:50%;flex:none}
 
 /* filter pill */
@@ -288,8 +289,9 @@ table.spec .mono{font-size:var(--fs-sm)}
   background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);
   display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s,border-color .12s}
 .pill:hover,.pill.is-hover{background:var(--surface-2);color:var(--ink)}
-.pill[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--ink-inv);font-weight:600}
-.pill[aria-pressed="true"] .cnt{color:rgba(255,255,255,.78)}
+.pill[aria-pressed="true"]{background:var(--surface);border-color:var(--green);color:var(--green);
+  font-weight:600;box-shadow:inset 0 0 0 1px var(--green)}
+.pill[aria-pressed="true"] .cnt{color:var(--green)}
 .pill .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
 .pill.is-focus{outline:none;box-shadow:0 0 0 3px rgba(47,107,79,.17);border-color:var(--green)}
 .seg-dot.chip-matched{background:var(--green)} .seg-dot.chip-blocked{background:var(--red)}
@@ -326,7 +328,7 @@ table.spec .mono{font-size:var(--fs-sm)}
 .f .f-val.strong{font-weight:600}
 .f .f-val.muted{color:var(--ink-2);font-weight:400}
 .f.is-missing{background:#FFFBFA;box-shadow:inset 3px 0 0 var(--red)}
-.f.is-low{background:var(--amber-bg)}
+.f.is-low{background:var(--surface);box-shadow:inset 3px 0 0 var(--amber)}
 .tip{width:13px;height:13px;border-radius:50%;border:1px solid var(--line-strong);color:var(--ink-3);
   display:inline-grid;place-items:center;font-size:9px;font-weight:700;cursor:help;background:var(--surface)}
 .field{display:flex;flex-direction:column;gap:5px;min-width:0}
@@ -340,7 +342,7 @@ table.spec .mono{font-size:var(--fs-sm)}
 .tscroll::-webkit-scrollbar-thumb{background:#C7CCD6;border:2px solid var(--surface-3);border-radius:6px}
 .tscroll::-webkit-scrollbar-thumb:hover{background:#AEB5C1}
 table.dt{font-size:var(--fs-table);min-width:100%}
-table.dt th{position:sticky;top:0;z-index:20;background:var(--surface-3);
+table.dt th{position:sticky;top:0;z-index:20;background:var(--th);
   border-bottom:1px solid var(--line-strong);padding:0 12px;height:36px;text-align:left;font-size:var(--fs-xs);
   font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
 table.dt td{padding:0 12px;height:42px;border-bottom:1px solid var(--line);vertical-align:middle;
@@ -382,17 +384,18 @@ tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--green)}
   font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
 
 /* alerts */
-.alert{display:flex;gap:11px;padding:12px 14px;border-radius:var(--r);border:1px solid;font-size:var(--fs-body)}
+.alert{display:flex;gap:11px;padding:12px 14px;border-radius:var(--r);border:1px solid var(--line);
+  border-left:3px solid var(--line-strong);background:var(--surface);font-size:var(--fs-body);color:var(--ink-2)}
 .alert .gl.lg{margin-top:1px}
 .alert-body{min-width:0;flex:1}
-.alert-title{font-weight:600;margin-bottom:2px}
-.alert-txt{opacity:.92;line-height:1.5}
+.alert-title{font-weight:600;margin-bottom:2px;color:var(--ink)}
+.alert-txt{color:var(--ink-2);line-height:1.5}
 .alert .acts{display:flex;gap:7px;align-items:flex-start;flex:none;margin-left:auto}
-.alert-red{background:var(--red-bg);border-color:var(--red-line);color:var(--red-deep)}
-.alert-amber{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber-deep)}
-.alert-green{background:var(--green-bg);border-color:var(--green-line);color:var(--green-deep)}
-.alert-blue{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue)}
-.alert-neutral{background:var(--surface-2);border-color:var(--line);color:var(--ink-2)}
+.alert-red{border-left-color:var(--red)} .alert-red .gl{color:var(--red)} .alert-red .alert-title{color:var(--red-deep)}
+.alert-amber{border-left-color:var(--amber)} .alert-amber .gl{color:var(--amber)} .alert-amber .alert-title{color:var(--amber-deep)}
+.alert-green{border-left-color:var(--green)} .alert-green .gl{color:var(--green)} .alert-green .alert-title{color:var(--green-deep)}
+.alert-blue{border-left-color:var(--blue)} .alert-blue .gl{color:var(--blue)} .alert-blue .alert-title{color:var(--blue)}
+.alert-neutral{border-left-color:var(--line-strong)} .alert-neutral .gl{color:var(--ink-2)}
 
 /* empty states */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
@@ -590,24 +593,26 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
 
   <div class="block" id="colour">
     <h3><span class="h-num">1.1</span> Colour</h3>
-    <p class="p">White and paper-grey carry roughly four-fifths of every screen; the rest is meaning.
-      <strong>Green</strong> marks what is matched, approved or normalised, and carries the selected tab and
-      every primary action. <strong>Red</strong> marks what is blocked, what failed to process, a financial
-      mismatch and every destructive action. <strong>Amber</strong> marks a difference worth reviewing that
-      does not necessarily block. <strong>Grey</strong> carries pending, skipped and secondary information.
-      <strong>Blue</strong> carries informational rule outcomes, extracted invoice values and work in progress.
-      CureFoods <strong>gold</strong> survives in one place only — the product mark in the rail — and never
-      appears on navigation, cards, buttons, tabs, filters or any general surface, so nothing competes with
-      green for selection or with amber for attention.
+    <p class="p">The product is white. Page, rail, content and cards are all <span class="mono">#FFFFFF</span>;
+      the two greys below it appear only where two surfaces genuinely need separating — a table header, a card
+      footer, a row hover, the canvas behind a scanned document. There is no cream, no beige and no warm grey
+      anywhere. <strong>Green</strong> is the product colour: it marks what is matched, approved or normalised,
+      and it carries the selected tab, the selected filter and every primary action. <strong>Red</strong> marks
+      what is blocked, what failed to process, a commercial mismatch and every destructive action.
+      <strong>Amber</strong> marks a difference worth reviewing that does not necessarily block, and appears as a
+      glyph, a word, a badge or a 3px left rule — never as a large fill. <strong>Grey</strong> carries pending,
+      skipped and secondary information. <strong>Blue</strong> carries informational rule outcomes, extracted
+      invoice values and work in progress.
       Colour never carries meaning on its own: every state also has an icon and a word.</p>
     <div class="balance" aria-hidden="true">
       <span class="bseg b-neutral" style="flex:80"><b>80%</b> neutral surfaces and ink</span>
       <span class="bseg b-status" style="flex:15"><b>15%</b> status</span>
-      <span class="bseg b-brand" style="flex:5"><b>5%</b> mark</span>
+      <span class="bseg b-brand" style="flex:5"><b>5%</b> green</span>
     </div>
-    <p class="note" style="margin-top:7px">The intended visual balance: eighty per cent neutral surfaces and
-      ink, fifteen per cent functional status colour, five per cent product mark. A screen that reads as
-      green or amber overall has broken it, and any yellow outside the mark is a defect.</p>
+    <p class="note" style="margin-top:7px">The intended visual balance: eighty per cent white surfaces and
+      ink, fifteen per cent functional status colour, five per cent green — the product mark and the outlines that
+      show what is selected. A screen that reads as green or amber overall has broken it, and a filled yellow or
+      peach panel anywhere is a defect.</p>
     <div class="demo" style="margin-top:12px">
       <div class="demo-h"><span class="t">Palette</span>
         <span class="s">Each family has a text tone, a fill and a border tone so a state can be a chip, a row tint and a rule at once</span></div>
@@ -645,8 +650,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
               <td>Selection itself: the active navigation item, the pressed filter pill, the selected status tab and the current GRN row and badge</td>
               <td>An explicit “Current GRN” badge and a 3px left rule — never the tint alone</td></tr>
             <tr><td class="k"><span class="chip chip-testing">Brand mark</span></td>
-              <td class="k mono">--gold-brand</td>
-              <td>The 28px product mark in the rail. Nothing else — not navigation, not cards, not buttons, not tabs, not filters.</td>
+              <td class="k mono">--green</td>
+              <td>The 28px product mark in the rail sits on a solid green tile with a white glyph. The mark carries no other colour.</td>
               <td>Carries no state, so it needs none</td></tr>
           </tbody>
         </table>
@@ -657,10 +662,11 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <span class="mono">--green-deep</span> 7.3:1 on <span class="mono">--green-bg</span> and 8.2:1 on white,
       <span class="mono">--red-deep</span> 7.6:1, <span class="mono">--blue</span> 5.4:1,
       <span class="mono">--slate</span> 5.1:1, <span class="mono">--amber-deep</span> 4.9:1.
-      White on the solid <span class="mono">--green</span> fill — the pressed filter pill and every primary
-      button — is 6.3:1. Two tones are graphical only and never carry readable text:
-      <span class="mono">--gold-brand</span> is the product mark, and <span class="mono">--ink-3</span> is the
-      disabled grey — placeholders, dimmed glyphs and controls a person cannot use.</p>
+      White on the solid <span class="mono">--green</span> fill — every primary button and the product mark —
+      is 6.3:1. A selected tab or filter pill keeps a white background and states its selection with
+      <span class="mono">--green</span> text and outline, which reads at 8.2:1. One tone is graphical only and
+      never carries readable text: <span class="mono">--ink-3</span>, the disabled grey — placeholders, dimmed
+      glyphs and controls a person cannot use.</p>
   </div>
 
   <div class="block" id="type">
@@ -701,14 +707,23 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
         <div class="demo-b" id="spacing"></div></div>
       <div class="demo"><div class="demo-h"><span class="t">Layout constants</span></div>
         <div class="demo-b pad0"><table class="spec"><tbody>
-          <tr><td class="k mono">--rail</td><td class="k mono">236px</td><td>Left navigation rail, sticky full height</td></tr>
-          <tr><td class="k mono">--gut</td><td class="k mono">24px</td><td>Page gutter and the inset of the case header and tabs</td></tr>
+          <tr><td class="k mono">--rail</td><td class="k mono">244px</td><td>Left navigation rail, full viewport height, never scrolls away</td></tr>
+          <tr><td class="k mono">--gut</td><td class="k mono">24px</td><td>Page gutter and the inset of the case header and tabs; 18px below 1080px</td></tr>
           <tr><td class="k">Two-column case</td><td class="k mono">1fr / 340px</td><td>PO and GRN screens: detail left, totals rail right</td></tr>
-          <tr><td class="k">Split invoice</td><td class="k mono">42% / 58%</td><td>Document viewer against extracted details; the divider is draggable</td></tr>
-          <tr><td class="k">Rule resolution</td><td class="k mono">1fr / 360px</td><td>Rule list left, resolution actions right, sticky under the case header</td></tr>
-          <tr><td class="k">Table viewport</td><td class="k mono">100vh − 330px</td><td>Dashboard table scrolls inside its own container, page never scrolls sideways</td></tr>
+          <tr><td class="k">Split invoice</td><td class="k mono">42% / 58%</td><td>Document viewer against extracted details; the divider is draggable, and the two panes stack below 1080px</td></tr>
+          <tr><td class="k">Rule resolution</td><td class="k mono">1fr / 360px</td><td>Rule list left, resolution actions right, sticky under the case header unless the panel is taller than the scrollport</td></tr>
         </tbody></table></div></div>
     </div>
+    <p class="note" style="margin-top:10px"><strong>One scroll, everywhere.</strong> The shell is a full-height flex
+      layout: <span class="mono">.frame</span> is <span class="mono">100vh</span> with
+      <span class="mono">overflow:hidden</span>, the rail and the main column both run the full height with
+      <span class="mono">min-height:0</span>, and exactly one element scrolls vertically — the content area under the
+      case header. Because the case header and the tab bar are siblings of that scroller rather than children, they
+      stay pinned without a single <span class="mono">position:sticky</span> rule. Wide comparison tables scroll
+      horizontally inside their own card and never widen the page; every pane sets
+      <span class="mono">min-width:0</span> so a long identifier cannot force a page-level horizontal scrollbar. The
+      one deliberate second scroller is the extracted-details pane on the invoice screen, which scrolls against the
+      document viewer beside it — and below 1080px even that collapses back into normal page scrolling.</p>
   </div>
 
   <div class="block" id="shape">
@@ -898,7 +913,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       looking at for one invoice pair; the selected tab is marked with a green rule, green label and semibold weight.
       <strong>Segmented filters</strong> narrow a list in place and always show a count.</p>
     <div class="demo">
-      <div class="demo-h"><span class="t">Case tabs</span><span class="s">40px, green 2px underline on the selected tab</span></div>
+      <div class="demo-h"><span class="t">Case tabs</span><span class="s">40px, white background, green 2.5px underline on the selected tab</span></div>
       <div class="demo-b pad0">
         <div class="utabs" role="tablist" aria-label="Match result sections">
           <button class="utab" role="tab" aria-selected="false">Purchase order</button>
@@ -956,8 +971,9 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
         </div>
         <p class="note">A zero-count segment stays visible and disabled rather than disappearing, so the set of
           possible outcomes is always legible. Rule filters default to <strong>Blocked</strong> when the invoice
-          is blocked, and to <strong>All</strong> otherwise. A pressed pill is a solid green fill with white
-          text — never black, and never amber.</p>
+          is blocked, and to <strong>All</strong> otherwise. A pressed pill keeps its white background and states
+          itself with a 2px green outline and a green label, so the status dot inside it stays readable — never a
+          solid fill, never black, never amber.</p>
       </div>
     </div>
   </div>
@@ -1801,9 +1817,10 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <p>Visible focus on everything focusable, real labels on every control, <code>aria-sort</code> on sortable
         headers, <code>aria-expanded</code> on disclosures, live regions for toasts.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Green means selected</div>
-      <p>Selection is always green: soft-green fill with a green left rule on the sidebar, a solid green fill with
-        white text on a pressed filter pill, green label and green underline on the active tab. Never black,
-        never yellow.</p></div>
+      <p>Selection is always green, and always outlined rather than filled: a soft-green fill with a green left
+        rule on the sidebar, a green outline and green label on a pressed filter pill, a green label and a 2.5px
+        green underline on the active tab. Never black, never yellow, and never a solid green block that hides the
+        status dot inside a pill.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Amber is an exception, not a state</div>
       <p>Amber appears for a GST mismatch, a low OCR confidence, a non-blocking variance and “Needs attention”.
         A selection, a navigation item or a build marker never earns it.</p></div>
@@ -1856,11 +1873,12 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
 
   var GROUPS = [
     { t:'Ground and surfaces', s:'The base the whole product sits on. Five steps, no more.', items:[
-      ['--ground','Page ground behind every card and table'],
-      ['--surface','Cards, table rows, inputs, dialogs'],
+      ['--ground','Page, rail and content ground — plain white'],
+      ['--surface','Cards, table rows, inputs, dialogs — also white'],
       ['--surface-2','Table hover, card headers, footers, resting fills'],
-      ['--surface-3','Table headers, segmented-filter track, Pending chip, ghost hover'],
-      ['--surface-4','Skeleton highlight and the deepest resting fill'],
+      ['--surface-3','Pressed and hover states on controls, Pending chip, ghost hover'],
+      ['--surface-4','The neutral canvas behind a scanned invoice page, and the skeleton highlight'],
+      ['--th','Table header fill — the one tinted band in a data table'],
       ['--line','Default 1px divider'],
       ['--line-strong','Control outlines and the rule under a sticky header']
     ]},
@@ -1871,20 +1889,17 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       ['--ink-inv','Text on the green and red solid fills']
     ]},
     { t:'Green — selection, matched, primary', s:'The working colour: selection, success, normalised values and every primary action.', items:[
-      ['--green','Primary buttons, pressed filter pills, selected sidebar rule, selected-tab rule, matched state, focus ring'],
+      ['--green','Primary buttons, the product mark, the outline and label of a pressed filter pill, selected sidebar rule, selected-tab underline, matched state, focus ring'],
       ['--green-deep','Primary hover, matched chip text, selected sidebar and selected-tab label'],
       ['--green-bg','Selected sidebar item, matched chip, success alert and Current-GRN badge fill'],
       ['--green-bg-2','Current row tint and the normalised-value tint on a line item'],
       ['--green-line','Matched chip, Current-GRN badge and success alert border']
     ]},
-    { t:'Gold — the product mark only', s:'The single CureFoods-derived tone, confined to the 28px mark in the rail.', items:[
-      ['--gold-brand','The product mark. Never navigation, cards, buttons, tabs, filters or any surface.']
-    ]},
     { t:'Amber — a genuine exception', s:'Attention without blocking. Four uses only: GST mismatch, low OCR confidence, non-blocking variance, Needs attention.', items:[
-      ['--amber','Warning glyphs, the alert left rule and chip borders — graphical only'],
-      ['--amber-deep','Flag chip text, warning alert text, variance figures'],
-      ['--amber-bg','Flag chip, warning alert and low-confidence field fill'],
-      ['--amber-line','Flag chip and warning alert border']
+      ['--amber','Warning glyphs, the 3px alert left rule, the low-confidence field rule and chip borders — graphical only'],
+      ['--amber-deep','Flag chip text, warning alert heading, variance figures'],
+      ['--amber-bg','Reserved for small indicators only — a cell tint or a 28px rule icon, never a full-width panel'],
+      ['--amber-line','A softer amber border where a full-strength outline would shout']
     ]},
     { t:'Red — blocking and destructive', s:'Only where work genuinely cannot continue.', items:[
       ['--red','Destructive actions, missing-field borders, blocked markers, failed processing'],
