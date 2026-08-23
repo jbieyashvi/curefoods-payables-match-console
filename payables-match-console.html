@@ -312,8 +312,8 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .err-msg{display:flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--red);font-weight:500}
 .err-msg svg{width:12px;height:12px;flex:none}
 .searchwrap{position:relative;flex:1 1 370px;min-width:300px}
-.searchwrap svg.mag{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-3);pointer-events:none}
-.searchwrap .input{padding-left:33px;padding-right:30px}
+.searchwrap svg.mag{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-3);pointer-events:none}
+.searchwrap .input{padding-left:36px;padding-right:32px}
 .searchwrap .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:var(--r-xs);display:grid;place-items:center;color:var(--ink-3)}
 .searchwrap .clear:hover{background:var(--surface-3);color:var(--ink)}
 .check{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:var(--r-sm);font-size:var(--fs-body);cursor:pointer}
@@ -343,7 +343,10 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
 /* ============================================================
    COMPONENTS — control row
    ============================================================ */
-.controls{display:flex;flex-direction:column;gap:9px;margin:14px 0 14px}
+/* 8px from the status tabs down to the filters, 12px from the filters down to
+   the table. The filter row is a row of controls, not a panel — there is no
+   container around it to pad. */
+.controls{display:flex;flex-direction:column;gap:8px;margin:12px 0 12px}
 .ctl-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:9px;min-height:var(--h-compact)}
 /* Filter row — search, brand, supplier, financial year on one line. There are no
    labels beside the controls: each one says what it filters from inside ("All
@@ -367,8 +370,10 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
 /* Size only — the border, radius and white face already come from .input/.select
    /.btn, and restating them here would outrank the :focus rule that turns the
    border green. */
-.filter-row .input,.filter-row .select,.filter-row .btn{width:100%;height:var(--h-primary);font-size:var(--fs-body)}
-.fy-btn{justify-content:flex-start;padding:0 11px;gap:8px;font-weight:400}
+.filter-row .input,.filter-row .select,.filter-row .btn{width:100%;height:var(--h-primary);font-size:13px}
+/* Padding only — restating border or background here would outrank :focus. */
+.filter-row .select{padding-left:12px}
+.fy-btn{justify-content:flex-start;padding:0 12px;gap:8px;font-weight:400}
 .fy-btn > svg:first-child,.fy-btn > svg:last-child{color:var(--ink-2)}
 .fy-btn > svg:last-child{margin-left:auto}
 .fy-val{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -400,7 +405,7 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
 /* The dashboard sits on a very light neutral grey so the summary cards, the
    filter controls and the table card all read as white surfaces on top of it.
    Header, rail and every card stay #FFFFFF. */
-.content.dash{display:flex;flex-direction:column;padding-bottom:20px;background:var(--dash-ground)}
+.content.dash{display:flex;flex-direction:column;padding-bottom:12px;background:var(--dash-ground)}
 .content.dash .tfoot{background:var(--surface)}
 .content.dash > *{flex:none}
 .content.dash > .tablewrap{flex:1 1 auto;min-height:260px;display:flex;flex-direction:column}
@@ -430,24 +435,28 @@ table.dt tbody tr:hover td.sticky{background:var(--surface-2)}
 table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
 /* Compact density — the dashboard table trades airiness for rows on screen,
    without dropping any value below a comfortable reading size. */
-table.dt-compact th{height:36px;padding:0 14px;font-size:11.5px;letter-spacing:.03em}
-table.dt-compact td{height:52px;padding:9px 14px;font-size:13px}
+table.dt-compact th{height:38px;padding:0 14px;font-size:11.5px;letter-spacing:.03em}
+table.dt-compact td{height:48px;padding:8px 14px;font-size:13px}
 table.dt-compact .c1{min-width:216px}
 table.dt-compact .c2{min-width:200px}
 table.dt-compact .polink{font-size:13px;font-weight:600}
-table.dt-compact .grn-id{font-size:12.5px}
+table.dt-compact .grn-id{font-size:12px}
 table.dt-compact .cellstack{line-height:1.3}
 table.dt-compact .cellstack .trunc{font-size:13px;font-weight:500}
-table.dt-compact .cellstack .c-sub{font-size:11.5px}
-table.dt-compact .chip{height:23px;padding:0 8px;font-size:11.5px}
-table.dt-compact .chip.tiny{height:23px;padding:0 8px;font-size:11.5px;gap:5px}
+table.dt-compact .cellstack .c-sub{font-size:11.5px;line-height:15px}
+/* Brand and the outlet name sit a half-step below the supplier: the supplier is
+   what an accountant scans the column for, the outlet is where it landed. */
+table.dt-compact .t-brand{font-size:12.5px}
+table.dt-compact .st-loc > .trunc:not(.c-sub){font-size:12.5px}
+table.dt-compact .chip{height:23px;padding:0 8px;font-size:11px}
+table.dt-compact .chip.tiny{height:23px;padding:0 8px;font-size:11px;gap:5px}
 table.dt-compact .chip .glyph{width:11px;height:11px}
 .polink{font-family:var(--mono);font-size:var(--fs-table);font-weight:500;color:var(--green);text-decoration:none;border-bottom:1px solid transparent;padding:2px 0;cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;display:inline-block}
 .polink:hover{color:var(--green-deep);border-bottom-color:var(--green);background:var(--green-bg-2)}
 .polink:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .subtle{color:var(--ink-2)}
 .grn-id{font-family:var(--mono);font-size:var(--fs-sm);color:var(--ink-2)}
-.tfoot{display:flex;align-items:center;gap:14px;padding:10px 14px;border-top:1px solid var(--line);background:var(--surface-2);flex-wrap:wrap}
+.tfoot{display:flex;align-items:center;gap:14px;padding:8px 14px;border-top:1px solid var(--line);background:var(--surface-2);flex-wrap:wrap}
 .tfoot .grow{flex:1}
 .pager{display:flex;align-items:center;gap:3px}
 .pg{min-width:30px;height:30px;padding:0 8px;border-radius:var(--r-sm);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
@@ -2377,8 +2386,8 @@ const CELL = {
   grn:  r=>`<span class="grn-id">${esc(r.grnNo)}</span>`,
   status:r=>statusChip(r.status,true) + (r.worstBreach && r.status==='MATCHED' && r.worstBreach!=='PASS' ? ' '+sevChip(r.worstBreach,true) : ''),
   sup:  r=>`<span class="cellstack"><span class="trunc" style="max-width:210px" title="${esc(r.supplier)}">${esc(r.supplier)}</span>${r.supplierGstin?`<span class="c-sub trunc" style="max-width:210px" title="GSTIN ${esc(r.supplierGstin)}">${esc(r.supplierGstin)}</span>`:`<span class="c-sub f-empty">GSTIN not available</span>`}</span>`,
-  brand:r=>`<span class="trunc" style="max-width:102px" title="${esc(r.brand)}">${esc(r.brand)}</span>`,
-  loc:  r=>`<span class="cellstack"><span class="trunc" style="max-width:202px" title="${esc(r.location)}">${esc(r.location)}</span><span class="c-sub trunc" style="max-width:202px" title="${esc(r.city)}">${esc(r.city)}</span></span>`,
+  brand:r=>`<span class="trunc t-brand" style="max-width:102px" title="${esc(r.brand)}">${esc(r.brand)}</span>`,
+  loc:  r=>`<span class="cellstack st-loc"><span class="trunc" style="max-width:202px" title="${esc(r.location)}">${esc(r.location)}</span><span class="c-sub trunc" style="max-width:202px" title="${esc(r.city)}">${esc(r.city)}</span></span>`,
   gdate:r=>fmtDate(r.grnDate),
   ino:  r=>r.invoiceNo?`<span class="grn-id">${esc(r.invoiceNo)}</span>`:`<span class="subtle">Not available</span>`,
   idate:r=>r.invoiceDate?fmtDate(r.invoiceDate):`<span class="subtle">—</span>`,

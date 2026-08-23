@@ -124,11 +124,15 @@ Every tone that carries readable text clears 4.5:1. `--ink-3` `#98A2B3` is the
 disabled grey and never carries a readable value.
 
 Interface text sits at 13–14px and no interactive control is shorter than 34px.
-The dashboard table is deliberately denser than the rest: 52px rows, 13px cell
-text, 11.5px uppercase headers, 23px status chips, and a long supplier or
-location that truncates with an ellipsis and keeps its full value in a tooltip
-rather than widening its column. Nothing inside a table row is set at 15px or
-larger.
+The dashboard table is deliberately denser than the rest: 48px rows on 8px
+vertical and 14px horizontal cell padding, a 38px pinned header at 11.5px, 13px
+cell text, and 23px status chips at 11px. Supporting values step down one notch
+rather than shouting alongside their subject — GRN number 12px, brand and outlet
+12.5px, GSTIN and city 11.5px on a 15px line — because the supplier is what an
+accountant scans the column for and the outlet is only where it landed. A long
+supplier or location truncates with an ellipsis and keeps its full value in a
+tooltip rather than widening its column. Nothing inside a table row is set below
+12px or at 15px and larger.
 
 The filters sit in one line above the table — search, brand, supplier,
 financial year — with no text labels beside them. Each control says what it
@@ -136,10 +140,14 @@ filters from the inside (`All brands`, `All suppliers`, a calendar glyph and
 `Financial year 2026–27`) and carries its accessible name in a visually hidden
 label, so the row reads as four fields rather than eight fragments. At 1440px
 that is a 460px search, then 184px, 244px and 224px, 12px apart, all 38px tall
-on one radius, one border and one type size. Below 1360px the search takes a
+on one radius, one border and one 13px type size with 12px of inner padding and
+a 16px search glyph on a 12px gutter. Below 1360px the search takes a
 line of its own and the three filters sit underneath it at full size — two tidy
-rows, never a row of bare chevrons. Export and Columns stay reachable on the
-status row above, and the table scrolls horizontally with PO number, GRN number
+rows, never a row of bare chevrons. The row is a row of controls rather than a
+panel, so nothing wraps around it to pad: it sits 8px below the status segments
+and 12px above the table, because every pixel spent on that band is a row of
+invoices lost from the bottom of the screen. Export and Columns stay reachable on
+the status row above, and the table scrolls horizontally with PO number, GRN number
 and status pinned — at offsets measured after each render, so a long PO number
 widens its column without the next frozen column sliding underneath it.
 
@@ -162,7 +170,9 @@ The dashboard is the one deliberate exception. There the content column stops
 scrolling and the table card takes the remaining height instead, in three parts:
 a pinned column header, a body of rows that scrolls, and a pagination footer
 that never leaves the screen. The horizontal scrollbar sits at the foot of the
-rows, above the footer. Rows per page is 10 / 20 / 50, default 20.
+rows, above the footer. At 1440×900 that shows ten invoice rows with the footer
+still on screen, and seven at 1280×800. Rows per page is 10 / 20 / 50, default
+20.
 
 The one deliberate second scroller is the extracted-details pane on the invoice
 screen, which scrolls against the document viewer beside it with both pane

@@ -321,8 +321,13 @@ table.spec .mono{font-size:var(--fs-sm)}
 .select{appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23667085' stroke-width='1.6'%3E%3Cpath d='M4 6.5 8 10.5 12 6.5'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 9px center;background-size:14px}
 .searchwrap{position:relative;flex:1;min-width:190px}
-.searchwrap .gl{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
-.searchwrap .input{padding-left:31px}
+.searchwrap .gl{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-3)}
+.searchwrap .input{padding-left:36px}
+/* The dashboard filter row runs one step tighter than a form field: 13px type on
+   12px of inner padding. Padding and type only — restating border or background
+   here would outrank :focus at equal specificity. */
+.filter-demo .input,.filter-demo .select,.filter-demo .btn{font-size:13px}
+.filter-demo .select{padding-left:12px}
 .inline-err{display:flex;align-items:center;gap:5px;font-size:var(--fs-sm);color:var(--red-deep);
   font-weight:500;margin-top:5px}
 
@@ -352,9 +357,9 @@ table.spec .mono{font-size:var(--fs-sm)}
 .tscroll::-webkit-scrollbar-thumb:hover{background:#AEB5C1}
 table.dt{font-size:var(--fs-table);min-width:100%}
 table.dt th{position:sticky;top:0;z-index:20;background:var(--th);
-  border-bottom:1px solid var(--line-strong);padding:0 14px;height:36px;text-align:left;font-size:11.5px;
+  border-bottom:1px solid var(--line-strong);padding:0 14px;height:38px;text-align:left;font-size:11.5px;
   font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
-table.dt td{padding:9px 14px;height:52px;border-bottom:1px solid var(--line);vertical-align:middle;
+table.dt td{padding:8px 14px;height:48px;border-bottom:1px solid var(--line);vertical-align:middle;
   white-space:nowrap;background:var(--surface);font-size:13px}
 table.dt tbody tr:last-child td{border-bottom:0}
 table.dt tbody tr:hover td{background:var(--surface-2)}
@@ -368,8 +373,12 @@ table.dt .c3{left:330px;min-width:112px;box-shadow:var(--sh-sticky)}
 table.dt tbody tr:hover td.sticky{background:var(--surface-2)}
 table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
 table.dt th[aria-sort="ascending"],table.dt th[aria-sort="descending"]{color:var(--ink)}
-table.dt th .sorter{display:inline-flex;align-items:center;gap:4px;height:36px}
+table.dt th .sorter{display:inline-flex;align-items:center;gap:4px;height:38px}
 table.dt .polink{font-size:13px;font-weight:600}
+/* Inside the dashboard row the GRN number steps back from the PO number, and the
+   status chip grows a little over the 20px chip used in the case-screen tables. */
+table.dt td.c2{font-size:12px}
+table.dt .chip.tiny{height:23px;padding:0 8px;font-size:11px;gap:5px}
 tr.is-current td{background:var(--green-bg-2) !important}
 tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--green)}
 .polink{color:var(--green);font-weight:600;text-decoration:underline;text-underline-offset:2px;
@@ -740,7 +749,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       pinned, the rows scroll inside the card, the horizontal scrollbar sits at the foot of the rows, and the
       pagination footer below it never leaves the screen — so the page you are on, the rows-per-page control and the
       next-page button are reachable without scrolling back up. The summary cards and the filter row hold their
-      place above it.</p>
+      place above it, and the band between them is kept deliberately thin so the rows get the height: at 1440×900
+      ten invoice rows sit above the footer, and at 1280×800 seven.</p>
     <p class="note" style="margin-top:10px"><strong>And it is the one screen with a ground of its own.</strong>
       The dashboard content sits on <span class="mono">--dash-ground #F7F8FA</span>, a very light neutral grey —
       no cream, no beige, nothing warm — while the header, the rail, the five summary cards, the filter controls,
@@ -796,6 +806,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           <div class="ht"><div class="bar" style="height:var(--h-compact)">Export</div><div class="lab"><b>--h-compact</b>34px</div></div>
           <div class="ht"><div class="bar" style="height:28px;font-size:var(--fs-xs)">Filter</div><div class="lab"><b>xs / seg</b>28px</div></div>
           <div class="ht"><div class="bar" style="height:var(--h-chip);font-size:var(--fs-xs)">Blocked</div><div class="lab"><b>--h-chip</b>26px</div></div>
+          <div class="ht"><div class="bar" style="height:23px;font-size:11px">Blocked</div><div class="lab"><b>dashboard row</b>23px</div></div>
           <div class="ht"><div class="bar" style="height:20px;font-size:10px">In table</div><div class="lab"><b>chip tiny</b>20px</div></div>
         </div>
       </div>
@@ -1072,12 +1083,12 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       every pass. Nothing carries a label beside it either: each control says what it filters from the inside, so
       the row reads as four fields rather than eight fragments.</p>
     <div class="demo">
-      <div class="demo-h"><span class="t">The filter row</span><span class="s">38px · one height, one radius, one border, 12px gaps</span></div>
+      <div class="demo-h"><span class="t">The filter row</span><span class="s">38px · 13px type · one radius, one border, 12px gaps</span></div>
       <div class="demo-b" style="background:var(--dash-ground)">
-        <div class="row" style="gap:12px;flex-wrap:nowrap">
+        <div class="row filter-demo" style="gap:12px;flex-wrap:nowrap">
           <div class="searchwrap" style="flex:1 1 370px;min-width:220px">
             <svg class="gl"><use href="#i-search"/></svg>
-            <input class="input" style="padding-left:31px" placeholder="Search PO, GRN, invoice number or supplier" aria-label="Search invoices">
+            <input class="input" placeholder="Search PO, GRN, invoice number or supplier" aria-label="Search invoices">
           </div>
           <select class="select" style="flex:none;width:184px" aria-label="Filter by brand">
             <option>All brands</option><option>CureFoods</option><option>Cake Zone</option>
@@ -1086,7 +1097,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           <select class="select" style="flex:none;width:244px" aria-label="Filter by supplier">
             <option>All suppliers</option><option>Chaishai Provisions</option>
           </select>
-          <button class="btn" style="flex:none;width:224px;justify-content:flex-start;gap:8px;font-weight:400" aria-label="Filter by GRN date range: financial year 2026–27"><svg class="gl"><use href="#i-cal"/></svg>Financial year 2026–27<svg class="gl sm" style="margin-left:auto;color:var(--ink-2)"><use href="#i-caret"/></svg></button>
+          <button class="btn" style="flex:none;width:224px;justify-content:flex-start;padding:0 12px;gap:8px;font-weight:400" aria-label="Filter by GRN date range: financial year 2026–27"><svg class="gl"><use href="#i-cal"/></svg>Financial year 2026–27<svg class="gl sm" style="margin-left:auto;color:var(--ink-2)"><use href="#i-caret"/></svg></button>
         </div>
         <p class="note" style="margin-top:12px">No <strong>Brand</strong>, <strong>Supplier</strong> or
           <strong>Dates</strong> text beside the controls. The meaning lives inside each one — “All brands”,
@@ -1095,10 +1106,16 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           “Filter by brand” rather than as an unnamed combo box.</p>
         <p class="note" style="margin-top:8px">Widths at 1440px: search <strong>460px</strong> (about 40% of the
           row), brand <strong>184px</strong>, supplier <strong>244px</strong>, financial year
-          <strong>224px</strong>, <strong>12px</strong> between each. All four are 38px tall on a 6px radius with
-          the same <span class="mono">--line-strong</span> border, the same white face and 13.5px type, so the row
-          starts and ends on a single alignment. Below <strong>1360px</strong> the search takes a line of its own
-          and the three filters sit underneath it at full size — two tidy rows, never a row of bare chevrons.</p>
+          <strong>224px</strong>, <strong>12px</strong> between each. All four are <strong>38px</strong> tall on a
+          6px radius with the same <span class="mono">--line-strong</span> border, the same white face and
+          <strong>13px</strong> type on <strong>12px</strong> of inner padding, so the row starts and ends on a
+          single alignment. The search glyph is <strong>16px</strong> on a 12px gutter with the text clearing it at
+          36px. Below <strong>1360px</strong> the search takes a line of its own and the three filters sit
+          underneath it at full size — two tidy rows, never a row of bare chevrons.</p>
+        <p class="note" style="margin-top:8px">The row is a row of controls, not a panel: there is no container
+          around it to pad, and the vertical rhythm is tight on purpose — <strong>8px</strong> down from the status
+          segments, <strong>12px</strong> down to the table. Every pixel spent on the band above the table is a row
+          of invoices lost from the bottom of it.</p>
         <p class="note" style="margin-top:8px">Date presets: <strong>Last 7 days · This month · Previous month ·
           Financial year · Custom range</strong>. The chosen preset becomes the button label so the active window
           is readable without opening the menu, and the popover hangs from the right edge of its control so it
@@ -1193,7 +1210,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       columns, and the footer do not. The horizontal scrollbar sits at the foot of the rows, above the footer.</p>
     <div class="demo">
       <div class="demo-h"><span class="t">Invoice pairs</span>
-        <span class="s">Scroll this table sideways — the first three columns hold</span></div>
+        <span class="s">48px rows · 38px pinned header · the first three columns hold when you scroll sideways</span></div>
       <div class="demo-b pad0">
         <div class="tscroll" style="max-height:290px;border:0;border-radius:0">
           <table class="dt">
@@ -1271,12 +1288,12 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <div class="demo-h"><span class="t">Row and cell conventions</span></div>
       <div class="demo-b pad0"><table class="spec"><tbody>
         <tr><td class="k">Frozen columns</td><td>PO number, GRN number, match status. Their offsets are measured after each render rather than hard-coded — a long PO number widens its column, and the next frozen column has to park at the new edge instead of sliding underneath. An edge shadow marks the third.</td></tr>
-        <tr><td class="k">Header</td><td>Sticky, 36px, uppercase 11.5px at weight 600 with <span class="mono">0.03em</span> letter spacing. Sortable headers carry <span class="mono">aria-sort</span> and a direction glyph.</td></tr>
+        <tr><td class="k">Header</td><td>Sticky, 38px, uppercase 11.5px at weight 600 with <span class="mono">0.03em</span> letter spacing. Sortable headers carry <span class="mono">aria-sort</span> and a direction glyph.</td></tr>
         <tr><td class="k">Numbers</td><td>Right-aligned, mono, tabular. A difference reads as words — <span class="mono">₹ 6,240 higher</span>, <span class="mono">12 kg short</span>.</td></tr>
-        <tr><td class="k">Row height</td><td>52px, from 9px vertical and 14px horizontal cell padding. Dense enough for an accountant, not so dense it becomes a raw database viewer.</td></tr>
-        <tr><td class="k">Cell type</td><td>13px throughout: PO number at weight 600, supplier at 500, GRN number 12.5px, GSTIN and the city under a location 11.5px. Nothing in a table row is set at 15px or larger.</td></tr>
+        <tr><td class="k">Row height</td><td>48px, from 8px vertical and 14px horizontal cell padding — the floor for a two-line cell. At 1440×900 that puts <strong>ten</strong> invoice rows on screen with the pagination footer still visible. Dense enough for an accountant, not so dense it becomes a raw database viewer.</td></tr>
+        <tr><td class="k">Cell type</td><td>13px base — PO number at weight 600, supplier at 500 — then one step down for what supports it: GRN number 12px, brand and the outlet name 12.5px, GSTIN and the city under a location 11.5px on a 15px line. The supplier is what an accountant scans the column for; the outlet is where it landed. Nothing in a table row is set below 12px or at 15px and larger.</td></tr>
         <tr><td class="k">Long values</td><td>Supplier and delivery location truncate with an ellipsis at the column width and keep the complete value in a tooltip. A long name never widens the column or wraps the row.</td></tr>
-        <tr><td class="k">Status chips</td><td>23px tall with 11.5px text inside a row — small enough not to set the row height, large enough to keep the glyph and the word legible.</td></tr>
+        <tr><td class="k">Status chips</td><td>23px tall with 11px text inside a dashboard row — small enough not to set the row height, large enough to keep the glyph and the word legible. Chips inside the case-screen tables stay at the 20px <span class="mono">.chip.tiny</span>.</td></tr>
         <tr><td class="k">Pagination</td><td>Rows per page 10 / 20 / 50, default 20. The footer reads <span class="mono">Showing 1–20 of 1,242 invoices</span>, then first / previous, a compact page window with the current page in green, next / last, and a “Go to page” input.</td></tr>
         <tr><td class="k">Hover</td><td>Whole row tints, frozen cells included, so the eye does not lose the row mid-scroll. Blocked rows tint warmer.</td></tr>
         <tr><td class="k">Current row</td><td><span class="badge-current"><svg class="gl sm"><use href="#i-right"/></svg>Current GRN</span> badge plus a 3px green left rule — the tint alone never carries it.</td></tr>
@@ -1889,10 +1906,10 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <p>Input-style fields belong to the pre-push review, where editing is genuinely possible. Once an invoice is
         posted to Oracle its values are a record: plain value rows on hairlines, no boxes.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Dense, not raw</div>
-      <p>The dashboard runs at 52px rows, 13px cell text and 11.5px headers — for people who read hundreds of
-        lines a day — with a 34px floor on every control a person clicks. A long supplier or location truncates
-        with an ellipsis and keeps its full value in a tooltip rather than widening the column. Familiar to an
-        Excel user; never an imitation of Excel.</p></div>
+      <p>The dashboard runs at 48px rows, a 38px header, 13px cell text and 11px status chips — for people who
+        read hundreds of lines a day — with a 34px floor on every control a person clicks and a 12px floor on any
+        text they have to read. A long supplier or location truncates with an ellipsis and keeps its full value in
+        a tooltip rather than widening the column. Familiar to an Excel user; never an imitation of Excel.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>One neutral product</div>
       <p>Brand is a filter and a column, never a skin. No brand marketing surfaces anywhere in the console.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Presentation only</div>
