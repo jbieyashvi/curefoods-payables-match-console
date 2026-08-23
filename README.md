@@ -124,32 +124,44 @@ Every tone that carries readable text clears 4.5:1. `--ink-3` `#98A2B3` is the
 disabled grey and never carries a readable value.
 
 Interface text sits at 13–14px and no interactive control is shorter than 34px.
-The dashboard table is deliberately denser than the rest: 48px rows on 8px
-vertical and 14px horizontal cell padding, a 38px pinned header at 11.5px, 13px
-cell text, and 23px status chips at 11px. Supporting values step down one notch
-rather than shouting alongside their subject — GRN number 12px, brand and outlet
-12.5px, GSTIN and city 11.5px on a 15px line — because the supplier is what an
-accountant scans the column for and the outlet is only where it landed. A long
-supplier or location truncates with an ellipsis and keeps its full value in a
-tooltip rather than widening its column. Nothing inside a table row is set below
-12px or at 15px and larger.
+The dashboard table is deliberately denser than the rest: 48px rows on 6px
+vertical and 12px horizontal cell padding, a 36px pinned header at 11px, 12.5px
+cell text on a 1.25 line, and 22px status chips at 11px. Supporting values step
+down one notch rather than shouting alongside their subject — supplier 12px,
+GRN number 11.5px, brand and outlet 12px, GSTIN and city 11px — because the
+supplier is what an accountant scans the column for and the outlet is only where
+it landed. A long supplier or location truncates with an ellipsis and keeps its
+full value in a tooltip rather than widening its column. Nothing inside a table
+row is set below 11px or at 14px and larger.
 
 The filters sit in one line above the table — search, brand, supplier,
 financial year — with no text labels beside them. Each control says what it
 filters from the inside (`All brands`, `All suppliers`, a calendar glyph and
 `Financial year 2026–27`) and carries its accessible name in a visually hidden
 label, so the row reads as four fields rather than eight fragments. At 1440px
-that is a 460px search, then 184px, 244px and 224px, 12px apart, all 38px tall
-on one radius, one border and one 13px type size with 12px of inner padding and
-a 16px search glyph on a 12px gutter. Below 1360px the search takes a
-line of its own and the three filters sit underneath it at full size — two tidy
-rows, never a row of bare chevrons. The row is a row of controls rather than a
-panel, so nothing wraps around it to pad: it sits 8px below the status segments
-and 12px above the table, because every pixel spent on that band is a row of
-invoices lost from the bottom of the screen. Export and Columns stay reachable on
-the status row above, and the table scrolls horizontally with PO number, GRN number
-and status pinned — at offsets measured after each render, so a long PO number
-widens its column without the next frozen column sliding underneath it.
+that is a 466px search, then 184px, 244px and 224px, 10px apart. Those four and
+the Export and Columns buttons on the status row above them are **one control at
+one size**: 36px tall on a 7px radius, one border, one white face, 12.5px type on
+12px of inner padding and 15–16px glyphs — so the whole band above the table
+reads as a single line of controls rather than two heights arguing with each
+other. Below 1360px the search takes a line of its own and the three filters sit
+underneath it at full size — two tidy rows, never a row of bare chevrons. The row
+is a row of controls rather than a panel, so nothing wraps around it to pad: it
+sits 8px below the status segments and 10px above the table, because every pixel
+spent on that band is a row of invoices lost from the bottom of the screen. The
+table scrolls horizontally with PO number, GRN number and status pinned — at
+offsets measured after each render, so a long PO number widens its column without
+the next frozen column sliding underneath it.
+
+The navigation rail is 244px wide and collapses to 60px when someone wants the
+width back for the table. Because a control that can hide itself has to be able
+to bring itself back, the 30px toggle is the one thing in the rail that is never
+hidden: it stays in the rail header at both widths, and at 60px the product mark
+stands down rather than the toggle. The chevron faces the direction the rail will
+move — left when expanded, right when collapsed — the tooltip and `aria-label`
+name the action (“Collapse navigation” / “Expand navigation”) rather than the
+state, and the state is held in application state and re-applied after every
+render, so moving between screens never strands the rail.
 
 ## Scrolling
 

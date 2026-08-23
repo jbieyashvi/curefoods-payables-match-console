@@ -67,6 +67,10 @@
 
   /* --- Control heights --- */
   --h-primary:38px; --h-compact:34px; --h-chip:26px;
+  /* The dashboard's own control height. Search, the three filters, Export and
+     Columns are one object at one size, so the band above the table is a
+     single 36px line instead of two heights arguing with each other. */
+  --h-dash:36px; --r-dash:7px;
 
   /* --- Type --- */
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -120,18 +124,26 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 /* ---- Left rail — only the nav list scrolls, so the signed-in user
        stays pinned to the bottom at any window height. ---- */
 .rail{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;height:100%;min-height:0;min-width:0}
-.rail-top{display:flex;align-items:center;gap:10px;padding:16px 14px 14px;border-bottom:1px solid var(--line);min-height:60px;flex:none}
+.rail-top{display:flex;align-items:center;gap:8px;padding:15px 14px;border-bottom:1px solid var(--line);min-height:60px;flex:none}
 .mark{width:28px;height:28px;border-radius:var(--r-sm);background:var(--green);display:grid;place-items:center;flex:none;box-shadow:inset 0 -1px 0 rgba(0,0,0,.12)}
 svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to its flex parent */
 .mark svg{width:16px;height:16px}
 .brand{min-width:0;flex:1}
 .brand-name{display:block;font-size:14px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
 .brand-sub{display:block;font-size:var(--fs-xs);color:var(--ink-2);white-space:nowrap;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
-.rail-toggle{width:26px;height:26px;border-radius:var(--r-sm);display:grid;place-items:center;color:var(--ink-3);flex:none}
-.rail-toggle:hover{background:var(--surface-3);color:var(--ink-2)}
+/* The way back out of a collapsed rail. It is the one control that must survive
+   collapsing, so it is never hidden — at 60px wide the rail cannot hold the mark
+   and the toggle side by side, so the mark stands down and the toggle keeps the
+   header. The chevron turns to face the direction the rail will move. */
+.rail-toggle{width:30px;height:30px;border-radius:var(--r-sm);display:grid;place-items:center;color:var(--ink-2);flex:none}
+.rail-toggle:hover{background:var(--surface-3);color:var(--ink)}
+.rail-toggle svg{width:16px;height:16px}
+.rail-toggle .chev-r{display:none}
+.rail-collapsed .rail-toggle .chev-l{display:none}
+.rail-collapsed .rail-toggle .chev-r{display:block}
 .rail-collapsed .brand,.rail-collapsed .navgroup-label,.rail-collapsed .nav-txt,.rail-collapsed .who-txt{display:none}
-.rail-collapsed .rail-top{justify-content:center;padding:16px 8px 14px}
-.rail-collapsed .rail-toggle{display:none}
+.rail-collapsed .rail-top{justify-content:center;padding:15px 8px}
+.rail-collapsed .mark{display:none}
 .nav{padding:14px 10px;flex:1 1 auto;min-height:0;overflow-y:auto}
 .navgroup-label{font-size:var(--fs-xs);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);padding:12px 8px 6px}
 .nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:0 10px;height:var(--h-compact);border-radius:var(--r-sm);color:var(--ink-2);font-size:var(--fs-body);font-weight:500;text-align:left;transition:background .12s,color .12s}
@@ -346,8 +358,8 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
 /* 8px from the status tabs down to the filters, 12px from the filters down to
    the table. The filter row is a row of controls, not a panel — there is no
    container around it to pad. */
-.controls{display:flex;flex-direction:column;gap:8px;margin:12px 0 12px}
-.ctl-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:9px;min-height:var(--h-compact)}
+.controls{display:flex;flex-direction:column;gap:8px;margin:10px 0 10px}
+.ctl-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:10px;min-height:var(--h-compact)}
 /* Filter row — search, brand, supplier, financial year on one line. There are no
    labels beside the controls: each one says what it filters from inside ("All
    brands", "All suppliers", a calendar and the year), and the accessible name is
@@ -355,7 +367,7 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
    share one height, one radius, one border and one type size, so the row starts
    and ends on a single alignment. Below ~1180px it wraps to a second line rather
    than collapsing to bare icons. */
-.filter-row{gap:12px;row-gap:12px;min-height:var(--h-primary)}
+.filter-row{gap:10px;row-gap:10px;min-height:var(--h-dash)}
 .filt{flex:none;min-width:0}
 .filt-brand{width:184px}
 .filt-sup{width:244px}
@@ -370,10 +382,20 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
 /* Size only — the border, radius and white face already come from .input/.select
    /.btn, and restating them here would outrank the :focus rule that turns the
    border green. */
-.filter-row .input,.filter-row .select,.filter-row .btn{width:100%;height:var(--h-primary);font-size:13px}
-/* Padding only — restating border or background here would outrank :focus. */
-.filter-row .select{padding-left:12px}
-.fy-btn{justify-content:flex-start;padding:0 12px;gap:8px;font-weight:400}
+.filter-row .input,.filter-row .select,.filter-row .btn{width:100%}
+/* One compact control, six instances: search, brand, supplier, financial year,
+   Export and Columns. Size only — restating the border or the white face here
+   would outrank the :focus rule that turns the border green. The height is set
+   twice on purpose: .btn.sm is a two-class selector, so a one-class .dash-ctl
+   would lose to it and Export would stay 34px while the search stayed 36px. */
+.dash-ctl{height:var(--h-dash);min-height:var(--h-dash);font-size:12.5px;border-radius:var(--r-dash);padding-left:12px;padding-right:12px}
+.btn.dash-ctl{height:var(--h-dash);min-height:var(--h-dash);font-size:12.5px;border-radius:var(--r-dash);padding:0 12px}
+.dash-ctl > svg{width:15px;height:15px}
+/* The two controls that need their own gutter back: the select for its chevron,
+   the search for its magnifier. */
+.select.dash-ctl{padding-right:30px}
+.searchwrap .input.dash-ctl{padding-left:36px;padding-right:32px}
+.fy-btn{justify-content:flex-start;gap:8px;font-weight:400}
 .fy-btn > svg:first-child,.fy-btn > svg:last-child{color:var(--ink-2)}
 .fy-btn > svg:last-child{margin-left:auto}
 .fy-val{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -435,22 +457,24 @@ table.dt tbody tr:hover td.sticky{background:var(--surface-2)}
 table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
 /* Compact density — the dashboard table trades airiness for rows on screen,
    without dropping any value below a comfortable reading size. */
-table.dt-compact th{height:38px;padding:0 14px;font-size:11.5px;letter-spacing:.03em}
-table.dt-compact td{height:48px;padding:8px 14px;font-size:13px}
-table.dt-compact .c1{min-width:216px}
-table.dt-compact .c2{min-width:200px}
-table.dt-compact .polink{font-size:13px;font-weight:600}
-table.dt-compact .grn-id{font-size:12px}
-table.dt-compact .cellstack{line-height:1.3}
-table.dt-compact .cellstack .trunc{font-size:13px;font-weight:500}
-table.dt-compact .cellstack .c-sub{font-size:11.5px;line-height:15px}
+table.dt-compact th{height:36px;padding:0 12px;font-size:11px;font-weight:600;letter-spacing:.03em}
+table.dt-compact th .th-btn{height:36px}
+table.dt-compact td{height:48px;padding:6px 12px;font-size:12.5px;line-height:1.25}
+table.dt-compact .c1{min-width:212px}
+table.dt-compact .c2{min-width:196px}
+table.dt-compact .polink{font-size:12.5px;font-weight:600;padding:0}
+table.dt-compact .grn-id{font-size:11.5px}
+table.dt-compact .cellstack{line-height:1.25}
+table.dt-compact .cellstack .trunc{font-size:12px;font-weight:500}
+table.dt-compact .cellstack .c-sub{font-size:11px;line-height:1.25}
 /* Brand and the outlet name sit a half-step below the supplier: the supplier is
    what an accountant scans the column for, the outlet is where it landed. */
-table.dt-compact .t-brand{font-size:12.5px}
-table.dt-compact .st-loc > .trunc:not(.c-sub){font-size:12.5px}
-table.dt-compact .chip{height:23px;padding:0 8px;font-size:11px}
-table.dt-compact .chip.tiny{height:23px;padding:0 8px;font-size:11px;gap:5px}
+table.dt-compact .t-brand{font-size:12px}
+table.dt-compact .st-loc > .trunc:not(.c-sub){font-size:12px}
+table.dt-compact .chip{height:22px;padding:0 7px;font-size:11px}
+table.dt-compact .chip.tiny{height:22px;padding:0 7px;font-size:11px;gap:5px}
 table.dt-compact .chip .glyph{width:11px;height:11px}
+table.dt-compact .oc{font-size:12px}
 .polink{font-family:var(--mono);font-size:var(--fs-table);font-weight:500;color:var(--green);text-decoration:none;border-bottom:1px solid transparent;padding:2px 0;cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;display:inline-block}
 .polink:hover{color:var(--green-deep);border-bottom-color:var(--green);background:var(--green-bg-2)}
 .polink:focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -801,8 +825,11 @@ table.cmp th.srccol{z-index:8}
           <span class="brand-name">Curefoods</span>
           <span class="brand-sub">Payables match console</span>
         </span>
-        <button class="rail-toggle" id="railToggle" title="Collapse navigation" aria-label="Collapse navigation">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg>
+        <button class="rail-toggle" id="railToggle" type="button" title="Collapse navigation" aria-label="Collapse navigation" aria-expanded="true" aria-controls="nav">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path class="chev-l" d="M10 3.5 5.5 8l4.5 4.5"/>
+            <path class="chev-r" d="M6 3.5 10.5 8 6 12.5"/>
+          </svg>
         </button>
       </div>
       <nav class="nav" id="nav" aria-label="Main"></nav>
@@ -2074,7 +2101,7 @@ const S = {
   cols:COLS.reduce((a,c)=>(a[c.k]=c.lock?true:!!c.on,a),{}),
   pop:null, tech:{}, matrix:null, ruleFilter:null, ruleOpen:null, liFilter:'ALL', lineHi:null, dialog:null, pipeStep:-1, pipeSteps:null, focus:null,
   split:42, zoom:1, rot:0, docFull:false, oracleHi:null,
-  loading:false, emptyData:false, exportFail:false, busy:null, demoOpen:false,
+  loading:false, emptyData:false, exportFail:false, busy:null, demoOpen:false, railCollapsed:false,
   toastSeq:0
 };
 const $ = s=>document.querySelector(s);
@@ -2200,9 +2227,24 @@ function renderNav(){
       ${later.map(n=>`<a class="nav-item" role="link" aria-disabled="true" tabindex="-1">${ic(n.icon)}<span class="nav-txt">${n.label}</span></a>`).join('')}
     </details>` : '');
 }
+/* The rail lives outside #main, so collapsing it survives every render on its
+   own — but the state belongs in S, not in a class nobody else can read, and
+   re-applying it after each render means a screen change can never strand the
+   rail in a state its own button disagrees with. */
+function applyRail(){
+  const app = $('#app'), rt = $('#railToggle');
+  if(app && app.classList) app.classList.toggle('rail-collapsed', !!S.railCollapsed);
+  if(!rt || !rt.setAttribute) return;
+  const lab = S.railCollapsed ? 'Expand navigation' : 'Collapse navigation';
+  rt.setAttribute('aria-label', lab);
+  rt.setAttribute('title', lab);
+  rt.setAttribute('aria-expanded', String(!S.railCollapsed));
+}
+
 function render(){
   $('#main').innerHTML = S.view==='case' ? renderCase() : renderDash();
   renderDemo();
+  applyRail();
   afterRender();
 }
 
@@ -2290,11 +2332,11 @@ function controlRow(){
     </div>
     <div class="ctl-grow"></div>
     <div class="pop-host">
-      <button class="btn sm" type="button" data-act="pop" data-arg="export" aria-expanded="${S.pop==='export'}" aria-haspopup="dialog">${ic('download')}<span>Export</span></button>
+      <button class="btn sm dash-ctl" type="button" data-act="pop" data-arg="export" aria-expanded="${S.pop==='export'}" aria-haspopup="dialog">${ic('download')}<span>Export</span></button>
       ${S.pop==='export'?popover('export'):''}
     </div>
     <div class="pop-host">
-      <button class="btn sm" type="button" data-act="pop" data-arg="cols" aria-expanded="${S.pop==='cols'}" aria-haspopup="dialog">${ic('cols')}<span>Columns</span></button>
+      <button class="btn sm dash-ctl" type="button" data-act="pop" data-arg="cols" aria-expanded="${S.pop==='cols'}" aria-haspopup="dialog">${ic('cols')}<span>Columns</span></button>
       ${S.pop==='cols'?popover('cols'):''}
     </div>
     </div>
@@ -2302,19 +2344,19 @@ function controlRow(){
       <div class="searchwrap">
         ${ic('search','class="mag"')}
         <label class="vis-hidden" for="q">Search invoices</label>
-        <input class="input" id="q" type="search" placeholder="Search PO, GRN, invoice number or supplier" value="${esc(S.q)}" data-act="q" autocomplete="off">
+        <input class="input dash-ctl" id="q" type="search" placeholder="Search PO, GRN, invoice number or supplier" value="${esc(S.q)}" data-act="q" autocomplete="off">
         ${S.q?`<button class="clear" type="button" data-act="clearq" aria-label="Clear search">${ic('x')}</button>`:''}
       </div>
       <div class="filt filt-brand">
         <label class="vis-hidden" for="fEntity">Filter by brand</label>
-        <select class="select" id="fEntity" data-act="entity">
+        <select class="select dash-ctl" id="fEntity" data-act="entity">
           <option value="ALL"${S.entity==='ALL'?' selected':''}>All brands</option>
           ${BRANDS.map(b=>`<option value="${esc(b)}"${S.entity===b?' selected':''}>${esc(b)}</option>`).join('')}
         </select>
       </div>
       <div class="filt filt-sup">
         <label class="vis-hidden" for="fSup">Filter by supplier</label>
-        <select class="select" id="fSup" data-act="supplier">
+        <select class="select dash-ctl" id="fSup" data-act="supplier">
           <option value="ALL"${S.supplier==='ALL'?' selected':''}>All suppliers</option>
           ${supList.map(s=>`<option value="${esc(s)}"${S.supplier===s?' selected':''}>${esc(s)}</option>`).join('')}
         </select>
@@ -2322,7 +2364,7 @@ function controlRow(){
       <div class="filt filt-fy">
         <span class="vis-hidden" id="fDateL">Filter by GRN date range</span>
         <div class="pop-host">
-          <button class="btn fy-btn" type="button" data-act="pop" data-arg="date" aria-labelledby="fDateL fDateV" aria-expanded="${S.pop==='date'}" aria-haspopup="dialog">${ic('cal')}<span class="fy-val" id="fDateV" title="${esc(dateLabel())}">${dateLabel()}</span>${ic('chevD')}</button>
+          <button class="btn fy-btn dash-ctl" type="button" data-act="pop" data-arg="date" aria-labelledby="fDateL fDateV" aria-expanded="${S.pop==='date'}" aria-haspopup="dialog">${ic('cal')}<span class="fy-val" id="fDateV" title="${esc(dateLabel())}">${dateLabel()}</span>${ic('chevD')}</button>
           ${S.pop==='date'?popover('date'):''}
         </div>
       </div>
@@ -4321,10 +4363,8 @@ function wireOnce(){
   });
 
   const rt = $('#railToggle');
-  if(rt) rt.addEventListener('click', ()=>{
-    const app = $('#app'); const now = app.classList.toggle('rail-collapsed');
-    rt.setAttribute('aria-label', now?'Expand navigation':'Collapse navigation');
-  });
+  if(rt) rt.addEventListener('click', ()=>{ S.railCollapsed = !S.railCollapsed; applyRail(); });
+  applyRail();
   const fab = $('#demoFab');
   if(fab) fab.addEventListener('click', ()=>{ S.demoOpen=!S.demoOpen; renderDemo(); });
 }
