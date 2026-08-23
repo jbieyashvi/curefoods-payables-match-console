@@ -67,10 +67,11 @@
 
   /* --- Control heights --- */
   --h-primary:38px; --h-compact:34px; --h-chip:26px;
-  /* The dashboard's own control height. Search, the three filters, Export and
-     Columns are one object at one size, so the band above the table is a
-     single 36px line instead of two heights arguing with each other. */
-  --h-dash:36px; --r-dash:7px;
+  /* The dashboard's own control height, set by the Testing-only badge that
+     already sits in the top bar: Run all, Export, Columns, the search and the
+     three filters are all one object at that one size, so the whole band reads
+     as a single line of controls. */
+  --h-dash:26px; --r-dash:6px;
 
   /* --- Type --- */
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -324,9 +325,10 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .err-msg{display:flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--red);font-weight:500}
 .err-msg svg{width:12px;height:12px;flex:none}
 .searchwrap{position:relative;flex:1 1 370px;min-width:300px}
-.searchwrap svg.mag{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-3);pointer-events:none}
+.searchwrap svg.mag{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--ink-3);pointer-events:none}
 .searchwrap .input{padding-left:36px;padding-right:32px}
-.searchwrap .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:var(--r-xs);display:grid;place-items:center;color:var(--ink-3)}
+.searchwrap .clear{position:absolute;right:3px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:var(--r-xs);display:grid;place-items:center;color:var(--ink-3)}
+.searchwrap .clear svg{width:11px;height:11px}
 .searchwrap .clear:hover{background:var(--surface-3);color:var(--ink)}
 .check{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:var(--r-sm);font-size:var(--fs-body);cursor:pointer}
 .check:hover{background:var(--surface-3)}
@@ -355,11 +357,11 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
 /* ============================================================
    COMPONENTS — control row
    ============================================================ */
-/* 8px from the status tabs down to the filters, 12px from the filters down to
+/* 8px from the status tabs down to the filters, 8px from the filters down to
    the table. The filter row is a row of controls, not a panel — there is no
-   container around it to pad. */
-.controls{display:flex;flex-direction:column;gap:8px;margin:10px 0 10px}
-.ctl-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:10px;min-height:var(--h-compact)}
+   container around it to pad, and nothing pads it from the inside either. */
+.controls{display:flex;flex-direction:column;gap:8px;margin:10px 0 8px}
+.ctl-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;row-gap:8px;min-height:var(--h-compact)}
 /* Filter row — search, brand, supplier, financial year on one line. There are no
    labels beside the controls: each one says what it filters from inside ("All
    brands", "All suppliers", a calendar and the year), and the accessible name is
@@ -367,7 +369,7 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
    share one height, one radius, one border and one type size, so the row starts
    and ends on a single alignment. Below ~1180px it wraps to a second line rather
    than collapsing to bare icons. */
-.filter-row{gap:10px;row-gap:10px;min-height:var(--h-dash)}
+.filter-row{gap:8px;row-gap:8px;min-height:var(--h-dash)}
 .filt{flex:none;min-width:0}
 .filt-brand{width:184px}
 .filt-sup{width:244px}
@@ -383,18 +385,26 @@ button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--li
    /.btn, and restating them here would outrank the :focus rule that turns the
    border green. */
 .filter-row .input,.filter-row .select,.filter-row .btn{width:100%}
-/* One compact control, six instances: search, brand, supplier, financial year,
-   Export and Columns. Size only — restating the border or the white face here
-   would outrank the :focus rule that turns the border green. The height is set
-   twice on purpose: .btn.sm is a two-class selector, so a one-class .dash-ctl
-   would lose to it and Export would stay 34px while the search stayed 36px. */
-.dash-ctl{height:var(--h-dash);min-height:var(--h-dash);font-size:12.5px;border-radius:var(--r-dash);padding-left:12px;padding-right:12px}
-.btn.dash-ctl{height:var(--h-dash);min-height:var(--h-dash);font-size:12.5px;border-radius:var(--r-dash);padding:0 12px}
-.dash-ctl > svg{width:15px;height:15px}
-/* The two controls that need their own gutter back: the select for its chevron,
-   the search for its magnifier. */
-.select.dash-ctl{padding-right:30px}
-.searchwrap .input.dash-ctl{padding-left:36px;padding-right:32px}
+/* One compact control, seven instances: Run all, Export, Columns, the search and
+   the brand, supplier and financial-year filters. Size only — restating the
+   border or the white face here would outrank the :focus rule that turns the
+   border green. Three heights are pinned rather than one, because .input,.select
+   and .btn each carry their own height and a shared min-height elsewhere would
+   otherwise win: height holds the box, min-height stops a flex row stretching it
+   and max-height stops a long label growing it. The height is also declared a
+   second time for .btn.dash-ctl, since .btn.sm is a two-class selector that a
+   one-class rule would lose to. */
+.dash-ctl{height:var(--h-dash);min-height:var(--h-dash);max-height:var(--h-dash);
+  font-size:11.5px;line-height:14px;border-radius:var(--r-dash);padding:0 9px}
+.btn.dash-ctl{height:var(--h-dash);min-height:var(--h-dash);max-height:var(--h-dash);
+  font-size:11.5px;line-height:14px;border-radius:var(--r-dash);padding:0 9px;gap:6px}
+.dash-ctl > svg{width:13px;height:13px}
+.btn.dash-ctl .spin{width:12px;height:12px;border-width:1.5px}
+/* The two controls that need a gutter on one side: the select for its chevron,
+   the search for its magnifier and its clear button. The chevron and the glyph
+   come down with the control so the text still clears them. */
+.select.dash-ctl{padding-right:24px;background-position:right 8px center;background-size:12px}
+.searchwrap .input.dash-ctl{padding-left:26px;padding-right:26px}
 .fy-btn{justify-content:flex-start;gap:8px;font-weight:400}
 .fy-btn > svg:first-child,.fy-btn > svg:last-child{color:var(--ink-2)}
 .fy-btn > svg:last-child{margin-left:auto}
@@ -2534,7 +2544,7 @@ function renderDash(){
       </div>
       <div class="tb-right">
         <span class="flagpill flagpill-neutral" title="Bulk re-run is a UAT convenience and will be removed before release">${ic('info')}Testing only</span>
-        <button class="btn sm" type="button" data-act="runall" ${busy?'disabled':''}>
+        <button class="btn sm dash-ctl" type="button" data-act="runall" ${busy?'disabled':''}>
           ${busy?'<span class="spin" aria-hidden="true"></span>':ic('play')}${busy?'Running…':'Run all'}
         </button>
       </div>

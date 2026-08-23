@@ -123,7 +123,9 @@ Contrast is measured rather than assumed:
 Every tone that carries readable text clears 4.5:1. `--ink-3` `#98A2B3` is the
 disabled grey and never carries a readable value.
 
-Interface text sits at 13–14px and no interactive control is shorter than 34px.
+Interface text sits at 13–14px and no interactive control inside the working area
+is shorter than 34px. The dashboard's own filter band is the one deliberate
+exception, described below.
 The dashboard table is deliberately denser than the rest: 48px rows on 6px
 vertical and 12px horizontal cell padding, a 36px pinned header at 11px, 12.5px
 cell text on a 1.25 line, and 22px status chips at 11px. Supporting values step
@@ -139,15 +141,19 @@ financial year — with no text labels beside them. Each control says what it
 filters from the inside (`All brands`, `All suppliers`, a calendar glyph and
 `Financial year 2026–27`) and carries its accessible name in a visually hidden
 label, so the row reads as four fields rather than eight fragments. At 1440px
-that is a 466px search, then 184px, 244px and 224px, 10px apart. Those four and
-the Export and Columns buttons on the status row above them are **one control at
-one size**: 36px tall on a 7px radius, one border, one white face, 12.5px type on
-12px of inner padding and 15–16px glyphs — so the whole band above the table
-reads as a single line of controls rather than two heights arguing with each
-other. Below 1360px the search takes a line of its own and the three filters sit
+that is a 472px search, then 184px, 244px and 224px, 8px apart. Those four and the
+Run all, Export and Columns buttons on the status row above them are **one control
+at one size**: 26px tall on a 6px radius, one border, one white face, 11.5px type
+on a 14px line, 9px of horizontal padding, no vertical padding and 13px glyphs —
+so the whole band above the table reads as a single line of controls rather than
+two heights arguing with each other. That height is not picked in the abstract: it
+is the height of the `Testing only` badge already sitting in the same top bar, so
+the badge and every control beside it share one baseline. It clears the 24×24px
+WCAG 2.2 target minimum, and it is the one place in the console that goes below
+the 34px control floor — traded knowingly for rows of invoices. Below 1360px the search takes a line of its own and the three filters sit
 underneath it at full size — two tidy rows, never a row of bare chevrons. The row
 is a row of controls rather than a panel, so nothing wraps around it to pad: it
-sits 8px below the status segments and 10px above the table, because every pixel
+sits 8px below the status segments and 8px above the table, because every pixel
 spent on that band is a row of invoices lost from the bottom of the screen. The
 table scrolls horizontally with PO number, GRN number and status pinned — at
 offsets measured after each render, so a long PO number widens its column without

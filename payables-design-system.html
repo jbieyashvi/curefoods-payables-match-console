@@ -41,7 +41,7 @@
   /* The dashboard's own control height. Search, the three filters, Export and
      Columns are one object at one size, so the band above the table is a single
      line rather than two heights arguing with each other. */
-  --h-dash:36px; --r-dash:7px;
+  --h-dash:26px; --r-dash:6px;
   /* --- type ------------------------------------------------------- */
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -327,21 +327,26 @@ table.spec .mono{font-size:var(--fs-sm)}
 .searchwrap{position:relative;flex:1;min-width:190px}
 .searchwrap .gl{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-3)}
 .searchwrap .input{padding-left:36px}
-/* The dashboard's six controls — search, brand, supplier, financial year, Export
-   and Columns — are one object at one size: --h-dash on --r-dash with 12.5px type.
-   Size only. Restating the border or the white face here would outrank :focus at
-   equal specificity, and the height is declared a second time for .btn.sm because
-   that is a two-class selector a single-class rule would lose to. */
+/* The dashboard's seven controls — Run all, search, brand, supplier, financial
+   year, Export and Columns — are one object at one size: --h-dash on --r-dash with
+   11.5px type. Size only. Restating the border or the white face here would outrank
+   :focus at equal specificity. Three heights are pinned rather than one, because
+   .input, .select and .btn each carry their own height: height holds the box,
+   min-height stops a flex row stretching it and max-height stops a long label
+   growing it. The height is declared a second time for .btn.sm because that is a
+   two-class selector a single-class rule would lose to. */
 .filter-demo .input,.filter-demo .select,.filter-demo .btn{height:var(--h-dash);
-  min-height:var(--h-dash);font-size:12.5px;border-radius:var(--r-dash);
-  padding-left:12px;padding-right:12px}
-.filter-demo .btn.sm{height:var(--h-dash);min-height:var(--h-dash);font-size:12.5px;
-  border-radius:var(--r-dash);padding:0 12px}
+  min-height:var(--h-dash);max-height:var(--h-dash);font-size:11.5px;line-height:14px;
+  border-radius:var(--r-dash);padding:0 9px}
+.filter-demo .btn.sm{height:var(--h-dash);min-height:var(--h-dash);max-height:var(--h-dash);
+  font-size:11.5px;line-height:14px;border-radius:var(--r-dash);padding:0 9px}
 /* The two controls that need their gutter back: the select for its chevron, the
-   search for its magnifier. */
-.filter-demo .select{padding-right:30px}
-.filter-demo .searchwrap .input{padding-left:36px}
-.filter-demo .btn .gl{width:15px;height:15px}
+   search for its magnifier. Both come down with the control so the text still
+   clears them. */
+.filter-demo .select{padding-right:24px;background-position:right 8px center;background-size:12px}
+.filter-demo .searchwrap .input{padding-left:26px}
+.filter-demo .searchwrap .gl{left:8px;width:13px;height:13px}
+.filter-demo .btn .gl{width:13px;height:13px}
 .inline-err{display:flex;align-items:center;gap:5px;font-size:var(--fs-sm);color:var(--red-deep);
   font-weight:500;margin-top:5px}
 
@@ -840,7 +845,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <div class="demo-b">
         <div class="heights">
           <div class="ht"><div class="bar" style="height:var(--h-primary)">Approve and push</div><div class="lab"><b>--h-primary</b>38px</div></div>
-          <div class="ht"><div class="bar" style="height:var(--h-dash);font-size:12.5px;border-radius:var(--r-dash)">Search, filters, Export</div><div class="lab"><b>--h-dash</b>36px</div></div>
+          <div class="ht"><div class="bar" style="height:var(--h-dash);font-size:11.5px;border-radius:var(--r-dash)">Run all, search, filters, Export</div><div class="lab"><b>--h-dash</b>26px</div></div>
           <div class="ht"><div class="bar" style="height:var(--h-compact)">Compact button</div><div class="lab"><b>--h-compact</b>34px</div></div>
           <div class="ht"><div class="bar" style="height:28px;font-size:var(--fs-xs)">Filter</div><div class="lab"><b>xs / seg</b>28px</div></div>
           <div class="ht"><div class="bar" style="height:var(--h-chip);font-size:var(--fs-xs)">Blocked</div><div class="lab"><b>--h-chip</b>26px</div></div>
@@ -1121,9 +1126,9 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       every pass. Nothing carries a label beside it either: each control says what it filters from the inside, so
       the row reads as four fields rather than eight fragments.</p>
     <div class="demo">
-      <div class="demo-h"><span class="t">The filter row</span><span class="s">36px · 12.5px type · one radius, one border, 10px gaps</span></div>
+      <div class="demo-h"><span class="t">The filter row</span><span class="s">26px · 11.5px type · one radius, one border, 8px gaps</span></div>
       <div class="demo-b" style="background:var(--dash-ground)">
-        <div class="row filter-demo" style="gap:10px;flex-wrap:nowrap">
+        <div class="row filter-demo" style="gap:8px;flex-wrap:nowrap">
           <div class="searchwrap" style="flex:1 1 370px;min-width:220px">
             <svg class="gl"><use href="#i-search"/></svg>
             <input class="input" placeholder="Search PO, GRN, invoice number or supplier" aria-label="Search invoices">
@@ -1135,30 +1140,33 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           <select class="select" style="flex:none;width:244px" aria-label="Filter by supplier">
             <option>All suppliers</option><option>Chaishai Provisions</option>
           </select>
-          <button class="btn" style="flex:none;width:224px;justify-content:flex-start;padding:0 12px;gap:8px;font-weight:400" aria-label="Filter by GRN date range: financial year 2026–27"><svg class="gl"><use href="#i-cal"/></svg>Financial year 2026–27<svg class="gl sm" style="margin-left:auto;color:var(--ink-2)"><use href="#i-caret"/></svg></button>
+          <button class="btn" style="flex:none;width:224px;justify-content:flex-start;padding:0 9px;gap:6px;font-weight:400" aria-label="Filter by GRN date range: financial year 2026–27"><svg class="gl"><use href="#i-cal"/></svg>Financial year 2026–27<svg class="gl sm" style="margin-left:auto;color:var(--ink-2)"><use href="#i-caret"/></svg></button>
         </div>
         <p class="note" style="margin-top:12px">No <strong>Brand</strong>, <strong>Supplier</strong> or
           <strong>Dates</strong> text beside the controls. The meaning lives inside each one — “All brands”,
           “All suppliers”, a calendar glyph and “Financial year 2026–27” — and the accessible name is still
           carried by a visually hidden <span class="mono">&lt;label&gt;</span>, so the field is announced as
           “Filter by brand” rather than as an unnamed combo box.</p>
-        <p class="note" style="margin-top:8px">Widths at 1440px: search <strong>466px</strong> (about 40% of the
+        <p class="note" style="margin-top:8px">Widths at 1440px: search <strong>472px</strong> (about 41% of the
           row), brand <strong>184px</strong>, supplier <strong>244px</strong>, financial year
-          <strong>224px</strong>, <strong>10px</strong> between each — one notch tighter than the 12px base gap,
+          <strong>224px</strong>, <strong>8px</strong> between each — a third tighter than the 12px base gap,
           because this band is paid for in table rows.</p>
-        <p class="note" style="margin-top:8px"><strong>Six controls, one height.</strong> The four filters and the
-          <strong>Export</strong> and <strong>Columns</strong> buttons on the status row above them all render at
-          <span class="mono">--h-dash</span> <strong>36px</strong> on the <span class="mono">--r-dash</span>
-          <strong>7px</strong> radius, with the same <span class="mono">--line-strong</span> border, the same white
-          face, <strong>12.5px</strong> type on <strong>12px</strong> of inner padding and
-          <strong>15–16px</strong> glyphs — so the whole band reads as one line of controls instead of two
-          heights arguing with each other. Two keep a wider gutter on one side: a select for its chevron at 30px,
-          the search for its 16px magnifier at 36px. Below <strong>1360px</strong> the search takes a line of its
-          own and the three filters sit underneath it at full size — two tidy rows, never a row of bare
+        <p class="note" style="margin-top:8px"><strong>Seven controls, one height.</strong> The four filters and the
+          <strong>Run all</strong>, <strong>Export</strong> and <strong>Columns</strong> buttons on the status row
+          above them all render at <span class="mono">--h-dash</span> <strong>26px</strong> on the
+          <span class="mono">--r-dash</span> <strong>6px</strong> radius, with the same
+          <span class="mono">--line-strong</span> border, the same white face, <strong>11.5px</strong> type on a
+          <strong>14px</strong> line, <strong>9px</strong> of inner padding, no vertical padding at all and
+          <strong>13px</strong> glyphs — so the whole band reads as one line of controls instead of two heights
+          arguing with each other. The height is not chosen in the abstract: it is the height of the
+          <strong>Testing only</strong> badge already sitting in that top bar, so the badge and the controls beside
+          it share a baseline. Two controls keep a wider gutter on one side: a select for its chevron at 24px, the
+          search for its 13px magnifier at 26px. Below <strong>1360px</strong> the search takes a line of its own
+          and the three filters sit underneath it at full size — two tidy rows, never a row of bare
           chevrons.</p>
         <p class="note" style="margin-top:8px">The row is a row of controls, not a panel: there is no container
           around it to pad, and the vertical rhythm is tight on purpose — <strong>8px</strong> down from the status
-          segments, <strong>10px</strong> down to the table. Every pixel spent on the band above the table is a row
+          segments, <strong>8px</strong> down to the table. Every pixel spent on the band above the table is a row
           of invoices lost from the bottom of it.</p>
         <p class="note" style="margin-top:8px">Date presets: <strong>Last 7 days · This month · Previous month ·
           Financial year · Custom range</strong>. The chosen preset becomes the button label so the active window
@@ -1995,9 +2003,13 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
         posted to Oracle its values are a record: plain value rows on hairlines, no boxes.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Dense, not raw</div>
       <p>The dashboard runs at 48px rows, a 36px header, 12.5px cell text and 22px status chips — for people who
-        read hundreds of lines a day — with a 34px floor on every control a person clicks and an 11px floor on any
-        text they have to read. A long supplier or location truncates with an ellipsis and keeps its full value in
-        a tooltip rather than widening the column. Familiar to an Excel user; never an imitation of Excel.</p></div>
+        read hundreds of lines a day — and an 11px floor on any text they have to read. Controls inside the working
+        area hold a <strong>34px</strong> floor. The dashboard's own filter band is the one deliberate exception:
+        it runs at <strong>26px</strong>, matched to the Testing-only badge beside it, which clears the 24×24px
+        WCAG 2.2 target minimum but sits below what we ask of a control anywhere else — traded knowingly, because
+        every pixel above the table is a row of invoices lost from the bottom of it. A long supplier or location
+        truncates with an ellipsis and keeps its full value in a tooltip rather than widening the column. Familiar
+        to an Excel user; never an imitation of Excel.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>One neutral product</div>
       <p>Brand is a filter and a column, never a skin. No brand marketing surfaces anywhere in the console.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Presentation only</div>
