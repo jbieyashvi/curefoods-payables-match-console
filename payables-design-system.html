@@ -1,4 +1,5 @@
 <title>Payables Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -47,7 +48,7 @@
   --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --fs-page:19px; --fs-section:15px; --fs-body:13.5px; --fs-table:13px; --fs-sm:12px; --fs-xs:11px;
   /* --- layout ----------------------------------------------------- */
-  --rail:236px; --gut:24px;
+  --rail:244px; --gut:24px;
   /* --- doc-only --------------------------------------------------- */
   --doc-rail:212px; --doc-max:1352px;
 }
@@ -347,6 +348,22 @@ table.spec .mono{font-size:var(--fs-sm)}
 .filter-demo .searchwrap .input{padding-left:26px}
 .filter-demo .searchwrap .gl{left:8px;width:13px;height:13px}
 .filter-demo .btn .gl{width:13px;height:13px}
+/* The filter row is documented at its real 1440px widths, so on a narrow screen it
+   is wider than the page. It scrolls inside its own track rather than shrinking:
+   a squeezed row would misreport the very widths the demo exists to show. The
+   vertical padding is the focus ring's clearance — overflow-x:auto makes the other
+   axis auto too, and a 3px ring would otherwise be shaved off. */
+.filter-demo{overflow-x:auto;padding:4px 0 8px}
+/* Token and field tables are documented at their real column widths. Below about
+   1000px they outgrow the page, so each scrolls inside its own demo body rather
+   than being shaved off by the card's own overflow. Only bodies that hold a spec
+   table are targeted: a state demo would have its focus rings clipped, because
+   scrolling one axis makes the other scroll too. */
+.demo-b:has(> table.spec){overflow-x:auto}
+/* Same treatment for the two other demos that are laid out at desktop widths: the
+   case tab strip and the row of empty states. Both scroll in place rather than
+   reflowing, so what the page documents stays what the product does. */
+.utabs,.empties{overflow-x:auto}
 .inline-err{display:flex;align-items:center;gap:5px;font-size:var(--fs-sm);color:var(--red-deep);
   font-weight:500;margin-top:5px}
 
@@ -603,7 +620,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <div class="meta-cell"><div class="k">Surface</div><div class="v">Desktop, 1440px</div></div>
       <div class="meta-cell"><div class="k">Theme</div><div class="v">Single light theme</div></div>
       <div class="meta-cell"><div class="k">Typefaces</div><div class="v">Inter · IBM Plex Mono</div></div>
-      <div class="meta-cell"><div class="k">Grid</div><div class="v">8px, 24px gutter, 236px rail</div></div>
+      <div class="meta-cell"><div class="k">Grid</div><div class="v">8px, 24px gutter, 244px rail</div></div>
       <div class="meta-cell"><div class="k">Primary user</div><div class="v">Accountant, Excel-first</div></div>
       <div class="meta-cell"><div class="k">Prototype</div>
         <div class="v"><a href="https://claude.ai/code/artifact/6a126107-f551-44e4-b133-3d0e67214b1c" target="_blank" rel="noopener">Open the clickable build <svg class="gl sm"><use href="#i-ext"/></svg></a></div></div>
