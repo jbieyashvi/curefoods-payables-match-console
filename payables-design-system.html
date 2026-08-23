@@ -1,0 +1,1939 @@
+<title>Payables Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+/* ============================================================
+   PAYABLES MATCH CONSOLE — DESIGN SYSTEM
+   Single committed light theme, identical to the product.
+   The swatches ARE the product tokens, so the page paints every
+   colour explicitly and does not re-map itself for a dark host.
+   ============================================================ */
+:root{
+  /* --- surfaces: a cool paper-grey base, ~80% of every screen ------ */
+  --ground:#F7F8F6; --surface:#FFFFFF; --surface-2:#FAFBFC; --surface-3:#F2F4F7; --surface-4:#E9ECF1;
+  --line:#E4E7EC; --line-strong:#D0D5DD;
+  /* --- ink -------------------------------------------------------- */
+  --ink:#1F2933; --ink-2:#667085; --ink-3:#98A2B3; --ink-inv:#FFFFFF;
+  /* --- green: matched, approved, normalized, selected tab, primary - */
+  --green:#2F6B4F; --green-deep:#245540; --green-bg:#E9F5EE; --green-bg-2:#F3FAF6; --green-line:#BFDFCD;
+  /* --- gold: logo, active rail item, current selection only -------- */
+  --gold:#8A6820; --gold-brand:#B68A2F; --gold-bg:#FFF7DD; --gold-bg-2:#FFFCF0; --gold-line:#E8D191;
+  /* --- amber: a difference to review ------------------------------ */
+  --amber:#C97812; --amber-deep:#8F5410; --amber-bg:#FFF3D6; --amber-line:#F0CE8E;
+  /* --- red: blocking, failed, destructive -------------------------- */
+  --red:#B42318; --red-deep:#912018; --red-bg:#FEECEB; --red-line:#F3C3BE;
+  /* --- blue: informational and in progress ------------------------- */
+  --blue:#175CD3; --blue-bg:#EFF4FF; --blue-bg-2:#F7FAFF; --blue-line:#C7D7FE;
+  /* --- grey: pending, skipped, secondary --------------------------- */
+  --slate:#5A6474; --slate-bg:#EAEDF2; --slate-line:#CDD3DC;
+  /* --- radii ------------------------------------------------------ */
+  --r-xs:4px; --r-sm:6px; --r:8px; --r-lg:10px; --r-pill:999px;
+  /* --- elevation -------------------------------------------------- */
+  --sh-1:0 1px 2px rgba(16,24,40,.06);
+  --sh-2:0 2px 6px rgba(16,24,40,.07), 0 1px 2px rgba(16,24,40,.05);
+  --sh-3:0 12px 32px rgba(16,24,40,.14), 0 2px 8px rgba(16,24,40,.08);
+  --sh-sticky:6px 0 8px -6px rgba(16,24,40,.10);
+  /* --- control heights -------------------------------------------- */
+  --h-primary:38px; --h-compact:34px; --h-chip:26px;
+  /* --- type ------------------------------------------------------- */
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --fs-page:19px; --fs-section:15px; --fs-body:13.5px; --fs-table:13px; --fs-sm:12px; --fs-xs:11px;
+  /* --- layout ----------------------------------------------------- */
+  --rail:236px; --gut:24px;
+  /* --- doc-only --------------------------------------------------- */
+  --doc-rail:212px; --doc-max:1352px;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:var(--fs-body);line-height:1.55;-webkit-font-smoothing:antialiased;
+  font-feature-settings:'cv05' 1,'ss01' 1}
+h1,h2,h3,h4,p,ul,ol,figure,dl{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:var(--green);text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+table{border-collapse:collapse;border-spacing:0}
+svg{flex:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.gl{width:14px;height:14px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.gl.sm{width:12px;height:12px}
+.gl.lg{width:17px;height:17px}
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid var(--green); outline-offset:2px; border-radius:var(--r-xs);
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}}
+
+/* ============================================================
+   PAGE FRAME
+   ============================================================ */
+.wrap{max-width:var(--doc-max);margin:0 auto;padding:0 28px 96px}
+.masthead{border-bottom:1px solid var(--line);background:var(--surface);margin-bottom:0}
+.masthead-in{max-width:var(--doc-max);margin:0 auto;padding:38px 28px 26px;position:relative}
+.masthead-in::before{content:"";position:absolute;left:28px;top:0;width:56px;height:3px;background:var(--gold-brand)}
+.eyebrow{font-size:var(--fs-xs);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+h1{font-size:30px;font-weight:600;letter-spacing:-.025em;line-height:1.15;margin-top:10px;text-wrap:balance}
+.lede{font-size:15px;color:var(--ink-2);max-width:64ch;margin-top:10px;line-height:1.6}
+.meta-strip{display:flex;flex-wrap:wrap;gap:0;margin-top:22px;border:1px solid var(--line);
+  border-radius:var(--r-sm);overflow:hidden;background:var(--surface-2)}
+.meta-cell{padding:9px 16px;border-right:1px solid var(--line);min-width:0}
+.meta-cell:last-child{border-right:0}
+.meta-cell .k{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.meta-cell .v{font-size:var(--fs-body);font-weight:600;margin-top:2px;display:flex;align-items:center;gap:6px}
+
+.cols{display:grid;grid-template-columns:var(--doc-rail) minmax(0,1fr);gap:40px;align-items:start;padding-top:32px}
+.index{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;padding-right:4px}
+.index-t{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);
+  padding:0 10px 8px}
+.index a{display:flex;gap:9px;padding:5px 10px;border-radius:var(--r-xs);color:var(--ink-2);
+  font-size:var(--fs-sm);line-height:1.4;transition:background .12s,color .12s}
+.index a:hover{background:var(--surface-3);color:var(--ink)}
+.index a.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:var(--sh-1);
+  border-left:2px solid var(--gold-brand);padding-left:8px}
+.index a .n{font-family:var(--mono);font-size:10px;color:var(--ink-2);padding-top:1px;flex:none;width:22px}
+.index a.on .n{color:var(--gold)}
+.index .sub{padding-left:31px;font-size:var(--fs-xs)}
+
+section{scroll-margin-top:22px}
+section + section{margin-top:56px}
+.sec-head{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:2px solid var(--ink);
+  margin-bottom:22px}
+.sec-num{font-family:var(--mono);font-size:var(--fs-sm);font-weight:600;color:var(--gold)}
+h2{font-size:21px;font-weight:600;letter-spacing:-.02em}
+.sec-note{font-size:var(--fs-sm);color:var(--ink-2);margin-left:auto;text-align:right;max-width:34ch;line-height:1.45}
+h3{font-size:var(--fs-section);font-weight:600;letter-spacing:-.01em;display:flex;align-items:baseline;gap:9px}
+h3 .h-num{font-family:var(--mono);font-size:var(--fs-sm);color:var(--ink-2);font-weight:500}
+h4{font-size:var(--fs-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.p{font-size:var(--fs-body);color:var(--ink-2);line-height:1.6;max-width:76ch}
+.p + .p{margin-top:8px}
+.p strong{color:var(--ink);font-weight:600}
+.block{margin-top:26px}
+.block > h3 + .p{margin-top:6px}
+.block > h3 + .demo,.block > .p + .demo,.block > h3 + .grid,.block > .p + .grid{margin-top:12px}
+
+/* card + demo canvas */
+.demo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-1);
+  overflow:hidden}
+.demo-h{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);
+  background:var(--surface-2)}
+.demo-h .t{font-size:var(--fs-sm);font-weight:600}
+.demo-h .s{font-size:var(--fs-xs);color:var(--ink-2);margin-left:auto;text-align:right}
+.demo-b{padding:16px}
+.demo-b.pad0{padding:0}
+.demo-b.canvas{background:var(--surface-2)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.row.tight{gap:7px}
+.note{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.5}
+.note strong{color:var(--ink-2);font-weight:600}
+.hr{height:1px;background:var(--line);margin:14px 0}
+
+/* generic spec table */
+table.spec{width:100%;font-size:var(--fs-table)}
+table.spec th{text-align:left;padding:0 12px;height:32px;background:var(--surface-3);
+  border-bottom:1px solid var(--line-strong);font-size:10px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+table.spec td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+table.spec tbody tr:last-child td{border-bottom:0}
+table.spec tbody tr:hover td{background:var(--surface-2)}
+table.spec td.k{white-space:nowrap;width:1%}
+table.spec .mono{font-size:var(--fs-sm)}
+
+/* ============================================================
+   §1 FOUNDATIONS — swatches and scales
+   ============================================================ */
+.swgroup + .swgroup{margin-top:14px}
+.swgroup-h{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.swgroup-h .t{font-size:var(--fs-body);font-weight:600}
+.swgroup-h .s{font-size:var(--fs-sm);color:var(--ink-2)}
+.balance{display:flex;gap:2px;margin-top:12px;border-radius:var(--r-sm);overflow:hidden;
+  border:1px solid var(--line)}
+.bseg{display:flex;align-items:center;gap:6px;padding:8px 10px;font-size:var(--fs-xs);font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bseg b{font-weight:700;font-variant-numeric:tabular-nums}
+.b-neutral{background:var(--surface-3);color:var(--ink-2)}
+.b-status{background:var(--green-bg);color:var(--green-deep)}
+.b-brand{background:var(--gold-bg);color:var(--gold);gap:4px;padding-left:4px;padding-right:4px;
+  justify-content:center}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:1px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.swx{background:var(--surface);padding:0;box-shadow:0 0 0 1px var(--line)}
+.swx .chipbox{height:52px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;padding:6px}
+.swx .chipbox .on-t{font-size:10px;font-weight:600;font-family:var(--mono)}
+.swx .meta{padding:8px 10px 10px}
+.swx .tok{font-family:var(--mono);font-size:var(--fs-xs);font-weight:500;color:var(--ink);word-break:break-all}
+.swx .hex{font-family:var(--mono);font-size:10px;color:var(--ink-2);margin-top:1px;text-transform:uppercase}
+.swx .use{font-size:var(--fs-xs);color:var(--ink-2);margin-top:5px;line-height:1.4}
+
+.typespec{display:grid;grid-template-columns:186px minmax(0,1fr);gap:0}
+.typespec > div{padding:11px 0;border-bottom:1px solid var(--line);min-width:0}
+.typespec > div:nth-last-child(-n+2){border-bottom:0}
+.typespec .tk{font-family:var(--mono);font-size:var(--fs-xs);color:var(--ink-2);padding-right:16px}
+.typespec .tk b{display:block;color:var(--ink);font-family:var(--sans);font-size:var(--fs-sm);font-weight:600;
+  margin-bottom:2px}
+.sp-row{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+.sp-row:last-child{border-bottom:0}
+.sp-bar{height:14px;background:var(--green-bg);border:1px solid var(--green-line);border-radius:2px;flex:none}
+.sp-k{font-family:var(--mono);font-size:var(--fs-sm);width:44px;flex:none;color:var(--ink)}
+.sp-u{font-size:var(--fs-sm);color:var(--ink-2)}
+.radii{display:flex;flex-wrap:wrap;gap:14px}
+.rad{text-align:center}
+.rad .box{width:66px;height:52px;background:var(--surface-3);border:1px solid var(--line-strong)}
+.rad .lab{font-family:var(--mono);font-size:10px;color:var(--ink-2);margin-top:6px}
+.rad .lab b{display:block;font-family:var(--sans);font-size:var(--fs-xs);color:var(--ink);font-weight:600}
+.elevs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}
+.elev{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.elev .n{font-family:var(--mono);font-size:var(--fs-sm);font-weight:600}
+.elev .u{font-size:var(--fs-xs);color:var(--ink-2);margin-top:3px;line-height:1.4}
+.heights{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.ht{text-align:center}
+.ht .bar{background:var(--surface-3);border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  display:grid;place-items:center;font-size:var(--fs-sm);color:var(--ink-2);padding:0 14px}
+.ht .lab{font-family:var(--mono);font-size:10px;color:var(--ink-2);margin-top:6px}
+.ht .lab b{display:block;font-family:var(--sans);font-size:var(--fs-xs);color:var(--ink);font-weight:600}
+</style>
+<style>
+/* ============================================================
+   §2 COMPONENTS — verbatim product CSS, plus .is-* classes that
+   pin a live state open so every state is visible at once.
+   ============================================================ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:var(--h-primary);
+  padding:0 14px;border-radius:var(--r-sm);border:1px solid var(--line-strong);background:var(--surface);
+  color:var(--ink);font-size:var(--fs-body);font-weight:500;white-space:nowrap;
+  transition:background .12s,border-color .12s,box-shadow .12s;box-shadow:var(--sh-1)}
+.btn svg{width:15px;height:15px;flex:none}
+.btn:hover,.btn.is-hover{background:var(--surface-2);border-color:var(--line-strong)}
+.btn:active,.btn.is-active{background:var(--surface-3)}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn.sm{height:var(--h-compact);padding:0 11px;font-size:var(--fs-sm)}
+.btn.xs{height:28px;padding:0 9px;font-size:var(--fs-xs);gap:5px}
+.btn.xs svg{width:13px;height:13px}
+.btn.icon{width:var(--h-compact);height:var(--h-compact);padding:0}
+.btn-primary{background:var(--green);border-color:var(--green-deep);color:var(--ink-inv)}
+.btn-primary:hover,.btn-primary.is-hover{background:var(--green-deep)}
+.btn-primary:active,.btn-primary.is-active{background:var(--green-deep)}
+.btn-danger{background:var(--surface);border-color:var(--red-line);color:var(--red)}
+.btn-danger:hover,.btn-danger.is-hover{background:var(--red-bg)}
+.btn-danger:active,.btn-danger.is-active{background:var(--red-bg);border-color:var(--red)}
+.btn-danger-solid{background:var(--red);border-color:var(--red-deep);color:var(--ink-inv)}
+.btn-danger-solid:hover,.btn-danger-solid.is-hover{background:var(--red-deep)}
+.btn-danger-solid:active,.btn-danger-solid.is-active{background:var(--red-deep)}
+.btn-ghost{border-color:transparent;background:transparent;box-shadow:none}
+.btn-ghost:hover,.btn-ghost.is-hover{background:var(--surface-3)}
+.btn-ghost:active,.btn-ghost.is-active{background:var(--surface-4)}
+.btn-link{color:var(--green);font-weight:600;text-decoration:underline;text-underline-offset:2px;
+  text-decoration-thickness:1px;cursor:pointer;background:none;border:0;padding:0;font-size:inherit;
+  box-shadow:none;height:auto}
+.btn-link:hover,.btn-link.is-hover{color:var(--green-deep)}
+.is-focus{outline:2px solid var(--green);outline-offset:2px;border-radius:var(--r-xs)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 1.1s linear infinite}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;height:var(--h-chip);padding:0 9px;
+  border-radius:var(--r-sm);font-size:var(--fs-xs);font-weight:600;letter-spacing:.01em;border:1px solid;
+  white-space:nowrap;vertical-align:middle}
+.chip .gl{width:12px;height:12px}
+.chip.tiny{height:20px;padding:0 6px;font-size:10px;gap:4px}
+.chip-matched{background:var(--green-bg);color:var(--green-deep);border-color:var(--green-line)}
+.chip-blocked{background:var(--red-bg);color:var(--red-deep);border-color:var(--red-line)}
+.chip-flag{background:var(--amber-bg);color:var(--amber-deep);border-color:var(--amber-line)}
+.chip-note{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
+.chip-pending{background:var(--surface-3);color:var(--slate);border-color:var(--line-strong)}
+.chip-skipped{background:var(--slate-bg);color:var(--slate);border-color:var(--slate-line)}
+.chip-neutral{background:var(--surface-3);color:var(--ink-2);border-color:var(--line-strong)}
+.chip-gold{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-line)}
+.chip-processing{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
+.chip-processing .gl{animation:spin 1.4s linear infinite}
+
+/* layer badges */
+.layer{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;padding:1px 5px;border-radius:var(--r-xs);border:1px solid}
+.layer-po{background:var(--surface-3);color:var(--ink-2);border-color:var(--line-strong)}
+.layer-ocr{background:var(--blue-bg-2);color:var(--blue);border-color:var(--blue-line)}
+.layer-norm{background:var(--green-bg-2);color:var(--green);border-color:var(--green-line)}
+
+/* tabs */
+.utabs{display:flex;gap:2px;align-items:flex-end;border-bottom:1px solid var(--line);padding:0 6px}
+.utab{position:relative;height:40px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);
+  display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;
+  transition:background .12s,color .12s}
+.utab:hover,.utab.is-hover{background:var(--surface-3);color:var(--ink)}
+.utab[aria-selected="true"]{color:var(--green-deep);font-weight:600}
+.utab[aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;
+  background:var(--green);border-radius:2px 2px 0 0}
+.utab .badge{min-width:18px;height:18px;padding:0 5px;border-radius:var(--r-pill);font-size:10px;
+  font-weight:700;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
+.badge.red{background:var(--red-bg);color:var(--red-deep);border:1px solid var(--red-line)}
+.badge.grey{background:var(--surface-3);color:var(--ink-2);border:1px solid var(--line-strong)}
+
+/* segmented filter */
+.segbar{display:inline-flex;padding:3px;background:var(--surface-3);border:1px solid var(--line);
+  border-radius:var(--r-sm);gap:2px}
+.seg{height:28px;padding:0 11px;border-radius:var(--r-xs);font-size:var(--fs-sm);font-weight:500;
+  color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s}
+.seg:hover,.seg.is-hover{color:var(--ink)}
+.seg[aria-selected="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:var(--sh-1)}
+.seg .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.seg[aria-selected="true"] .cnt{color:var(--ink-2)}
+.seg-dot{width:7px;height:7px;border-radius:50%;flex:none}
+.seg-dot.chip-matched{background:var(--green)} .seg-dot.chip-blocked{background:var(--red)}
+.seg-dot.chip-pending{background:var(--blue)} .seg-dot.chip-skipped{background:var(--slate)}
+
+/* inputs */
+.input,.select{height:var(--h-primary);padding:0 11px;border:1px solid var(--line-strong);
+  border-radius:var(--r-sm);background:var(--surface);font-size:var(--fs-body);width:100%;
+  transition:border-color .12s,box-shadow .12s;box-shadow:var(--sh-1);font-family:inherit;color:var(--ink)}
+.input::placeholder{color:var(--ink-3)}
+.input:hover,.select:hover,.input.is-hover,.select.is-hover{border-color:#B4BBC6}
+.input:focus,.select:focus,.input.is-focus,.select.is-focus{outline:none;border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(47,107,79,.17)}
+.input[readonly]{background:var(--surface-2);color:var(--ink-2)}
+.input.sm,.select.sm{height:var(--h-compact);font-size:var(--fs-sm)}
+.input.err,.select.err{border-color:var(--red);background:#FFFBFA;box-shadow:0 0 0 3px rgba(180,35,24,.11)}
+.input[disabled],.select[disabled]{opacity:.55;cursor:not-allowed}
+.select{appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23828A7D' stroke-width='1.6'%3E%3Cpath d='M4 6.5 8 10.5 12 6.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;background-size:14px}
+.searchwrap{position:relative;flex:1;min-width:190px}
+.searchwrap .gl{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.searchwrap .input{padding-left:31px}
+.inline-err{display:flex;align-items:center;gap:5px;font-size:var(--fs-sm);color:var(--red-deep);
+  font-weight:500;margin-top:5px}
+
+/* fields */
+.fgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.fgrid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.f{background:var(--surface);padding:10px 13px;min-width:0}
+.f .f-lab{font-size:var(--fs-xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ink-2);display:flex;align-items:center;gap:5px}
+.f .f-val{font-size:var(--fs-body);margin-top:3px;line-height:1.45;word-break:break-word}
+.f .f-val.strong{font-weight:600}
+.f .f-val.muted{color:var(--ink-2);font-weight:400}
+.f.is-missing{background:#FFFBFA;box-shadow:inset 3px 0 0 var(--red)}
+.f.is-low{background:var(--amber-bg)}
+.tip{width:13px;height:13px;border-radius:50%;border:1px solid var(--line-strong);color:var(--ink-3);
+  display:inline-grid;place-items:center;font-size:9px;font-weight:700;cursor:help;background:var(--surface)}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field > label{font-size:var(--fs-xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ink-2);display:flex;align-items:center;gap:6px}
+
+/* tables */
+.tscroll{overflow:auto;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface)}
+.tscroll::-webkit-scrollbar{width:11px;height:11px}
+.tscroll::-webkit-scrollbar-track{background:var(--surface-3)}
+.tscroll::-webkit-scrollbar-thumb{background:#C7CCD6;border:2px solid var(--surface-3);border-radius:6px}
+.tscroll::-webkit-scrollbar-thumb:hover{background:#AEB5C1}
+table.dt{font-size:var(--fs-table);min-width:100%}
+table.dt th{position:sticky;top:0;z-index:20;background:var(--surface-3);
+  border-bottom:1px solid var(--line-strong);padding:0 12px;height:36px;text-align:left;font-size:var(--fs-xs);
+  font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+table.dt td{padding:0 12px;height:42px;border-bottom:1px solid var(--line);vertical-align:middle;
+  white-space:nowrap;background:var(--surface)}
+table.dt tbody tr:last-child td{border-bottom:0}
+table.dt tbody tr:hover td{background:var(--surface-2)}
+table.dt tbody tr.is-blocked:hover td{background:#FFFAF9}
+table.dt th.num,table.dt td.num{text-align:right;font-variant-numeric:tabular-nums}
+table.dt th.sticky,table.dt td.sticky{position:sticky;z-index:15}
+table.dt th.sticky{z-index:25}
+table.dt .c1{left:0;min-width:172px}
+table.dt .c2{left:172px;min-width:158px}
+table.dt .c3{left:330px;min-width:112px;box-shadow:var(--sh-sticky)}
+table.dt tbody tr:hover td.sticky{background:var(--surface-2)}
+table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
+table.dt th[aria-sort="ascending"],table.dt th[aria-sort="descending"]{color:var(--ink)}
+table.dt th .sorter{display:inline-flex;align-items:center;gap:4px;height:36px}
+tr.is-current td{background:var(--gold-bg-2) !important}
+tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--gold-brand)}
+.polink{color:var(--green);font-weight:600;text-decoration:underline;text-underline-offset:2px;
+  text-decoration-thickness:1px;font-family:var(--mono);font-size:var(--fs-sm)}
+.polink:hover{color:var(--green-deep)}
+.polink:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.tfoot{display:flex;align-items:center;gap:12px;padding:8px 12px;border-top:1px solid var(--line);
+  background:var(--surface-2);font-size:var(--fs-sm);color:var(--ink-2);flex-wrap:wrap}
+.tfoot .grow{flex:1}
+.pgbtn{width:28px;height:28px;border:1px solid var(--line-strong);border-radius:var(--r-xs);
+  background:var(--surface);display:grid;place-items:center;color:var(--ink-2)}
+.pgbtn:hover{background:var(--surface-3);color:var(--ink)}
+.pgbtn[disabled]{opacity:.4;cursor:not-allowed}
+.pgcur{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.sk{display:block;height:11px;border-radius:3px;
+  background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-4) 37%,var(--surface-3) 63%);
+  background-size:400% 100%;animation:shim 1.3s ease-in-out infinite}
+.sk.h28{height:26px}
+@keyframes shim{0%{background-position:100% 50%}100%{background-position:0 50%}}
+.badge-current{display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 7px;
+  border-radius:var(--r-xs);background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-line);
+  font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+
+/* alerts */
+.alert{display:flex;gap:11px;padding:12px 14px;border-radius:var(--r);border:1px solid;font-size:var(--fs-body)}
+.alert .gl.lg{margin-top:1px}
+.alert-body{min-width:0;flex:1}
+.alert-title{font-weight:600;margin-bottom:2px}
+.alert-txt{opacity:.92;line-height:1.5}
+.alert .acts{display:flex;gap:7px;align-items:flex-start;flex:none;margin-left:auto}
+.alert-red{background:var(--red-bg);border-color:var(--red-line);color:var(--red-deep)}
+.alert-amber{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber-deep)}
+.alert-green{background:var(--green-bg);border-color:var(--green-line);color:var(--green-deep)}
+.alert-blue{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue)}
+.alert-neutral{background:var(--surface-2);border-color:var(--line);color:var(--ink-2)}
+
+/* empty states */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:34px 24px;gap:6px}
+.empty .glyphbox{width:44px;height:44px;border-radius:var(--r);background:var(--surface-3);
+  border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-3);margin-bottom:6px}
+.empty .glyphbox .gl{width:20px;height:20px}
+.empty h3{font-size:var(--fs-section);font-weight:600;display:block}
+.empty p{font-size:var(--fs-body);color:var(--ink-2);max-width:430px;line-height:1.5}
+.empty .acts{display:flex;gap:8px;margin-top:10px}
+.empties{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line)}
+.empties > .empty{background:var(--surface)}
+
+/* dialog + toast facsimiles */
+.dlg{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-lg);
+  box-shadow:var(--sh-3);max-width:452px;overflow:hidden}
+.dlg-h{display:flex;align-items:flex-start;gap:10px;padding:15px 16px 12px}
+.dlg-h .icobox{width:30px;height:30px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none}
+.dlg-h .icobox.warn{background:var(--amber-bg);color:var(--amber-deep);border:1px solid var(--amber-line)}
+.dlg-t{font-size:var(--fs-section);font-weight:600}
+.dlg-s{font-size:var(--fs-sm);color:var(--ink-2);margin-top:3px;line-height:1.5}
+.dlg-b{padding:0 16px 14px}
+.dlg-f{display:flex;gap:8px;justify-content:flex-end;padding:12px 16px;background:var(--surface-2);
+  border-top:1px solid var(--line)}
+.preview{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2);padding:10px 12px;
+  font-size:var(--fs-sm)}
+.preview .pr{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+.preview .pr .k{color:var(--ink-2)}
+.preview .pr .v{font-weight:600;font-variant-numeric:tabular-nums}
+.toast{display:flex;gap:10px;align-items:flex-start;background:var(--surface);
+  border:1px solid var(--line-strong);border-left:3px solid var(--ink-3);border-radius:var(--r);
+  box-shadow:var(--sh-2);padding:11px 13px;min-width:270px;max-width:360px}
+.toast.ok{border-left-color:var(--green)} .toast.warn{border-left-color:var(--amber)}
+.toast.bad{border-left-color:var(--red)}
+.toast.ok .gl{color:var(--green)} .toast.warn .gl{color:var(--amber-deep)} .toast.bad .gl{color:var(--red)}
+.toast .t-title{font-weight:600;font-size:var(--fs-body)}
+.toast .t-txt{font-size:var(--fs-sm);color:var(--ink-2);margin-top:1px;line-height:1.45}
+
+/* ============================================================
+   §3–§5 document furniture
+   ============================================================ */
+.screens{display:flex;flex-direction:column;gap:14px}
+.screen{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh-1);overflow:hidden}
+.screen-h{display:flex;align-items:center;gap:11px;padding:12px 15px;background:var(--surface-2);
+  border-bottom:1px solid var(--line)}
+.screen-h .no{width:24px;height:24px;border-radius:var(--r-xs);background:var(--ink);color:var(--ink-inv);
+  display:grid;place-items:center;font-family:var(--mono);font-size:var(--fs-xs);font-weight:600;flex:none}
+.screen-h .t{font-size:var(--fs-body);font-weight:600}
+.screen-h .r{margin-left:auto;font-size:var(--fs-xs);color:var(--ink-2);font-family:var(--mono)}
+.screen-b{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+.screen-b > div{padding:14px 15px}
+.screen-b > div:first-child{border-right:1px solid var(--line)}
+ol.order{counter-reset:o;display:flex;flex-direction:column;gap:6px;margin-top:8px}
+ol.order li{counter-increment:o;position:relative;padding-left:26px;font-size:var(--fs-sm);line-height:1.5;
+  color:var(--ink-2)}
+ol.order li::before{content:counter(o);position:absolute;left:0;top:1px;width:17px;height:17px;
+  border-radius:var(--r-xs);background:var(--surface-3);border:1px solid var(--line-strong);color:var(--ink-2);
+  font-family:var(--mono);font-size:9px;font-weight:600;display:grid;place-items:center}
+ol.order li b{color:var(--ink);font-weight:600}
+ul.why{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+ul.why li{position:relative;padding-left:15px;font-size:var(--fs-sm);color:var(--ink-2);line-height:1.5}
+ul.why li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;
+  background:var(--gold-brand)}
+ul.why li b{color:var(--ink);font-weight:600}
+.techlists{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+ul.techlist{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+ul.techlist li{display:flex;gap:10px;align-items:baseline;padding:7px 12px;border-bottom:1px solid var(--line);
+  background:var(--surface);font-size:var(--fs-sm)}
+ul.techlist li:last-child{border-bottom:0}
+ul.techlist li:nth-child(odd){background:var(--surface-2)}
+ul.techlist .n{font-family:var(--mono);font-size:10px;color:var(--ink-2);width:16px;flex:none}
+ul.techlist .lab{font-weight:500;color:var(--ink)}
+ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transform:uppercase;
+  letter-spacing:.05em;white-space:nowrap}
+.scope{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.scopecol{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.scopecol .h{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--line);
+  font-size:var(--fs-body);font-weight:600}
+.scopecol.in .h{background:var(--green-bg);color:var(--green-deep);border-bottom-color:var(--green-line)}
+.scopecol.out .h{background:var(--slate-bg);color:var(--slate);border-bottom-color:var(--slate-line)}
+.scopecol li{padding:8px 13px;border-bottom:1px solid var(--line);font-size:var(--fs-sm);line-height:1.5;
+  color:var(--ink-2)}
+.scopecol li:last-child{border-bottom:0}
+.scopecol li b{color:var(--ink);font-weight:600;display:block}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.rule{background:var(--surface);padding:13px 15px}
+.rule .rh{display:flex;align-items:center;gap:8px;font-size:var(--fs-body);font-weight:600}
+.rule .rh .gl{color:var(--green)}
+.rule p{font-size:var(--fs-sm);color:var(--ink-2);margin-top:5px;line-height:1.5}
+.rule code{font-family:var(--mono);font-size:11px;background:var(--surface-3);border:1px solid var(--line);
+  border-radius:3px;padding:0 4px;color:var(--ink)}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line-strong);display:flex;gap:14px;
+  flex-wrap:wrap;align-items:center;font-size:var(--fs-sm);color:var(--ink-2)}
+@media (max-width:900px){
+  .cols{grid-template-columns:minmax(0,1fr);gap:0}
+  .index{position:static;max-height:none;margin-bottom:24px;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px}
+  .screen-b{grid-template-columns:minmax(0,1fr)}
+  .screen-b > div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+  .sec-note{margin-left:0;text-align:left;max-width:none;flex-basis:100%}
+}
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 16 16"><path d="M13.5 4.5 6.5 12 2.5 8"/></symbol>
+  <symbol id="i-block" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M4 4l8 8"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 16 16"><path d="M8 2 14.5 13.5h-13z"/><path d="M8 6.5v3.2M8 11.8v.4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 7.3v4M8 4.9v.3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4.6V8l2.4 1.6"/></symbol>
+  <symbol id="i-skip" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M5.2 8h5.6"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 16 16"><path d="M4 14V2.6h8.4l-2 3 2 3H4"/></symbol>
+  <symbol id="i-spin" viewBox="0 0 16 16"><path d="M8 2.2a5.8 5.8 0 1 1-5.05 2.94"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 16 16"><path d="M13.6 6.8A5.8 5.8 0 1 0 13 10.8"/><path d="M13.9 3.2v3.6h-3.6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 16 16"><path d="M8 2.6v8.2M4.6 7.6 8 11l3.4-3.4M2.8 13.4h10.4"/></symbol>
+  <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13.4V5.2M4.6 8.4 8 5l3.4 3.4M2.8 2.6h10.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 16 16"><circle cx="7.2" cy="7.2" r="4.4"/><path d="m10.6 10.6 3 3"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 16 16"><rect x="2.4" y="3.4" width="11.2" height="10.2" rx="1.4"/><path d="M2.4 6.6h11.2M5.6 2.2v2.2M10.4 2.2v2.2"/></symbol>
+  <symbol id="i-cols" viewBox="0 0 16 16"><rect x="2.4" y="2.8" width="11.2" height="10.4" rx="1.4"/><path d="M6.2 2.8v10.4M9.8 2.8v10.4"/></symbol>
+  <symbol id="i-right" viewBox="0 0 16 16"><path d="m6 3.5 4.6 4.5L6 12.5"/></symbol>
+  <symbol id="i-left" viewBox="0 0 16 16"><path d="M10 3.5 5.4 8l4.6 4.5"/></symbol>
+  <symbol id="i-caret" viewBox="0 0 16 16"><path d="m3.8 6 4.2 4.4L12.2 6"/></symbol>
+  <symbol id="i-file" viewBox="0 0 16 16"><path d="M9.2 1.9H4.6a1.4 1.4 0 0 0-1.4 1.4v9.4a1.4 1.4 0 0 0 1.4 1.4h6.8a1.4 1.4 0 0 0 1.4-1.4V5.5z"/><path d="M9.2 1.9v3.6h3.6"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 16 16"><path d="M8 11.4V3.2M4.6 6.4 8 3l3.4 3.4M2.8 13.4h10.4"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9.6 2.6h3.8v3.8M13.4 2.6 7.8 8.2"/><path d="M12.2 9.4v3a1.4 1.4 0 0 1-1.4 1.4H3.6a1.4 1.4 0 0 1-1.4-1.4V5.2a1.4 1.4 0 0 1 1.4-1.4h3"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 16 16"><path d="M11.8 7.4 7.3 11.9a2.7 2.7 0 0 1-3.8-3.8l5-5a1.8 1.8 0 0 1 2.6 2.6l-5 5a.9.9 0 0 1-1.3-1.3l4.4-4.4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 16 16"><rect x="3.2" y="7" width="9.6" height="6.6" rx="1.4"/><path d="M5.6 7V5.2a2.4 2.4 0 0 1 4.8 0V7"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 16 16"><path d="M8 2.4v11.2M3.4 5.4h9.2M3.4 5.4 1.6 9.6h3.6zM12.6 5.4l-1.8 4.2h3.6zM5.6 13.6h4.8"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 16 16"><path d="M1.6 8S3.9 3.6 8 3.6 14.4 8 14.4 8 12.1 12.4 8 12.4 1.6 8 1.6 8z"/><circle cx="8" cy="8" r="1.9"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 16 16"><path d="M2.2 9.4h3l1 1.8h3.6l1-1.8h3"/><path d="M4.2 2.6h7.6l2 6.8v2.6a1.4 1.4 0 0 1-1.4 1.4H3.6a1.4 1.4 0 0 1-1.4-1.4V9.4z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3.2v9.6M3.2 8h9.6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 16 16"><path d="m4 4 8 8M12 4l-8 8"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 16 16"><path d="M8.8 1.6 3.4 9.2h4l-1 5.2 5.4-7.6h-4z"/></symbol>
+</svg>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <div class="eyebrow">Accounts payable · Three-way match · UAT phase one</div>
+    <h1>Payables Match Console Design System</h1>
+    <p class="lede">The presentation layer for PO → GRN → Invoice matching and exception resolution.
+      One neutral finance product across CureFoods, Cake Zone, Olio Pizza, Millet Express and Nomad Pizza.
+      Matching logic, routes, permissions and backend behaviour are unchanged — only how the result is read
+      and acted on.</p>
+    <div class="meta-strip">
+      <div class="meta-cell"><div class="k">Surface</div><div class="v">Desktop, 1440px</div></div>
+      <div class="meta-cell"><div class="k">Theme</div><div class="v">Single light theme</div></div>
+      <div class="meta-cell"><div class="k">Typefaces</div><div class="v">Inter · IBM Plex Mono</div></div>
+      <div class="meta-cell"><div class="k">Grid</div><div class="v">8px, 24px gutter, 236px rail</div></div>
+      <div class="meta-cell"><div class="k">Primary user</div><div class="v">Accountant, Excel-first</div></div>
+      <div class="meta-cell"><div class="k">Prototype</div>
+        <div class="v"><a href="https://claude.ai/code/artifact/6a126107-f551-44e4-b133-3d0e67214b1c" target="_blank" rel="noopener">Open the clickable build <svg class="gl sm"><use href="#i-ext"/></svg></a></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="cols">
+  <nav class="index" aria-label="Contents">
+    <div class="index-t">Contents</div>
+    <ul id="toc">
+      <li><a href="#foundations"><span class="n">1</span><span>Foundations</span></a></li>
+      <li><a class="sub" href="#colour">Colour</a></li>
+      <li><a class="sub" href="#type">Typography</a></li>
+      <li><a class="sub" href="#space">Spacing &amp; layout</a></li>
+      <li><a class="sub" href="#shape">Radii, borders, elevation</a></li>
+      <li><a class="sub" href="#format">Value formatting</a></li>
+      <li><a href="#components"><span class="n">2</span><span>Components</span></a></li>
+      <li><a class="sub" href="#buttons">Buttons</a></li>
+      <li><a class="sub" href="#tabs">Tabs</a></li>
+      <li><a class="sub" href="#chips">Status chips &amp; layer badges</a></li>
+      <li><a class="sub" href="#filters">Filters &amp; inputs</a></li>
+      <li><a class="sub" href="#fields">Fields</a></li>
+      <li><a class="sub" href="#tables">Tables</a></li>
+      <li><a class="sub" href="#alerts">Alerts</a></li>
+      <li><a class="sub" href="#emptys">Empty states</a></li>
+      <li><a class="sub" href="#dialogs">Dialogs &amp; toasts</a></li>
+      <li><a href="#hierarchy"><span class="n">3</span><span>Screen hierarchy</span></a></li>
+      <li><a href="#technical"><span class="n">4</span><span>Technical details</span></a></li>
+      <li><a href="#scope"><span class="n">5</span><span>Phase one scope</span></a></li>
+      <li><a href="#rules"><span class="n">6</span><span>Standing rules</span></a></li>
+    </ul>
+  </nav>
+
+  <main>
+<!-- ============================================================
+     §1 FOUNDATIONS
+     ============================================================ -->
+<section id="foundations">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2>Foundations</h2>
+    <span class="sec-note">Every value below is a CSS custom property on <span class="mono">:root</span>.
+      Nothing in the interface hard-codes a colour or a size.</span>
+  </div>
+
+  <div class="block" id="colour">
+    <h3><span class="h-num">1.1</span> Colour</h3>
+    <p class="p">White and paper-grey carry roughly four-fifths of every screen; the rest is meaning.
+      <strong>Green</strong> marks what is matched, approved or normalised, and carries the selected tab and
+      every primary action. <strong>Red</strong> marks what is blocked, what failed to process, a financial
+      mismatch and every destructive action. <strong>Amber</strong> marks a difference worth reviewing that
+      does not necessarily block. <strong>Grey</strong> carries pending, skipped and secondary information.
+      <strong>Blue</strong> carries informational rule outcomes, extracted invoice values and work in progress.
+      CureFoods <strong>gold</strong> is a brand accent only — the logo, the active rail item and the current
+      row — and is deliberately never used for a warning, so amber stays unmistakable.
+      Colour never carries meaning on its own: every state also has an icon and a word.</p>
+    <div class="balance" aria-hidden="true">
+      <span class="bseg b-neutral" style="flex:80"><b>80%</b> neutral surfaces and ink</span>
+      <span class="bseg b-status" style="flex:15"><b>15%</b> status</span>
+      <span class="bseg b-brand" style="flex:5"><b>5%</b> brand</span>
+    </div>
+    <p class="note" style="margin-top:7px">The intended visual balance: eighty per cent neutral, fifteen per
+      cent functional status colour, five per cent CureFoods branding. A screen that reads as green, gold or
+      amber overall has broken it.</p>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Palette</span>
+        <span class="s">Each family has a text tone, a fill and a border tone so a state can be a chip, a row tint and a rule at once</span></div>
+      <div class="demo-b" id="swatches"></div>
+    </div>
+
+    <div class="demo" style="margin-top:14px">
+      <div class="demo-h"><span class="t">Semantic assignment</span><span class="s">One meaning per family. No family is reused for a second meaning.</span></div>
+      <div class="demo-b pad0">
+        <table class="spec">
+          <thead><tr><th>Meaning</th><th>Family</th><th>Where it appears</th><th>Non-colour signal</th></tr></thead>
+          <tbody>
+            <tr><td class="k"><span class="chip chip-matched"><svg class="gl"><use href="#i-check"/></svg>Matched</span></td>
+              <td class="k mono">--green</td>
+              <td>Match status, normalised line items, primary actions, the selected tab, passed rules, Oracle-eligible banner</td>
+              <td>Tick glyph + the word “Matched”</td></tr>
+            <tr><td class="k"><span class="chip chip-blocked"><svg class="gl"><use href="#i-block"/></svg>Blocked</span></td>
+              <td class="k mono">--red</td>
+              <td>Blocking rule violations, a financial mismatch on a line, missing required Oracle fields, failed processing, destructive actions</td>
+              <td>Blocked glyph + the word “Blocked”, and a left rule on the row</td></tr>
+            <tr><td class="k"><span class="chip chip-flag"><svg class="gl"><use href="#i-warn"/></svg>Flag</span></td>
+              <td class="k mono">--amber-deep</td>
+              <td>Reviewable difference inside tolerance, low OCR confidence, non-commercial variance</td>
+              <td>Warning triangle + the word “Flag”</td></tr>
+            <tr><td class="k"><span class="chip chip-note"><svg class="gl"><use href="#i-info"/></svg>Note</span> <span class="chip chip-processing"><svg class="gl"><use href="#i-spin"/></svg>Running</span></td>
+              <td class="k mono">--blue</td>
+              <td>Informational rule outcomes, the “Extracted from invoice” layer badge, and a match currently running</td>
+              <td>Info or spinning glyph + the word</td></tr>
+            <tr><td class="k"><span class="chip chip-pending"><svg class="gl"><use href="#i-clock"/></svg>Pending</span> <span class="chip chip-skipped"><svg class="gl"><use href="#i-skip"/></svg>Skipped</span></td>
+              <td class="k mono">--slate</td>
+              <td>Pairs not yet run, pairs and rules deliberately excluded from this run, disabled controls</td>
+              <td>Clock or minus glyph + the word. Two grey fills keep the two apart.</td></tr>
+            <tr><td class="k"><span class="badge-current"><svg class="gl sm"><use href="#i-right"/></svg>Current GRN</span></td>
+              <td class="k mono">--gold-brand</td>
+              <td>The logo, the active navigation item, the current GRN row and badge. Nothing else — never a warning.</td>
+              <td>An explicit “Current GRN” badge and a 3px left rule — never the tint alone</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note" style="margin-top:10px"><strong>Contrast.</strong> Body ink on white is 14.7:1 and secondary
+      ink is 5.0:1. Every chip text tone clears 4.5:1 on its own fill —
+      <span class="mono">--green-deep</span> 7.7:1, <span class="mono">--red-deep</span> 7.6:1,
+      <span class="mono">--amber-deep</span> 5.5:1, <span class="mono">--blue</span> 5.4:1,
+      <span class="mono">--slate</span> 5.1:1, <span class="mono">--gold</span> 4.8:1.
+      Three tones are graphical only and never carry readable text:
+      <span class="mono">--gold-brand</span> and <span class="mono">--amber</span> are icons, 2px rules and 3px
+      row markers, and <span class="mono">--ink-3</span> is the disabled grey — placeholders, dimmed glyphs
+      and controls a person cannot use.</p>
+  </div>
+
+  <div class="block" id="type">
+    <h3><span class="h-num">1.2</span> Typography</h3>
+    <p class="p">Inter for everything readable, IBM Plex Mono wherever digits must line up or an identifier must be
+      copied exactly. Amounts, quantities and dates use <span class="mono">tabular-nums</span> so columns of figures
+      scan vertically the way they do in a spreadsheet.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Type scale</span><span class="s">Six sizes. A screen that needs a seventh is over-built.</span></div>
+      <div class="demo-b"><div class="typespec" id="typespec"></div></div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Weights and numerals</span></div>
+      <div class="demo-b">
+        <div class="row" style="gap:26px;align-items:baseline">
+          <span style="font-weight:400">400 Regular — body copy</span>
+          <span style="font-weight:500">500 Medium — controls, table cells</span>
+          <span style="font-weight:600">600 Semibold — titles, values, chips</span>
+          <span style="font-weight:700">700 Bold — counters only</span>
+        </div>
+        <div class="hr"></div>
+        <div class="row" style="gap:26px;align-items:baseline">
+          <span class="mono" style="font-size:15px">₹ 1,86,240.00</span>
+          <span class="mono" style="font-size:15px">PO-CHSPR-CFI26-06847</span>
+          <span class="mono" style="font-size:15px">17 Jul 2026, 1:02 PM</span>
+          <span class="note">Mono, tabular figures, −0.01em tracking</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="space">
+    <h3><span class="h-num">1.3</span> Spacing and layout</h3>
+    <p class="p">An 8px system with a 4px half-step for dense table interiors. Layout uses flex and grid with
+      <span class="mono">gap</span>, never stacked margins.</p>
+    <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;margin-top:12px">
+      <div class="demo"><div class="demo-h"><span class="t">Spacing steps</span></div>
+        <div class="demo-b" id="spacing"></div></div>
+      <div class="demo"><div class="demo-h"><span class="t">Layout constants</span></div>
+        <div class="demo-b pad0"><table class="spec"><tbody>
+          <tr><td class="k mono">--rail</td><td class="k mono">236px</td><td>Left navigation rail, sticky full height</td></tr>
+          <tr><td class="k mono">--gut</td><td class="k mono">24px</td><td>Page gutter and the inset of the case header and tabs</td></tr>
+          <tr><td class="k">Two-column case</td><td class="k mono">1fr / 340px</td><td>PO and GRN screens: detail left, totals rail right</td></tr>
+          <tr><td class="k">Split invoice</td><td class="k mono">42% / 58%</td><td>Document viewer against extracted details; the divider is draggable</td></tr>
+          <tr><td class="k">Rule resolution</td><td class="k mono">1fr / 360px</td><td>Rule list left, resolution actions right, sticky under the case header</td></tr>
+          <tr><td class="k">Table viewport</td><td class="k mono">100vh − 330px</td><td>Dashboard table scrolls inside its own container, page never scrolls sideways</td></tr>
+        </tbody></table></div></div>
+    </div>
+  </div>
+
+  <div class="block" id="shape">
+    <h3><span class="h-num">1.4</span> Radii, borders and elevation</h3>
+    <p class="p">Thin borders do the separating; shadows only lift things that genuinely float. A dense table is
+      readable because of its rules, not because every row is a card.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Corner radii</span></div>
+      <div class="demo-b">
+        <div class="radii">
+          <div class="rad"><div class="box" style="border-radius:var(--r-xs)"></div><div class="lab"><b>--r-xs</b>4px · badges, focus ring</div></div>
+          <div class="rad"><div class="box" style="border-radius:var(--r-sm)"></div><div class="lab"><b>--r-sm</b>6px · buttons, inputs, chips</div></div>
+          <div class="rad"><div class="box" style="border-radius:var(--r)"></div><div class="lab"><b>--r</b>8px · cards, alerts, panels</div></div>
+          <div class="rad"><div class="box" style="border-radius:var(--r-lg)"></div><div class="lab"><b>--r-lg</b>10px · dialogs</div></div>
+          <div class="rad"><div class="box" style="border-radius:var(--r-pill)"></div><div class="lab"><b>--r-pill</b>999px · counters</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Borders</span></div>
+      <div class="demo-b pad0"><table class="spec"><tbody>
+        <tr><td class="k mono">--line</td><td class="k"><span style="display:inline-block;width:90px;height:0;border-top:1px solid var(--line)"></span></td>
+          <td class="k mono">#E4E7EC</td><td>Default 1px divider: card edges, table rows, field grid gaps</td></tr>
+        <tr><td class="k mono">--line-strong</td><td class="k"><span style="display:inline-block;width:90px;height:0;border-top:1px solid var(--line-strong)"></span></td>
+          <td class="k mono">#D0D5DD</td><td>Control outlines and the rule under a sticky table header</td></tr>
+        <tr><td class="k">Left marker</td><td class="k"><span style="display:inline-block;width:90px;height:14px;box-shadow:inset 3px 0 0 var(--red)"></span></td>
+          <td class="k mono">3px inset</td><td>Blocking field or current row — a second, non-colour signal always accompanies it</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Elevation</span><span class="s">Four levels, and no more</span></div>
+      <div class="demo-b canvas">
+        <div class="elevs">
+          <div class="elev" style="box-shadow:var(--sh-1)"><div class="n">--sh-1</div><div class="u">Resting: cards, buttons, inputs. Barely there.</div></div>
+          <div class="elev" style="box-shadow:var(--sh-2)"><div class="n">--sh-2</div><div class="u">Attached: dropdowns, the date-preset menu, toasts.</div></div>
+          <div class="elev" style="box-shadow:var(--sh-3)"><div class="n">--sh-3</div><div class="u">Detached: confirmation dialogs and full-screen document view.</div></div>
+          <div class="elev" style="box-shadow:var(--sh-sticky)"><div class="n">--sh-sticky</div><div class="u">Edge of a frozen column, so scrolled content reads as passing underneath.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Control heights</span><span class="s">Primary controls stay comfortable; in-table controls stay compact</span></div>
+      <div class="demo-b">
+        <div class="heights">
+          <div class="ht"><div class="bar" style="height:var(--h-primary)">Approve and push</div><div class="lab"><b>--h-primary</b>38px</div></div>
+          <div class="ht"><div class="bar" style="height:var(--h-compact)">Export</div><div class="lab"><b>--h-compact</b>34px</div></div>
+          <div class="ht"><div class="bar" style="height:28px;font-size:var(--fs-xs)">Filter</div><div class="lab"><b>xs / seg</b>28px</div></div>
+          <div class="ht"><div class="bar" style="height:var(--h-chip);font-size:var(--fs-xs)">Blocked</div><div class="lab"><b>--h-chip</b>26px</div></div>
+          <div class="ht"><div class="bar" style="height:20px;font-size:10px">In table</div><div class="lab"><b>chip tiny</b>20px</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="format">
+    <h3><span class="h-num">1.5</span> Value formatting</h3>
+    <p class="p">Accountants compare figures across rows and across screens. One format for each kind of value,
+      everywhere, with no exceptions for “technical” contexts.</p>
+    <div class="demo">
+      <div class="demo-b pad0"><table class="spec">
+        <thead><tr><th>Value type</th><th>Rendered as</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Currency</td><td class="k mono">₹ 1,86,240.00</td>
+            <td>Rupee symbol, Indian digit grouping, two decimals. Summary cards may compact to
+              <span class="mono">₹ 4.62 Cr</span> / <span class="mono">₹ 38.4 L</span> with the exact figure on hover.</td></tr>
+          <tr><td class="k">Quantity</td><td class="k mono">420 nos · 840.000 kg</td>
+            <td>Unit always adjacent, never a separate column the eye must join back up.</td></tr>
+          <tr><td class="k">Difference</td><td class="k mono">₹ 60 higher · 3 kg excess</td>
+            <td>Stated as a direction in words, not a bare signed number. This is the strongest text on a violation.</td></tr>
+          <tr><td class="k">Date and time</td><td class="k mono">17 Jul 2026, 1:02 PM</td>
+            <td>One format across the whole product. No ISO strings, no epochs, no relative-only timestamps
+              except the “Last run 9h ago” line, which is paired with the absolute time on hover.</td></tr>
+          <tr><td class="k">Boolean</td><td class="k">Available · Not available · Yes · No</td>
+            <td>Never <span class="mono">true</span> / <span class="mono">false</span> / <span class="mono">null</span>.</td></tr>
+          <tr><td class="k">Empty</td><td class="k"><span style="color:var(--ink-2)">Not available</span></td>
+            <td>Muted, spelled out, never an em dash alone and never a blank cell.</td></tr>
+          <tr><td class="k">Confidence</td><td class="k mono">78%</td>
+            <td>A percentage, shown only when it falls below the trusted level. Never a 100% chip beside every field.</td></tr>
+          <tr><td class="k">Identifier</td><td class="k mono">PO-CHSPR-CFI26-06847</td>
+            <td>Mono, selectable, never truncated without a tooltip carrying the full value.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+<style>
+.statewrap{overflow-x:auto}
+.states{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-sm);
+  grid-template-columns:124px repeat(6,minmax(132px,1fr));min-width:916px}
+.states.c5{grid-template-columns:124px repeat(5,minmax(140px,1fr));min-width:824px}
+.states > div{background:var(--surface);padding:10px 8px;display:flex;align-items:center;min-width:0}
+.states > .hd{background:var(--surface-3);font-size:10px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2);padding:7px 8px;display:block}
+.states > .rh{background:var(--surface-2);font-size:var(--fs-sm);font-weight:600;color:var(--ink);display:block}
+.states > .rh span{display:block;font-weight:400;font-size:10px;color:var(--ink-2);margin-top:1px;
+  letter-spacing:0;text-transform:none}
+.states .btn-link{white-space:normal;text-align:left}
+</style>
+
+<!-- ============================================================
+     §2 COMPONENTS
+     ============================================================ -->
+<section id="components">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <h2>Components</h2>
+    <span class="sec-note">Live, not screenshots. Hover and tab through them — the pinned states below use the
+      same declarations the real controls use.</span>
+  </div>
+
+  <div class="block" id="buttons">
+    <h3><span class="h-num">2.1</span> Buttons</h3>
+    <p class="p">One primary action per view. Everything that sends data, triggers processing or cannot be undone
+      is a confirmation away — the button opens a dialog, it does not act on click.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Variants and states</span><span class="s">38px primary height</span></div>
+      <div class="demo-b pad0">
+        <div class="statewrap"><div class="states">          <div class="hd"></div><div class="hd">Default</div><div class="hd">Hover</div><div class="hd">Focus</div>
+          <div class="hd">Pressed</div><div class="hd">Disabled</div><div class="hd">Working</div>
+
+          <div class="rh">Primary<span>Run all, approve, push</span></div>
+          <div><button class="btn btn-primary"><svg class="gl"><use href="#i-bolt"/></svg>Run all</button></div>
+          <div><button class="btn btn-primary is-hover"><svg class="gl"><use href="#i-bolt"/></svg>Run all</button></div>
+          <div><button class="btn btn-primary is-focus"><svg class="gl"><use href="#i-bolt"/></svg>Run all</button></div>
+          <div><button class="btn btn-primary is-active"><svg class="gl"><use href="#i-bolt"/></svg>Run all</button></div>
+          <div><button class="btn btn-primary" disabled><svg class="gl"><use href="#i-bolt"/></svg>Run all</button></div>
+          <div><button class="btn btn-primary" aria-busy="true"><svg class="gl spin"><use href="#i-spin"/></svg>Running…</button></div>
+
+          <div class="rh">Secondary<span>Export, open, re-run</span></div>
+          <div><button class="btn"><svg class="gl"><use href="#i-down"/></svg>Export</button></div>
+          <div><button class="btn is-hover"><svg class="gl"><use href="#i-down"/></svg>Export</button></div>
+          <div><button class="btn is-focus"><svg class="gl"><use href="#i-down"/></svg>Export</button></div>
+          <div><button class="btn is-active"><svg class="gl"><use href="#i-down"/></svg>Export</button></div>
+          <div><button class="btn" disabled><svg class="gl"><use href="#i-down"/></svg>Export</button></div>
+          <div><button class="btn" aria-busy="true"><svg class="gl spin"><use href="#i-spin"/></svg>Exporting…</button></div>
+
+          <div class="rh">Danger<span>Reject, discard</span></div>
+          <div><button class="btn btn-danger"><svg class="gl"><use href="#i-x"/></svg>Reject</button></div>
+          <div><button class="btn btn-danger is-hover"><svg class="gl"><use href="#i-x"/></svg>Reject</button></div>
+          <div><button class="btn btn-danger is-focus"><svg class="gl"><use href="#i-x"/></svg>Reject</button></div>
+          <div><button class="btn btn-danger is-active"><svg class="gl"><use href="#i-x"/></svg>Reject</button></div>
+          <div><button class="btn btn-danger" disabled><svg class="gl"><use href="#i-x"/></svg>Reject</button></div>
+          <div><span class="note">Confirmed<br>in a dialog</span></div>
+
+          <div class="rh">Danger solid<span>Confirmed step only</span></div>
+          <div><button class="btn btn-danger-solid">Reject</button></div>
+          <div><button class="btn btn-danger-solid is-hover">Reject</button></div>
+          <div><button class="btn btn-danger-solid is-focus">Reject</button></div>
+          <div><button class="btn btn-danger-solid is-active">Reject</button></div>
+          <div><button class="btn btn-danger-solid" disabled>Reject</button></div>
+          <div><span class="note">Inside the<br>dialog only</span></div>
+
+          <div class="rh">Ghost<span>Toolbars, close</span></div>
+          <div><button class="btn btn-ghost sm"><svg class="gl"><use href="#i-cols"/></svg>Columns</button></div>
+          <div><button class="btn btn-ghost sm is-hover"><svg class="gl"><use href="#i-cols"/></svg>Columns</button></div>
+          <div><button class="btn btn-ghost sm is-focus"><svg class="gl"><use href="#i-cols"/></svg>Columns</button></div>
+          <div><button class="btn btn-ghost sm is-active"><svg class="gl"><use href="#i-cols"/></svg>Columns</button></div>
+          <div><button class="btn btn-ghost sm" disabled><svg class="gl"><use href="#i-cols"/></svg>Columns</button></div>
+          <div><span class="note">—</span></div>
+
+          <div class="rh">Link<span>In-copy navigation</span></div>
+          <div><button class="btn-link">View the blocking rule</button></div>
+          <div><button class="btn-link is-hover">View the blocking rule</button></div>
+          <div><button class="btn-link is-focus">View the blocking rule</button></div>
+          <div><span class="note">—</span></div>
+          <div><button class="btn-link" disabled style="opacity:.5">View the blocking rule</button></div>
+          <div><span class="note">—</span></div>
+        </div>
+        </div>
+      </div>
+      <div class="demo-b" style="border-top:1px solid var(--line)">
+        <h4>Sizes</h4>
+        <div class="row" style="margin-top:9px">
+          <button class="btn btn-primary">38px — primary</button>
+          <button class="btn sm">34px — compact, table and toolbar</button>
+          <button class="btn xs">28px — inside a row</button>
+          <button class="btn icon" aria-label="Download"><svg class="gl"><use href="#i-down"/></svg></button>
+          <span class="note">Icon-only buttons always carry an <span class="mono">aria-label</span> and a tooltip.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="tabs">
+    <h3><span class="h-num">2.2</span> Tabs</h3>
+    <p class="p">Two mechanisms, used for different things. <strong>Case tabs</strong> switch the data layer you are
+      looking at for one invoice pair; the selected tab is marked with a green rule, green label and semibold weight.
+      <strong>Segmented filters</strong> narrow a list in place and always show a count.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Case tabs</span><span class="s">40px, green 2px underline on the selected tab</span></div>
+      <div class="demo-b pad0">
+        <div class="utabs" role="tablist" aria-label="Match result sections">
+          <button class="utab" role="tab" aria-selected="false">Purchase order</button>
+          <button class="utab is-hover" role="tab" aria-selected="false">Goods received</button>
+          <button class="utab" role="tab" aria-selected="true">Invoice</button>
+          <button class="utab" role="tab" aria-selected="false">Line items <span class="badge grey">18</span></button>
+          <button class="utab" role="tab" aria-selected="false">Rule violations <span class="badge red">2</span></button>
+          <button class="utab is-focus" role="tab" aria-selected="false">Oracle push</button>
+        </div>
+        <div style="padding:10px 14px"><span class="note">Left to right: rest, hover, selected, with a neutral
+          count, with a blocking count, keyboard focus. Arrow keys move between tabs; the panel is
+          <span class="mono">aria-labelledby</span> its tab.</span></div>
+      </div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Segmented filters</span><span class="s">28px, dot + label + count</span></div>
+      <div class="demo-b stack">
+        <div>
+          <h4>Dashboard status</h4>
+          <div class="row" style="margin-top:8px">
+            <div class="segbar" role="tablist" aria-label="Filter by match status">
+              <button class="seg" role="tab" aria-selected="true">All <span class="cnt">1,284</span></button>
+              <button class="seg" role="tab" aria-selected="false"><span class="seg-dot chip-pending"></span>Pending <span class="cnt">312</span></button>
+              <button class="seg is-hover" role="tab" aria-selected="false"><span class="seg-dot chip-matched"></span>Matched <span class="cnt">742</span></button>
+              <button class="seg" role="tab" aria-selected="false"><span class="seg-dot chip-blocked"></span>Blocked <span class="cnt">186</span></button>
+              <button class="seg" role="tab" aria-selected="false"><span class="seg-dot chip-skipped"></span>Skipped <span class="cnt">44</span></button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4>Line items</h4>
+          <div class="row" style="margin-top:8px">
+            <div class="segbar" role="tablist" aria-label="Filter line items">
+              <button class="seg" role="tab" aria-selected="false">All <span class="cnt">18</span></button>
+              <button class="seg" role="tab" aria-selected="true">Unmatched <span class="cnt">3</span></button>
+              <button class="seg" role="tab" aria-selected="false">Matched <span class="cnt">14</span></button>
+              <button class="seg" role="tab" aria-selected="false">Non-commercial <span class="cnt">1</span></button>
+            </div>
+            <div class="segbar" role="tablist" aria-label="Filter rules">
+              <button class="seg" role="tab" aria-selected="true">Blocked <span class="cnt">2</span></button>
+              <button class="seg" role="tab" aria-selected="false">Flag <span class="cnt">4</span></button>
+              <button class="seg" role="tab" aria-selected="false">Note <span class="cnt">1</span></button>
+              <button class="seg" role="tab" aria-selected="false">Passed <span class="cnt">11</span></button>
+            </div>
+          </div>
+        </div>
+        <p class="note">A zero-count segment stays visible and disabled rather than disappearing, so the set of
+          possible outcomes is always legible. Rule filters default to <strong>Blocked</strong> when the invoice
+          is blocked, and to <strong>All</strong> otherwise.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="chips">
+    <h3><span class="h-num">2.3</span> Status chips and layer badges</h3>
+    <p class="p">A chip is colour, glyph and word together. Removing the colour must leave the meaning intact.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Status chips</span><span class="s">26px standard · 20px inside a table row</span></div>
+      <div class="demo-b stack">
+        <div class="row">
+          <span class="chip chip-matched"><svg class="gl"><use href="#i-check"/></svg>Matched</span>
+          <span class="chip chip-blocked"><svg class="gl"><use href="#i-block"/></svg>Blocked</span>
+          <span class="chip chip-flag"><svg class="gl"><use href="#i-warn"/></svg>Flag</span>
+          <span class="chip chip-note"><svg class="gl"><use href="#i-info"/></svg>Note</span>
+          <span class="chip chip-pending"><svg class="gl"><use href="#i-clock"/></svg>Pending</span>
+          <span class="chip chip-skipped"><svg class="gl"><use href="#i-skip"/></svg>Skipped</span>
+          <span class="chip chip-processing"><svg class="gl"><use href="#i-spin"/></svg>Running</span>
+          <span class="chip chip-neutral">Not run</span>
+          <span class="chip chip-gold"><svg class="gl"><use href="#i-bolt"/></svg>Re-assembled</span>
+        </div>
+        <div class="row tight">
+          <span class="chip tiny chip-matched"><svg class="gl"><use href="#i-check"/></svg>Matched</span>
+          <span class="chip tiny chip-blocked"><svg class="gl"><use href="#i-block"/></svg>Blocked</span>
+          <span class="chip tiny chip-flag"><svg class="gl"><use href="#i-warn"/></svg>Flag</span>
+          <span class="chip tiny chip-pending"><svg class="gl"><use href="#i-clock"/></svg>Pending</span>
+          <span class="chip tiny chip-skipped"><svg class="gl"><use href="#i-skip"/></svg>Skipped</span>
+          <span class="note">Tiny variant, used only in the sticky match-status column.</span>
+        </div>
+      </div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Data-layer badges</span>
+        <span class="s">The PDF’s separation of raw, extracted and normalised values, made visible</span></div>
+      <div class="demo-b pad0">
+        <table class="spec">
+          <thead><tr><th>Badge</th><th>Layer</th><th>Meaning shown to the accountant</th></tr></thead>
+          <tbody>
+            <tr><td class="k"><span class="layer layer-po">Recorded in the PO</span></td><td class="k">Raw PO</td>
+              <td>What the buyer ordered. Also rendered as <span class="layer layer-po">Recorded in GRN</span> on the goods-received side.</td></tr>
+            <tr><td class="k"><span class="layer layer-ocr">Extracted from invoice</span></td><td class="k">Parsed OCR</td>
+              <td>What the vendor’s document says, as read by extraction. Never presented as fact without this badge.</td></tr>
+            <tr><td class="k"><span class="layer layer-norm">Normalized for comparison</span></td><td class="k">Matcher input</td>
+              <td>The converted value the rule actually ran on, always accompanied by the conversion in words —
+                <span class="mono">420 nos × 2 kg = 840 kg</span>.</td></tr>
+            <tr><td class="k"><span class="chip tiny chip-blocked"><svg class="gl"><use href="#i-block"/></svg>Blocked</span></td><td class="k">Rule engine</td>
+              <td>The final interpretation: expected, actual, difference, threshold, severity. Not a raw rule payload.</td></tr>
+            <tr><td class="k"><span class="badge-current"><svg class="gl sm"><use href="#i-right"/></svg>Current GRN</span></td><td class="k">Navigation</td>
+              <td>Which of several deliveries against this PO the open case belongs to.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="filters">
+    <h3><span class="h-num">2.4</span> Filters and inputs</h3>
+    <p class="p">The dashboard puts every filter in one compact row above the table: status, search, entity,
+      supplier, date, export, columns. Nothing is hidden behind a “more filters” drawer, because an accountant
+      changes two or three of these on every pass.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">The control row</span><span class="s">34px compact height throughout</span></div>
+      <div class="demo-b canvas">
+        <div class="row" style="gap:8px">
+          <div class="searchwrap" style="max-width:250px">
+            <svg class="gl"><use href="#i-search"/></svg>
+            <input class="input sm" style="padding-left:31px" placeholder="Search PO, GRN, invoice or supplier" aria-label="Search invoice pairs">
+          </div>
+          <select class="select sm" style="width:auto;min-width:150px" aria-label="Entity">
+            <option>All entities</option><option>CureFoods</option><option>Cake Zone</option>
+            <option>Olio Pizza</option><option>Millet Express</option><option>Nomad Pizza</option>
+          </select>
+          <select class="select sm" style="width:auto;min-width:150px" aria-label="Supplier">
+            <option>All suppliers</option><option>Chaishai Provisions</option>
+          </select>
+          <button class="btn sm"><svg class="gl"><use href="#i-cal"/></svg>This month</button>
+          <button class="btn sm"><svg class="gl"><use href="#i-down"/></svg>Export</button>
+          <button class="btn sm"><svg class="gl"><use href="#i-cols"/></svg>Columns <span class="chip tiny chip-neutral">12 of 18</span></button>
+        </div>
+        <p class="note" style="margin-top:10px">Date presets: <strong>Last 7 days · This month · Previous month ·
+          Financial year · Custom range</strong>. The chosen preset becomes the button label so the active window
+          is readable without opening the menu.</p>
+      </div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Input states</span></div>
+      <div class="demo-b pad0">
+        <div class="statewrap"><div class="states c5">
+          <div class="hd"></div><div class="hd">Default</div><div class="hd">Hover</div><div class="hd">Focus</div>
+          <div class="hd">Error</div><div class="hd">Read-only / disabled</div>
+          <div class="rh">Text<span>Search, amounts</span></div>
+          <div><input class="input sm" placeholder="Invoice number"></div>
+          <div><input class="input sm is-hover" placeholder="Invoice number"></div>
+          <div><input class="input sm is-focus" value="INV-2026-0714"></div>
+          <div><input class="input sm err" value="17/07/26"></div>
+          <div><input class="input sm" value="Auto-filled from GRN" readonly></div>
+          <div class="rh">Select<span>Entity, supplier</span></div>
+          <div><select class="select sm"><option>All entities</option></select></div>
+          <div><select class="select sm is-hover"><option>All entities</option></select></div>
+          <div><select class="select sm is-focus"><option>Cake Zone</option></select></div>
+          <div><select class="select sm err"><option>Select a business unit</option></select></div>
+          <div><select class="select sm" disabled><option>Locked by the rule engine</option></select></div>
+        </div></div>
+      </div>
+      <div class="demo-b" style="border-top:1px solid var(--line)">
+        <div class="row" style="align-items:flex-start;gap:24px">
+          <div class="field" style="max-width:260px">
+            <label for="d-date">Invoice date<span class="tip" title="The date printed on the vendor document, not the date it was uploaded.">?</span></label>
+            <input class="input sm err" id="d-date" value="17/07/26" aria-describedby="d-date-e" aria-invalid="true">
+            <span class="inline-err" id="d-date-e"><svg class="gl sm"><use href="#i-warn"/></svg>Use the format 17 Jul 2026.</span>
+          </div>
+          <p class="note" style="max-width:44ch">Every control has a visible label. Errors sit under the field,
+            name the expected format, and are wired with <span class="mono">aria-describedby</span> — the red
+            border is never the only signal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="fields">
+    <h3><span class="h-num">2.5</span> Fields</h3>
+    <p class="p">The atom of every detail screen: an uppercase label, the value beneath it, and a tooltip when the
+      term is not something an accountant would say out loud. Business-facing fields come first; identifiers and
+      timestamps live under <strong>Technical details</strong>.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Field states</span></div>
+      <div class="demo-b pad0">
+        <div class="fgrid">
+          <div class="f"><div class="f-lab">PO number</div>
+            <div class="f-val strong mono">PO-CHSPR-CFI26-06847</div></div>
+          <div class="f"><div class="f-lab">Total amount</div>
+            <div class="f-val strong mono">₹ 1,86,240.00</div></div>
+          <div class="f"><div class="f-lab">PO status</div>
+            <div class="f-val"><span class="chip tiny chip-matched"><svg class="gl"><use href="#i-check"/></svg>Fully received</span></div></div>
+          <div class="f"><div class="f-lab">Delivery location</div>
+            <div class="f-val">Chhatarpur Kitchen, New Delhi</div></div>
+          <div class="f"><div class="f-lab">Invoice available</div>
+            <div class="f-val">Yes</div></div>
+          <div class="f"><div class="f-lab">Vendor GSTIN</div>
+            <div class="f-val muted">Not available</div></div>
+          <div class="f is-low"><div class="f-lab">Invoice number
+              <span class="tip" title="Extraction confidence is below the trusted level of 85%. Check this value against the document.">?</span></div>
+            <div class="f-val strong mono">INV-2026-0714</div>
+            <div style="margin-top:5px"><span class="layer layer-ocr">Extracted from invoice</span>
+              <span class="chip tiny chip-flag"><svg class="gl"><use href="#i-warn"/></svg>78% confidence</span></div></div>
+          <div class="f is-missing"><div class="f-lab">Business unit</div>
+            <div class="f-val muted">Not available</div>
+            <span class="inline-err"><svg class="gl sm"><use href="#i-warn"/></svg>Required before Oracle push.</span></div>
+          <div class="f"><div class="f-lab">Received quantity
+              <span class="tip" title="Converted so the invoice and the GRN can be compared in the same unit.">?</span></div>
+            <div class="f-val strong mono">840.000 kg</div>
+            <div style="margin-top:5px"><span class="layer layer-norm">Normalized for comparison</span></div>
+            <div class="note" style="margin-top:4px">420 nos × 2 kg = 840 kg</div></div>
+        </div>
+      </div>
+      <div class="demo-b" style="border-top:1px solid var(--line)">
+        <p class="note">Reading left to right: plain value · currency · value carrying a status · long text ·
+          boolean as a word · empty · low-confidence extraction · missing and required · normalised with the
+          conversion spelled out. A missing required field carries a 3px left rule, a red border on its input and
+          an inline message — three signals, only one of which is colour.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="tables">
+    <h3><span class="h-num">2.6</span> Tables</h3>
+    <p class="p">The dashboard table is the product’s spine. It scrolls horizontally inside its own container while
+      <strong>PO number, GRN number and match status stay frozen</strong>, the header stays pinned, and pagination
+      lives in the same container as the rows rather than floating below the page.</p>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Invoice pairs</span>
+        <span class="s">Scroll this table sideways — the first three columns hold</span></div>
+      <div class="demo-b pad0">
+        <div class="tscroll" style="max-height:290px;border:0;border-radius:0">
+          <table class="dt">
+            <thead><tr>
+              <th class="sticky c1" aria-sort="ascending"><span class="sorter">PO number <svg class="gl sm"><use href="#i-up"/></svg></span></th>
+              <th class="sticky c2">GRN number</th>
+              <th class="sticky c3">Match status</th>
+              <th>Entity</th><th>Supplier</th><th>Invoice number</th><th>Invoice date</th>
+              <th class="num">GRN value</th><th class="num">Invoice value</th><th class="num">Difference</th>
+              <th>Rules</th><th>Last run</th>
+            </tr></thead>
+            <tbody>
+              <tr><td class="sticky c1"><a class="polink" href="#tables">PO-CHSPR-CFI26-06847</a></td>
+                <td class="sticky c2 mono">GRN-CFI26-CHSPR-0006</td>
+                <td class="sticky c3"><span class="chip tiny chip-blocked"><svg class="gl"><use href="#i-block"/></svg>Blocked</span></td>
+                <td>CureFoods</td><td>Chaishai Provisions</td><td class="mono">INV-2026-0714</td>
+                <td>17 Jul 2026</td><td class="num mono">₹ 1,86,240.00</td><td class="num mono">₹ 1,92,480.00</td>
+                <td class="num mono" style="color:var(--red-deep);font-weight:600">₹ 6,240 higher</td>
+                <td><span class="chip tiny chip-blocked">2 blocking</span></td><td>17 Jul 2026, 1:02 PM</td></tr>
+              <tr class="is-blocked"><td class="sticky c1"><a class="polink" href="#tables">PO-CZBLR-CZI26-01144</a></td>
+                <td class="sticky c2 mono">GRN-CZI26-CZBLR-0031</td>
+                <td class="sticky c3"><span class="chip tiny chip-blocked"><svg class="gl"><use href="#i-block"/></svg>Blocked</span></td>
+                <td>Cake Zone</td><td>Sunrise Dairy</td><td class="mono">SD/26/2211</td>
+                <td>16 Jul 2026</td><td class="num mono">₹ 74,900.00</td><td class="num mono">₹ 74,900.00</td>
+                <td class="num mono" style="color:var(--red-deep);font-weight:600">12 kg short</td>
+                <td><span class="chip tiny chip-blocked">1 blocking</span></td><td>16 Jul 2026, 6:41 PM</td></tr>
+              <tr><td class="sticky c1"><a class="polink" href="#tables">PO-OPMUM-OPI26-00932</a></td>
+                <td class="sticky c2 mono">GRN-OPI26-OPMUM-0018</td>
+                <td class="sticky c3"><span class="chip tiny chip-matched"><svg class="gl"><use href="#i-check"/></svg>Matched</span></td>
+                <td>Olio Pizza</td><td>Fresh Basket Agro</td><td class="mono">FBA-4471</td>
+                <td>16 Jul 2026</td><td class="num mono">₹ 52,310.00</td><td class="num mono">₹ 52,310.00</td>
+                <td class="num mono" style="color:var(--ink-2)">No difference</td>
+                <td><span class="chip tiny chip-flag"><svg class="gl"><use href="#i-warn"/></svg>1 flag</span></td><td>16 Jul 2026, 5:12 PM</td></tr>
+              <tr><td class="sticky c1"><a class="polink" href="#tables">PO-MEHYD-MEI26-00457</a></td>
+                <td class="sticky c2 mono">GRN-MEI26-MEHYD-0009</td>
+                <td class="sticky c3"><span class="chip tiny chip-pending"><svg class="gl"><use href="#i-clock"/></svg>Pending</span></td>
+                <td>Millet Express</td><td>Grainhouse Mills</td><td style="color:var(--ink-2)">Not available</td>
+                <td style="color:var(--ink-2)">Not available</td><td class="num mono">₹ 38,600.00</td>
+                <td class="num" style="color:var(--ink-2)">Not available</td><td class="num" style="color:var(--ink-2)">Not run</td>
+                <td><span class="chip tiny chip-neutral">Not run</span></td><td style="color:var(--ink-2)">Not run</td></tr>
+              <tr><td class="sticky c1"><a class="polink" href="#tables">PO-NPGGN-NPI26-00218</a></td>
+                <td class="sticky c2 mono">GRN-NPI26-NPGGN-0004</td>
+                <td class="sticky c3"><span class="chip tiny chip-skipped"><svg class="gl"><use href="#i-skip"/></svg>Skipped</span></td>
+                <td>Nomad Pizza</td><td>Deccan Cold Chain</td><td class="mono">DCC-88120</td>
+                <td>15 Jul 2026</td><td class="num mono">₹ 21,450.00</td><td class="num mono">₹ 21,450.00</td>
+                <td class="num" style="color:var(--ink-2)">Not compared</td>
+                <td><span class="chip tiny chip-skipped">Excluded</span></td><td>15 Jul 2026, 9:20 AM</td></tr>
+              <tr aria-busy="true"><td class="sticky c1"><span class="sk" style="width:82%"></span></td>
+                <td class="sticky c2"><span class="sk" style="width:78%"></span></td>
+                <td class="sticky c3"><span class="sk" style="width:56%"></span></td>
+                <td><span class="sk" style="width:70%"></span></td><td><span class="sk" style="width:84%"></span></td>
+                <td><span class="sk" style="width:66%"></span></td><td><span class="sk" style="width:60%"></span></td>
+                <td><span class="sk" style="width:74%"></span></td><td><span class="sk" style="width:74%"></span></td>
+                <td><span class="sk" style="width:52%"></span></td><td><span class="sk" style="width:48%"></span></td>
+                <td><span class="sk" style="width:64%"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tfoot">
+          <label style="display:flex;align-items:center;gap:6px">Rows
+            <select class="select sm" style="width:auto"><option>25</option><option>50</option><option>100</option></select>
+          </label>
+          <span class="grow"></span>
+          <span>Showing <span class="pgcur">1–25</span> of <span class="pgcur">1,284</span> results</span>
+          <button class="pgbtn" aria-label="Previous page" disabled><svg class="gl sm"><use href="#i-left"/></svg></button>
+          <label style="display:flex;align-items:center;gap:6px">Page
+            <input class="input sm" style="width:56px;text-align:center" value="1" aria-label="Go to page">
+            <span>of 52</span>
+          </label>
+          <button class="pgbtn" aria-label="Next page"><svg class="gl sm"><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Row and cell conventions</span></div>
+      <div class="demo-b pad0"><table class="spec"><tbody>
+        <tr><td class="k">Frozen columns</td><td>PO number, GRN number, match status — <span class="mono">left: 0 / 172 / 330</span> with an edge shadow on the third.</td></tr>
+        <tr><td class="k">Header</td><td>Sticky, 36px, uppercase 11px. Sortable headers carry <span class="mono">aria-sort</span> and a direction glyph.</td></tr>
+        <tr><td class="k">Numbers</td><td>Right-aligned, mono, tabular. A difference reads as words — <span class="mono">₹ 6,240 higher</span>, <span class="mono">12 kg short</span>.</td></tr>
+        <tr><td class="k">Row height</td><td>42px. Dense enough for an accountant, not so dense it becomes a raw database viewer.</td></tr>
+        <tr><td class="k">Hover</td><td>Whole row tints, frozen cells included, so the eye does not lose the row mid-scroll. Blocked rows tint warmer.</td></tr>
+        <tr><td class="k">Current row</td><td><span class="badge-current"><svg class="gl sm"><use href="#i-right"/></svg>Current GRN</span> badge plus a 3px gold left rule — the tint alone never carries it.</td></tr>
+        <tr><td class="k">Loading</td><td>Skeleton rows keep the column widths, and the summary cards above skeleton at the same time. The interface never mixes real numbers with placeholder rows.</td></tr>
+        <tr><td class="k">Links</td><td>PO numbers are real links: underlined, pointer cursor, hover tone, and a visible focus ring.</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+
+  <div class="block" id="alerts">
+    <h3><span class="h-num">2.7</span> Alerts and banners</h3>
+    <p class="p">Alerts state the situation and offer the next step in the same breath. The Oracle Push banner is the
+      strongest instance: it names what is wrong, counts it, and the count is a link that scrolls to the first
+      offending field.</p>
+    <div class="demo">
+      <div class="demo-b stack canvas">
+        <div class="alert alert-red">
+          <svg class="gl lg"><use href="#i-block"/></svg>
+          <div class="alert-body">
+            <div class="alert-title">Oracle push is unavailable while this invoice is blocked</div>
+            <div class="alert-txt">Two blocking rules must be resolved first.
+              <button class="btn-link" style="color:var(--red-deep)">View the blocking rules</button></div>
+          </div>
+          <div class="acts"><button class="btn sm">Go to rule violations</button></div>
+        </div>
+        <div class="alert alert-amber">
+          <svg class="gl lg"><use href="#i-warn"/></svg>
+          <div class="alert-body">
+            <div class="alert-title">Ready to push, with 2 required fields still missing</div>
+            <div class="alert-txt">Supplier site and business unit are empty.
+              <button class="btn-link" style="color:var(--amber-deep)">Jump to the first missing field</button></div>
+          </div>
+          <div class="acts"><button class="btn sm"><svg class="gl"><use href="#i-refresh"/></svg>Re-assemble</button></div>
+        </div>
+        <div class="alert alert-green">
+          <svg class="gl lg"><use href="#i-check"/></svg>
+          <div class="alert-body">
+            <div class="alert-title">Pushed to Oracle on 17 Jul 2026, 3:48 PM</div>
+            <div class="alert-txt">Oracle reference <span class="mono">AP-INV-2026-338217</span>. This invoice is now read-only.</div>
+          </div>
+        </div>
+        <div class="alert alert-blue">
+          <svg class="gl lg"><use href="#i-info"/></svg>
+          <div class="alert-body">
+            <div class="alert-title">Quantities on this screen come from the goods received note</div>
+            <div class="alert-txt">The purchase order records what was ordered; the GRN records what actually arrived and is what the rules compare against.</div>
+          </div>
+        </div>
+        <div class="alert alert-neutral">
+          <svg class="gl lg"><use href="#i-clock"/></svg>
+          <div class="alert-body">
+            <div class="alert-title">Re-running the match</div>
+            <div class="alert-txt">Attempt 6 started 12 seconds ago. Results refresh automatically.</div>
+          </div>
+          <div class="acts"><span class="chip chip-processing"><svg class="gl"><use href="#i-spin"/></svg>Running</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="emptys">
+    <h3><span class="h-num">2.8</span> Empty states</h3>
+    <p class="p">Four different emptinesses, and the interface never confuses them: nothing exists yet, nothing
+      matched your filters, something is unavailable for a reason, or something failed. Each one says which,
+      and each one offers the way out.</p>
+    <div class="demo">
+      <div class="demo-b pad0">
+        <div class="empties">
+          <div class="empty">
+            <div class="glyphbox"><svg class="gl"><use href="#i-inbox"/></svg></div>
+            <h3>No invoice pairs yet</h3>
+            <p>Once purchase orders and goods received notes are ingested, matched pairs appear here.</p>
+            <div class="acts"><button class="btn sm btn-primary"><svg class="gl"><use href="#i-bolt"/></svg>Run all</button></div>
+          </div>
+          <div class="empty">
+            <div class="glyphbox"><svg class="gl"><use href="#i-search"/></svg></div>
+            <h3>No results for “chaishai 0714”</h3>
+            <p>No invoice pair matches this search within <strong>This month</strong> and <strong>Blocked</strong>.</p>
+            <div class="acts"><button class="btn sm">Clear search</button><button class="btn sm">Reset all filters</button></div>
+          </div>
+          <div class="empty">
+            <div class="glyphbox" style="background:var(--red-bg);border-color:var(--red-line);color:var(--red)"><svg class="gl"><use href="#i-lock"/></svg></div>
+            <h3>Oracle push unavailable</h3>
+            <p>This invoice is blocked by <strong>Line total variance exceeds tolerance</strong>. Resolve it and re-run the match to make the invoice eligible.</p>
+            <div class="acts"><button class="btn sm">View the blocking rule</button></div>
+          </div>
+          <div class="empty">
+            <div class="glyphbox"><svg class="gl"><use href="#i-clip"/></svg></div>
+            <h3>No attachment on this GRN</h3>
+            <p>No vendor document was uploaded against this goods received note, so extraction has nothing to read.</p>
+            <div class="acts"><button class="btn sm"><svg class="gl"><use href="#i-upload"/></svg>Upload invoice and re-run</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:10px"><strong>Failure is its own state.</strong> A failed export keeps the
+      table in place and shows a red toast with a retry, rather than emptying the screen — the accountant’s
+      filters and scroll position survive the failure.</p>
+  </div>
+
+  <div class="block" id="dialogs">
+    <h3><span class="h-num">2.9</span> Dialogs and toasts</h3>
+    <p class="p">Anything that sends data, triggers processing, rejects or re-runs is confirmed first, and the
+      dialog previews exactly what will happen — recipient, amount, lines. Nothing is “sent to the vendor”:
+      a debit note goes to the internal warehouse or kitchen contact first, and the dialog says so by name.</p>
+    <div class="demo">
+      <div class="demo-b canvas">
+        <div class="row" style="align-items:flex-start;gap:20px">
+          <div class="dlg">
+            <div class="dlg-h">
+              <div class="icobox warn"><svg class="gl lg"><use href="#i-warn"/></svg></div>
+              <div>
+                <div class="dlg-t">Create a debit note for review</div>
+                <div class="dlg-s">This creates a draft debit note and notifies the internal contact for
+                  Chhatarpur Kitchen. It is not sent to the vendor.</div>
+              </div>
+            </div>
+            <div class="dlg-b">
+              <div class="preview">
+                <div class="pr"><span class="k">Against invoice</span><span class="v mono">INV-2026-0714</span></div>
+                <div class="pr"><span class="k">Reason</span><span class="v">Line total variance, 2 items</span></div>
+                <div class="pr"><span class="k">Debit amount</span><span class="v mono">₹ 6,240.00</span></div>
+                <div class="pr"><span class="k">Goes to</span><span class="v">Kitchen manager, Chhatarpur</span></div>
+              </div>
+              <p class="note" style="margin-top:9px">Prototype only — no document is created and no message is sent.</p>
+            </div>
+            <div class="dlg-f">
+              <button class="btn sm">Cancel</button>
+              <button class="btn sm btn-primary">Create draft</button>
+            </div>
+          </div>
+          <div class="stack" style="flex:1;min-width:250px">
+            <div class="toast ok"><svg class="gl lg"><use href="#i-check"/></svg>
+              <div><div class="t-title">Debit note drafted</div>
+                <div class="t-txt">₹ 6,240.00 against INV-2026-0714, sent to the kitchen manager for review.</div></div></div>
+            <div class="toast warn"><svg class="gl lg"><use href="#i-warn"/></svg>
+              <div><div class="t-title">Match re-run started</div>
+                <div class="t-txt">Attempt 6. The result will refresh on this screen.</div></div></div>
+            <div class="toast bad"><svg class="gl lg"><use href="#i-block"/></svg>
+              <div><div class="t-title">Export failed</div>
+                <div class="t-txt">The Excel file could not be generated. Your filters are unchanged.</div>
+                <div class="row tight" style="margin-top:7px"><button class="btn xs">Try again</button></div></div></div>
+            <p class="note">Toasts are 4.5 seconds, live in an <span class="mono">aria-live="polite"</span> region,
+              and never carry the only copy of an important message — the same outcome is always visible on the
+              screen itself.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo" style="margin-top:12px">
+      <div class="demo-h"><span class="t">Actions that require confirmation</span></div>
+      <div class="demo-b pad0"><table class="spec">
+        <thead><tr><th>Action</th><th>Where</th><th>What the dialog shows before it proceeds</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Re-run match</td><td class="k">Case header</td><td>Attempt number, that current results will be replaced, and that resolution notes are kept.</td></tr>
+          <tr><td class="k">Re-extract invoice</td><td class="k">Invoice tab</td><td>That extracted values will be overwritten and any manual corrections lost.</td></tr>
+          <tr><td class="k">Upload invoice and re-run</td><td class="k">Rule violations</td><td>File name and size, which GRN it attaches to, and that a re-run follows.</td></tr>
+          <tr><td class="k">Create debit note</td><td class="k">Rule violations</td><td>Amount, reason, affected lines, and the named internal recipient.</td></tr>
+          <tr><td class="k">Request GRN correction</td><td class="k">Rule violations</td><td>The field being questioned, the current and expected values, and who receives the request.</td></tr>
+          <tr><td class="k">Approve and push</td><td class="k">Oracle push</td><td>Supplier, business unit, total, line count, and any field still below trusted confidence.</td></tr>
+          <tr><td class="k">Reject</td><td class="k">Oracle push</td><td>A required reason, and what rejecting does to the pair’s status.</td></tr>
+          <tr><td class="k">Run all</td><td class="k">Dashboard</td><td>How many pending pairs will be processed. <span class="chip tiny chip-gold">Removed after UAT</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     §3 SCREEN HIERARCHY
+     ============================================================ -->
+<section id="hierarchy">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2>Information hierarchy, screen by screen</h2>
+    <span class="sec-note">Left: the order the screen is read in, top to bottom. Right: what that order is
+      protecting.</span>
+  </div>
+
+  <div class="screens">
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">1</span><span class="t">Dashboard — invoice pairs</span>
+        <span class="r">/</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>Page title and Run all.</b> Run all is a temporary UAT control and is labelled as such.</li>
+            <li><b>Five summary cards</b> — Total pairs, Pending, Matched, Blocked, Skipped. Each shows an invoice
+              count, a share of the total and a rupee volume, so “186 blocked” is immediately also “₹ 1.4 Cr held up”.</li>
+            <li><b>One compact control row</b> — status segments, search, entity, supplier, date preset, Export, Columns.</li>
+            <li><b>The table</b>, with its own scroll, frozen PO / GRN / status columns, pinned header, and
+              pagination inside the same container.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>The accountant’s first question is <b>how much is stuck</b>, not which row is first. Volume sits
+              above the table for that reason.</li>
+            <li>Filters are one row, never a drawer: narrowing by entity and status is the normal way in, not an
+              advanced feature.</li>
+            <li>Frozen identity columns mean a horizontal scan for a difference never loses which invoice you are
+              looking at.</li>
+            <li>Pagination inside the table container keeps the page itself from scrolling, so the control row
+              stays reachable.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">—</span><span class="t">Shared shell — Match Result</span>
+        <span class="r">/case/&lt;id&gt;/&lt;tab&gt;</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>Case summary, not a generic header</b> — “Match Result”, then
+              <span class="mono">PO-CHSPR-CFI26-06847 / GRN-CFI26-CHSPR-0006</span>, then the status chip with
+              <span class="mono">Last run 9h ago · Attempt 5</span>.</li>
+            <li><b>Three facts</b> pinned to the right of the header: GRN value, invoice value, difference.</li>
+            <li><b>Re-run Match</b> as a secondary action, behind a confirmation.</li>
+            <li><b>Six tabs</b> — Purchase order, Goods received, Invoice, Line items, Rule violations, Oracle push.
+              Counts appear on Line items and Rule violations.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>The header answers “which case, what state, how stale” before any tab is opened.</li>
+            <li>The difference is visible from every tab, so the accountant never has to go back to the dashboard to
+              recall the number they are chasing.</li>
+            <li>Re-run is deliberately not primary — the primary act on a blocked case is understanding it, not
+              re-running it.</li>
+            <li>Tabs map exactly to the pipeline’s data layers, so the mental model matches the system.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">2</span><span class="t">Purchase order</span><span class="r">/po</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>PO overview</b> — PO number and status, seller, order date, delivery location, then subtotal,
+              tax and total.</li>
+            <li><b>Ordered items</b> — SKU and item, ordered and confirmed quantity, UOM, unit price, discount, tax, total.</li>
+            <li><b>Deliveries against this PO</b> — a plain table of every GRN, with an explicit
+              <span class="badge-current"><svg class="gl sm"><use href="#i-right"/></svg>Current GRN</span> badge.</li>
+            <li><b>PO line matrix</b>, collapsed by default, below the simpler overview.</li>
+            <li><b>Technical details</b>, collapsed — 14 fields.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>The PO answers “what did we agree to buy”. Commercial terms lead; provenance and plumbing follow.</li>
+            <li>A PO with several deliveries is the common blocked case, so the delivery list is a first-class
+              section rather than a footnote — and the current one is named, not merely tinted.</li>
+            <li>The matrix is powerful but wide; collapsing it keeps the default view readable while leaving it one
+              click away.</li>
+            <li>A right-hand <b>PO totals</b> rail keeps subtotal, tax and total in view while the line table scrolls.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">3</span><span class="t">Goods received note</span><span class="r">/grn</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>GRN overview</b> — GRN and PO numbers, GRN status and date, delivery location, received amount,
+              invoice availability, seller and GSTIN.</li>
+            <li><b>Received items</b> — SKU and item, delivered / received / returned quantity, UOM, GRN and PO
+              price, variance, tax, total.</li>
+            <li><b>Attachments (n)</b> — one section, readable file labels, empty slots hidden entirely.</li>
+            <li><b>Technical details</b>, collapsed — 14 fields.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>The GRN answers “what actually arrived, and do we have paper for it”. Invoice availability is a
+              headline field because it decides whether matching can even run.</li>
+            <li>Price variance is computed and shown in the line table — <b>GRN price less PO price, times received
+              quantity</b> — so the accountant does not do the arithmetic.</li>
+            <li>Five numbered attachment slots became one counted section; a storage filename is never shown where a
+              readable label exists.</li>
+            <li>A right-hand rail carries <b>GRN totals</b> and <b>Against the purchase order</b>, with a note that
+              quantities on this screen are the ones the rules compare.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">4</span><span class="t">Invoice</span><span class="r">/invoice</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>Split screen</b> — document at 42%, extracted details at 58%, divider draggable and remembered.</li>
+            <li><b>Document toolbar</b> — zoom, fit to width, rotate, full screen, open in a new tab, download.</li>
+            <li><b>Extracted details</b> in five groups: Invoice summary, Vendor, Tax, Buyer, Extraction quality.</li>
+            <li><b>Re-extract Invoice</b> as a secondary action, behind a confirmation.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>Verifying an extracted value means looking at the document and the field <b>at the same time</b>;
+              the split is the whole point of the screen and is never collapsed by default.</li>
+            <li>Confidence is a percentage, and only <b>low-confidence fields are highlighted</b>. A trusted field
+              is simply a field.</li>
+            <li>Extraction quality — overall confidence, flag reasons, page count — is one card, so “why does this
+              look wrong” has a single place to look.</li>
+            <li>Empty values are muted and spelled out, so a gap in extraction never reads as a zero.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">5</span><span class="t">Line items — the review screen</span><span class="r">/lines</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>Legend and filters</b> — All, Matched, Unmatched, Non-commercial, with the colour key stated in words.</li>
+            <li><b>One block per item</b>, with two labelled rows: <span class="layer layer-po">Recorded in the PO</span>
+              or GRN, and <span class="layer layer-ocr">Extracted from invoice</span>.</li>
+            <li><b>Columns in decision order</b> — item and SKU, quantity and UOM, unit rate, discount, tax,
+              subtotal, total. SKU and the source label stay frozen while the row scrolls.</li>
+            <li><b>Normalisation, only where it happened</b> — <span class="mono">420 nos × 2 kg = 840 kg</span>,
+              <span class="mono">₹ 760 per 2 kg = ₹ 380 per kg</span>.</li>
+            <li><b>The outcome, in words</b> — “₹ 60 higher”, “3 kg excess”.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>This is where the decision is actually made, so the comparison is <b>horizontal and paired</b>: the
+              two numbers being compared sit in the same column, one above the other.</li>
+            <li>A matched item must never look like an error just because its <b>name or raw unit differs</b>.
+              Green means matched or safely normalised, and normalisation is explained rather than hidden.</li>
+            <li>Amber is a different source value that needs attention but does not block; red is a genuine
+              commercial mismatch. The legend says exactly that, in words, on the screen.</li>
+            <li>Raw JSON and per-row JSON controls are <b>removed</b> for UAT. The normalisation sentence replaces
+              them for every case a reviewer actually needs.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">6</span><span class="t">Rule violations</span><span class="r">/rules</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>Filters</b> — All, Blocked, Flag, Note, Skipped, Passed. Defaults to <b>Blocked</b> when the
+              invoice is blocked.</li>
+            <li><b>Left column: the rule list</b>, each row expandable in place.</li>
+            <li><b>Inside an expanded rule</b> — plain-language name, severity, affected field or line item, then
+              expected, actual, <b>difference</b>, allowed threshold, and the normalisation reasoning where it applies.</li>
+            <li><b>Right column: what you can do next</b> — Re-run pipeline, Upload invoice and re-run, Create debit
+              note, Request GRN correction — above an activity trail for the pair.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>The <b>difference carries the strongest emphasis</b> in the expanded rule — largest type, strongest
+              weight. Expected and actual support it; the machine rule code is secondary and mono.</li>
+            <li>Understanding and acting sit side by side, so deciding the correction never means losing sight of
+              the reason for it.</li>
+            <li>The debit-note action is never labelled “send to vendor” — it drafts for an internal warehouse or
+              kitchen contact, and the dialog names that person.</li>
+            <li>Every action here previews or confirms before anything is sent or processed.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-h"><span class="no">7</span><span class="t">Oracle push</span><span class="r">/oracle</span></div>
+      <div class="screen-b">
+        <div>
+          <h4>Reading order</h4>
+          <ol class="order">
+            <li><b>Status banner</b> with the primary action — eligible, missing fields, already pushed, rejected,
+              or blocked.</li>
+            <li><b>One confidence legend</b>, then the six sections in order: Identification and amounts, Supplier
+              and business unit, Payment, Tax and source, Kitchen details, Line items and accounting distribution.</li>
+            <li><b>Approve and push</b> and <b>Reject</b>, both confirmed, plus <b>Re-assemble</b> with helper text
+              explaining that it rebuilds the Oracle payload from the current matched data.</li>
+          </ol>
+        </div>
+        <div>
+          <h4>What the order protects</h4>
+          <ul class="why">
+            <li>Missing fields are <b>counted in the banner and the count is a link</b> that scrolls to the first
+              one, which then carries a red border and an inline message.</li>
+            <li>Confidence chips appear <b>only below the trusted level</b>. A wall of 100% chips trains people to
+              stop reading them.</li>
+            <li>A blocked invoice gets a focused empty state that explains why the push is unavailable and links
+              back to the blocking rule, rather than a disabled form.</li>
+            <li>Push and reject are the only genuinely outward acts in the product, so both are confirmed and both
+              summarise what is about to happen.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     §4 TECHNICAL DETAILS
+     ============================================================ -->
+<section id="technical">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <h2>Fields hidden under Technical details</h2>
+    <span class="sec-note">Collapsed by default on the PO and GRN screens, with the field count on the toggle so
+      nothing feels concealed.</span>
+  </div>
+  <p class="p">These fields are still present, still readable and still copyable — they are simply not part of the
+    decision an accountant is making. Each one that names an internal concept carries a tooltip in plain language,
+    and every value renders in mono so identifiers can be compared character by character. <strong>No raw JSON
+    appears anywhere in the UAT interface</strong>, including here.</p>
+  <div class="techlists" style="margin-top:14px">
+    <div class="demo">
+      <div class="demo-h"><span class="t">Purchase order</span><span class="s">14 fields · 3-column grid</span></div>
+      <div class="demo-b pad0">
+        <ul class="techlist">
+          <li><span class="n">01</span><span class="lab">Purchase order ID</span><span class="cat">Identifier</span></li>
+          <li><span class="n">02</span><span class="lab">Created by</span><span class="cat">Audit</span></li>
+          <li><span class="n">03</span><span class="lab">PO created at</span><span class="cat">Audit</span></li>
+          <li><span class="n">04</span><span class="lab">Updated at</span><span class="cat">Audit</span></li>
+          <li><span class="n">05</span><span class="lab">PO sent to supplier</span><span class="cat">Audit</span></li>
+          <li><span class="n">06</span><span class="lab">PO creation date</span><span class="cat">Audit</span></li>
+          <li><span class="n">07</span><span class="lab">Pickup location</span><span class="cat">Logistics</span></li>
+          <li><span class="n">08</span><span class="lab">Pickup GSTIN</span><span class="cat">Logistics</span></li>
+          <li><span class="n">09</span><span class="lab">Pickup city</span><span class="cat">Logistics</span></li>
+          <li><span class="n">10</span><span class="lab">Delivery code</span><span class="cat">Logistics</span></li>
+          <li><span class="n">11</span><span class="lab">Delivery state</span><span class="cat">Logistics</span></li>
+          <li><span class="n">12</span><span class="lab">Match ID</span><span class="cat">Pipeline</span></li>
+          <li><span class="n">13</span><span class="lab">Attempt number</span><span class="cat">Pipeline</span></li>
+          <li><span class="n">14</span><span class="lab">Pipeline run status</span><span class="cat">Pipeline</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="demo">
+      <div class="demo-h"><span class="t">Goods received note</span><span class="s">14 fields · 3-column grid</span></div>
+      <div class="demo-b pad0">
+        <ul class="techlist">
+          <li><span class="n">01</span><span class="lab">GRN ID</span><span class="cat">Identifier</span></li>
+          <li><span class="n">02</span><span class="lab">GRN line group ID</span><span class="cat">Identifier</span></li>
+          <li><span class="n">03</span><span class="lab">GRN created at</span><span class="cat">Audit</span></li>
+          <li><span class="n">04</span><span class="lab">GRN updated at</span><span class="cat">Audit</span></li>
+          <li><span class="n">05</span><span class="lab">Delivery code</span><span class="cat">Logistics</span></li>
+          <li><span class="n">06</span><span class="lab">Delivery state</span><span class="cat">Logistics</span></li>
+          <li><span class="n">07</span><span class="lab">Pickup location</span><span class="cat">Logistics</span></li>
+          <li><span class="n">08</span><span class="lab">Pickup GSTIN</span><span class="cat">Logistics</span></li>
+          <li><span class="n">09</span><span class="lab">Pickup city</span><span class="cat">Logistics</span></li>
+          <li><span class="n">10</span><span class="lab">Buyer business unit</span><span class="cat">Party</span></li>
+          <li><span class="n">11</span><span class="lab">Buyer entity name</span><span class="cat">Party</span></li>
+          <li><span class="n">12</span><span class="lab">Attachment upload date</span><span class="cat">Audit</span></li>
+          <li><span class="n">13</span><span class="lab">Match ID</span><span class="cat">Pipeline</span></li>
+          <li><span class="n">14</span><span class="lab">Attempt number</span><span class="cat">Pipeline</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="demo" style="margin-top:14px">
+    <div class="demo-h"><span class="t">The disclosure itself</span></div>
+    <div class="demo-b canvas">
+      <div style="border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);max-width:520px">
+        <button style="display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;text-align:left;background:var(--surface-2)" aria-expanded="false">
+          <svg class="gl" style="color:var(--ink-3)"><use href="#i-right"/></svg>
+          <span style="font-size:var(--fs-section);font-weight:600">Technical details</span>
+          <span class="chip tiny chip-neutral">14 fields</span>
+        </button>
+      </div>
+      <p class="note" style="margin-top:10px">Also carried in-table rather than in this section: the PO line table
+        notes that <strong>amounts are inclusive of tax at the line level, and that HSN codes and category fields
+        are in Technical details</strong>; the GRN line table notes how price variance is calculated and where line
+        identifiers, HSN codes and batch codes live.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     §5 SCOPE
+     ============================================================ -->
+<section id="scope">
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <h2>Phase one — the compact UAT build</h2>
+    <span class="sec-note">Ship the review path first. Analytics and deep debugging are deliberately deferred.</span>
+  </div>
+  <p class="p">Phase one covers exactly the release scope: <strong>PO → GRN → Invoice → Normalization → Rule engine
+    → Resolution → Oracle push</strong>. Everything in the left column is needed to review and clear an invoice.
+    Everything in the right column can be added later without disturbing the layouts above.</p>
+  <div class="scope" style="margin-top:14px">
+    <div class="scopecol in">
+      <div class="h"><svg class="gl"><use href="#i-check"/></svg>In phase one</div>
+      <ul>
+        <li><b>Dashboard with the full filter row</b> Status, search, entity, supplier, date presets, Excel export, column chooser, pagination inside the table.</li>
+        <li><b>All six Match Result tabs</b> With counts on Line items and Rule violations.</li>
+        <li><b>Paired line comparison with normalisation shown in words</b> The single most important review surface.</li>
+        <li><b>Rule violations with resolution actions</b> Re-run, upload and re-run, create debit note, request GRN correction — each with a preview or confirmation.</li>
+        <li><b>Oracle push in every state</b> Eligible, missing required fields, pushed, rejected, blocked.</li>
+        <li><b>Every review state</b> Loading skeletons, no data, no search results, processing, low confidence, missing attachment, failed export, push success and failure.</li>
+        <li><b>Technical details disclosures</b> On the PO and GRN screens, collapsed, with counts.</li>
+      </ul>
+    </div>
+    <div class="scopecol out">
+      <div class="h"><svg class="gl"><use href="#i-clock"/></svg>Deferred beyond phase one</div>
+      <ul>
+        <li><b>Analytics and trend reporting</b> Ageing curves, supplier scorecards, match-rate over time, exception dashboards.</li>
+        <li><b>Raw payload inspection</b> Raw JSON views, per-row JSON, extraction payload dumps — <span class="mono">removed</span> from the UAT interface entirely.</li>
+        <li><b>Rule authoring and threshold editing</b> Thresholds are displayed, not edited.</li>
+        <li><b>Bulk resolution</b> Multi-select actions across many pairs.</li>
+        <li><b>Saved views and per-user column presets</b> The column chooser is per session in phase one.</li>
+        <li><b>Comment threads and @mentions</b> The activity trail is read-only.</li>
+        <li><b>Attempt-level diffing</b> Comparing what changed between attempt 4 and attempt 5.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="demo" style="margin-top:14px">
+    <div class="demo-h"><span class="t">Removed at the end of UAT</span>
+      <span class="s">Present in the prototype only so a reviewer can reach every state</span></div>
+    <div class="demo-b">
+      <div class="row">
+        <span class="chip chip-gold"><svg class="gl"><use href="#i-bolt"/></svg>Run all</span>
+        <span class="note">Dashboard action that processes every pending pair. Labelled as a testing control in the
+          interface and removed once UAT closes.</span>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <span class="chip chip-gold"><svg class="gl"><use href="#i-eye"/></svg>Prototype states panel</span>
+        <span class="note">A shortcut panel for jumping straight to a blocked, matched, skipped, low-confidence or
+          failed case. Prototype furniture, not product.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     §6 STANDING RULES
+     ============================================================ -->
+<section id="rules">
+  <div class="sec-head">
+    <span class="sec-num">06</span>
+    <h2>Standing rules</h2>
+    <span class="sec-note">The checks a new screen has to pass before it belongs in this product.</span>
+  </div>
+  <div class="rules">
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Never colour alone</div>
+      <p>Every state carries a glyph and a word as well as a tone. Blocked rows also carry a left rule; the current
+        GRN also carries a badge.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Business fields first</div>
+      <p>Identifiers, UUIDs, raw timestamps, match IDs and attempt metadata go under <code>Technical details</code>.
+        The default view is the one an accountant needs.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Name the layer</div>
+      <p>Nothing is shown as a bare fact. It is <code>Recorded in the PO</code>, <code>Recorded in GRN</code>,
+        <code>Extracted from invoice</code> or <code>Normalized for comparison</code>.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Explain the normalisation</div>
+      <p>Whenever a rule ran on a converted value, the conversion is written out in the same place as the result,
+        in the accountant’s own arithmetic.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>The difference is the headline</div>
+      <p>On a violation, the difference gets the strongest emphasis. Expected, actual and threshold support it. The
+        rule code stays secondary.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>No raw JSON</div>
+      <p>Not on line items, not on rules, not under Technical details. If a payload matters, a field for it does.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Confirm before consequence</div>
+      <p>Anything that sends, drafts, re-runs, rejects or pushes opens a dialog that previews exactly what will
+        happen and to whom.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>One format per value</div>
+      <p><code>₹ 1,86,240.00</code>, <code>17 Jul 2026, 1:02 PM</code>, <code>Available</code> /
+        <code>Not available</code> — everywhere, without exception.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Keyboard and screen reader</div>
+      <p>Visible focus on everything focusable, real labels on every control, <code>aria-sort</code> on sortable
+        headers, <code>aria-expanded</code> on disclosures, live regions for toasts.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Dense, not raw</div>
+      <p>42px rows and 13px table text are for people who read hundreds of lines a day. Familiar to an Excel user;
+        never an imitation of Excel.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>One neutral product</div>
+      <p>Entity is a filter and a column, never a skin. No brand marketing surfaces anywhere in the console.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Presentation only</div>
+      <p>No new backend capability, no changed matching logic, no altered routes or permissions. Where the field
+        reference is silent — Oracle push fields — the interface follows the deployed product.</p></div>
+  </div>
+</section>
+
+<div class="foot">
+  <span>Payables Match Console · Design system for UAT phase one</span>
+  <span>·</span>
+  <a href="https://claude.ai/code/artifact/6a126107-f551-44e4-b133-3d0e67214b1c" target="_blank" rel="noopener">Open the clickable prototype</a>
+  <span>·</span>
+  <span>Sources: the deployed product and the three-way match field reference. Section 10 of that reference marks
+    the Oracle push fields as not present in the supplied payload; those are modelled on the deployed screens.</span>
+</div>
+
+  </main>
+</div>
+</div>
+
+<script>
+/* ============================================================
+   Swatches, scales and the contents scrollspy.
+   Values are read from the live :root block, so the sheet can
+   never drift from the tokens it documents.
+   ============================================================ */
+(function(){
+  var css = getComputedStyle(document.documentElement);
+  function tok(n){ return (css.getPropertyValue(n) || '').trim(); }
+  function lum(hex){
+    var h = hex.replace('#',''); if(h.length===3) h = h.replace(/./g,'$&$&');
+    var r = parseInt(h.slice(0,2),16)/255, g = parseInt(h.slice(2,4),16)/255, b = parseInt(h.slice(4,6),16)/255;
+    function c(v){ return v<=.03928 ? v/12.92 : Math.pow((v+.055)/1.055,2.4); }
+    return .2126*c(r) + .7152*c(g) + .0722*c(b);
+  }
+
+  var GROUPS = [
+    { t:'Ground and surfaces', s:'The base the whole product sits on. Five steps, no more.', items:[
+      ['--ground','Page ground behind every card and table'],
+      ['--surface','Cards, table rows, inputs, dialogs'],
+      ['--surface-2','Table hover, card headers, footers, resting fills'],
+      ['--surface-3','Table headers, segmented-filter track, Pending chip, ghost hover'],
+      ['--surface-4','Skeleton highlight and the deepest resting fill'],
+      ['--line','Default 1px divider'],
+      ['--line-strong','Control outlines and the rule under a sticky header']
+    ]},
+    { t:'Ink', s:'Two readable weights, one inverse, and one that is never readable text.', items:[
+      ['--ink','Primary text, values, titles'],
+      ['--ink-2','Secondary copy, field labels, table header text, helper text'],
+      ['--ink-3','Disabled grey only: placeholders, dimmed glyphs, unavailable controls'],
+      ['--ink-inv','Text on the green and red solid fills']
+    ]},
+    { t:'Green — matched, approved, primary', s:'The working colour: success, normalised values, the selected tab and every primary action.', items:[
+      ['--green','Primary buttons, matched state, links, focus ring, selected-tab rule'],
+      ['--green-deep','Primary hover, matched chip text, selected-tab label'],
+      ['--green-bg','Matched chip, success alert and current-page fill'],
+      ['--green-bg-2','Normalised-value tint on a line item'],
+      ['--green-line','Matched chip and success alert border']
+    ]},
+    { t:'Gold — brand accent only', s:'The single CureFoods-derived tone. Logo, active rail item, current row. Never a warning.', items:[
+      ['--gold-brand','Logo mark, 2px active-rail rule, 3px current-row marker'],
+      ['--gold','Readable gold text on a gold fill'],
+      ['--gold-bg','Active rail item, Current-GRN badge and testing-only chip fill'],
+      ['--gold-bg-2','Current row tint'],
+      ['--gold-line','Gold chip and badge borders']
+    ]},
+    { t:'Amber — reviewable difference', s:'Attention without blocking. Held apart from gold on purpose.', items:[
+      ['--amber','Warning glyphs, the alert left rule and chip borders — graphical only'],
+      ['--amber-deep','Flag chip text, warning alert text, variance figures'],
+      ['--amber-bg','Flag chip, warning alert and low-confidence field fill'],
+      ['--amber-line','Flag chip and warning alert border']
+    ]},
+    { t:'Red — blocking and destructive', s:'Only where work genuinely cannot continue.', items:[
+      ['--red','Destructive actions, missing-field borders, blocked markers, failed processing'],
+      ['--red-deep','Blocked chip text, danger-solid hover, missing-field link'],
+      ['--red-bg','Blocked chip and error alert fill'],
+      ['--red-line','Blocked chip and error alert border']
+    ]},
+    { t:'Blue — informational and in progress', s:'A process state, not a judgement.', items:[
+      ['--blue','Note chip, Running chip, informational alert text'],
+      ['--blue-bg','Note and Running chip fill'],
+      ['--blue-bg-2','“Extracted from invoice” layer badge and the running pipeline step'],
+      ['--blue-line','Note, Running and extracted-layer borders']
+    ]},
+    { t:'Grey — pending and skipped', s:'Not yet run, or deliberately excluded. Visibly not an error.', items:[
+      ['--slate','Pending and Skipped chip text, Pending summary marker'],
+      ['--slate-bg','Skipped chip fill — a step deeper than the Pending fill'],
+      ['--slate-line','Skipped chip border']
+    ]}
+  ];
+
+  var host = document.getElementById('swatches');
+  if(host){
+    host.innerHTML = GROUPS.map(function(g){
+      return '<div class="swgroup"><div class="swgroup-h"><span class="t">' + g.t +
+        '</span><span class="s">' + g.s + '</span></div><div class="sw">' +
+        g.items.map(function(it){
+          var hex = tok(it[0]);
+          var onDark = lum(hex) < 0.42;
+          var border = lum(hex) > 0.93 ? 'box-shadow:inset 0 0 0 1px var(--line);' : '';
+          return '<div class="swx"><div class="chipbox" style="background:' + hex + ';' + border +
+            'color:' + (onDark ? '#FFFFFF' : '#1F2933') + '"><span class="on-t">Aa 1,240</span></div>' +
+            '<div class="meta"><div class="tok">' + it[0] + '</div><div class="hex">' + hex +
+            '</div><div class="use">' + it[1] + '</div></div></div>';
+        }).join('') + '</div></div>';
+    }).join('');
+  }
+
+  var TYPE = [
+    ['--fs-page','19px','600','-.02em','Page title, dialog title','Payables — invoice pairs'],
+    ['--fs-section','15px','600','-.01em','Section and card titles, empty-state headings','Rule violations'],
+    ['--fs-body','13.5px','400 / 500','0','Field values, buttons, body copy, tab labels','Line total variance exceeds the allowed tolerance'],
+    ['--fs-table','13px','400 / 500','0','Table cells and comparison rows','Chaishai Provisions · 840.000 kg'],
+    ['--fs-sm','12px','400','0','Helper text, footers, notes, counts','Showing 1–25 of 1,284 results'],
+    ['--fs-xs','11px','600','.04em','Uppercase field labels, chips, badges','DELIVERY LOCATION'],
+    ['10px','10px','600 / 700','.04em','Layer badges and column counters — the only raw size','EXTRACTED FROM INVOICE']
+  ];
+  var tspec = document.getElementById('typespec');
+  if(tspec){
+    tspec.innerHTML = TYPE.map(function(t){
+      var upper = t[3] !== '0' && t[0] !== '--fs-body';
+      return '<div class="tk"><b>' + t[0] + '</b>' + t[1] + ' · ' + t[2] + ' · ' + t[3] +
+        '<br>' + t[4] + '</div>' +
+        '<div style="font-size:' + t[1] + ';font-weight:' + t[2].split(' ')[0] + ';letter-spacing:' + t[3] +
+        (upper ? ';text-transform:uppercase' : '') + ';line-height:1.35;align-items:center">' + t[5] + '</div>';
+    }).join('');
+  }
+
+  var SPACE = [
+    ['4px','Half-step: gaps inside a chip, between a label and its value'],
+    ['8px','Base unit: gaps between controls in the filter row'],
+    ['12px','Cell padding, gaps between stacked cards in a rail'],
+    ['16px','Card padding, gaps between sections'],
+    ['24px','Page gutter, gap between the two case columns'],
+    ['32px','Space above a new major section']
+  ];
+  var sp = document.getElementById('spacing');
+  if(sp){
+    sp.innerHTML = SPACE.map(function(s){
+      return '<div class="sp-row"><span class="sp-k">' + s[0] + '</span>' +
+        '<span class="sp-bar" style="width:' + s[0] + '"></span>' +
+        '<span class="sp-u">' + s[1] + '</span></div>';
+    }).join('');
+  }
+
+  /* contents scrollspy */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+  var targets = links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+  function spy(){
+    var best = 0, bestTop = -1e9;
+    for(var i=0;i<targets.length;i++){
+      if(!targets[i]) continue;
+      var top = targets[i].getBoundingClientRect().top - 90;
+      if(top <= 0 && top > bestTop){ bestTop = top; best = i; }
+    }
+    links.forEach(function(a,i){ a.classList.toggle('on', i === best); });
+  }
+  var t; window.addEventListener('scroll', function(){ clearTimeout(t); t = setTimeout(spy, 60); }, {passive:true});
+  spy();
+})();
+</script>
