@@ -13,7 +13,8 @@
 :root{
   /* --- surfaces: white paper. White is ~80% of every screen; the greys
          below appear only where two surfaces genuinely need separating --- */
-  --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F7F8F8; --tray:#F6F8F7; --surface-3:#EFF1F3; --surface-4:#E6E9EC;
+  --ground:#FFFFFF; --surface:#FFFFFF; --dash-ground:#F7F8FA; --surface-2:#F7F8F8; --tray:#F8F9FA;
+  --surface-3:#EFF1F3; --surface-4:#E6E9EC;
   --th:#F8FAF9;
   --line:#E4E7EC; --line-strong:#D0D5DD;
   /* --- ink -------------------------------------------------------- */
@@ -596,10 +597,10 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
 
   <div class="block" id="colour">
     <h3><span class="h-num">1.1</span> Colour</h3>
-    <p class="p">The product is white. Page, rail, content and cards are all <span class="mono">#FFFFFF</span>;
-      the two greys below it appear only where two surfaces genuinely need separating — a table header, a card
-      footer, a row hover, the canvas behind a scanned document. There is no cream, no beige and no warm grey
-      anywhere. <strong>Green</strong> is the product colour: it marks what is matched, approved or normalised,
+    <p class="p">The product is white. The header, the rail, every card and every case screen are
+      <span class="mono">#FFFFFF</span>; the greys below appear only where two surfaces genuinely need separating
+      — the dashboard ground under its white cards, a table header, a card footer, a row hover, the canvas behind
+      a scanned document. There is no cream, no beige and no warm grey anywhere. <strong>Green</strong> is the product colour: it marks what is matched, approved or normalised,
       and it carries the selected tab, the selected filter and every primary action. <strong>Red</strong> marks
       what is blocked, what failed to process, a commercial mismatch and every destructive action.
       <strong>Amber</strong> marks a difference worth reviewing that does not necessarily block, and appears as a
@@ -732,8 +733,15 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       content column stops scrolling and the table card takes the remaining height instead: the column header stays
       pinned, the rows scroll inside the card, the horizontal scrollbar sits at the foot of the rows, and the
       pagination footer below it never leaves the screen — so the page you are on, the rows-per-page control and the
-      next-page button are reachable without scrolling back up. The summary cards and the toolbar hold their place
-      above it.</p>
+      next-page button are reachable without scrolling back up. The summary cards and the filter row hold their
+      place above it.</p>
+    <p class="note" style="margin-top:10px"><strong>And it is the one screen with a ground of its own.</strong>
+      The dashboard content sits on <span class="mono">--dash-ground #F7F8FA</span>, a very light neutral grey —
+      no cream, no beige, nothing warm — while the header, the rail, the five summary cards, the filter controls,
+      the table and its pagination footer all stay <span class="mono">#FFFFFF</span> on a
+      <span class="mono">--line #E4E7EC</span> border. The grey is what makes a white card read as a card. A
+      pressed summary card therefore keeps its white face and states itself by lifting — a stronger border and a
+      shadow — because filling it would sink it back into the ground. Case screens keep the plain white ground.</p>
   </div>
 
   <div class="block" id="shape">
@@ -953,7 +961,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
             </div>
           </div>
           <p class="note" style="margin-top:8px">One rectangular bar rather than five loose controls: the tray is
-            <span class="mono">--tray #F6F8F7</span>, the tabs are square-cornered and 26px tall, and the selected
+            <span class="mono">--tray #F8F9FA</span>, the tabs are square-cornered and 26px tall, and the selected
             tab lifts out of the tray as a white card with a dark green label and a 2px green underline. Never a
             filled green tab — a solid fill would swallow the coloured status dot and the count beside it.</p>
         </div>
@@ -1028,31 +1036,43 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
 
   <div class="block" id="filters">
     <h3><span class="h-num">2.4</span> Filters and inputs</h3>
-    <p class="p">The dashboard puts every filter in one compact row above the table: status, search, entity,
-      supplier, date, export, columns. Nothing is hidden behind a “more filters” drawer, because an accountant
-      changes two or three of these on every pass.</p>
+    <p class="p">The dashboard puts every filter in one line above the table — search, brand, supplier,
+      financial year — with the status segments, Excel export and the column chooser on the row above it.
+      Nothing is hidden behind a “more filters” drawer, because an accountant changes two or three of these on
+      every pass. Nothing carries a label beside it either: each control says what it filters from the inside, so
+      the row reads as four fields rather than eight fragments.</p>
     <div class="demo">
-      <div class="demo-h"><span class="t">The control row</span><span class="s">34px compact height throughout</span></div>
-      <div class="demo-b canvas">
-        <div class="row" style="gap:8px">
-          <div class="searchwrap" style="max-width:250px">
+      <div class="demo-h"><span class="t">The filter row</span><span class="s">38px · one height, one radius, one border, 12px gaps</span></div>
+      <div class="demo-b" style="background:var(--dash-ground)">
+        <div class="row" style="gap:12px;flex-wrap:nowrap">
+          <div class="searchwrap" style="flex:1 1 370px;min-width:220px">
             <svg class="gl"><use href="#i-search"/></svg>
-            <input class="input sm" style="padding-left:31px" placeholder="Search PO, GRN, invoice or supplier" aria-label="Search invoice pairs">
+            <input class="input" style="padding-left:31px" placeholder="Search PO, GRN, invoice number or supplier" aria-label="Search invoices">
           </div>
-          <select class="select sm" style="width:auto;min-width:150px" aria-label="Entity">
-            <option>All entities</option><option>CureFoods</option><option>Cake Zone</option>
+          <select class="select" style="flex:none;width:184px" aria-label="Filter by brand">
+            <option>All brands</option><option>CureFoods</option><option>Cake Zone</option>
             <option>Olio Pizza</option><option>Millet Express</option><option>Nomad Pizza</option>
           </select>
-          <select class="select sm" style="width:auto;min-width:150px" aria-label="Supplier">
+          <select class="select" style="flex:none;width:244px" aria-label="Filter by supplier">
             <option>All suppliers</option><option>Chaishai Provisions</option>
           </select>
-          <button class="btn sm"><svg class="gl"><use href="#i-cal"/></svg>This month</button>
-          <button class="btn sm"><svg class="gl"><use href="#i-down"/></svg>Export</button>
-          <button class="btn sm"><svg class="gl"><use href="#i-cols"/></svg>Columns <span class="chip tiny chip-neutral">12 of 18</span></button>
+          <button class="btn" style="flex:none;width:224px;justify-content:flex-start;gap:8px;font-weight:400" aria-label="Filter by GRN date range: financial year 2026–27"><svg class="gl"><use href="#i-cal"/></svg>Financial year 2026–27<svg class="gl sm" style="margin-left:auto;color:var(--ink-2)"><use href="#i-caret"/></svg></button>
         </div>
-        <p class="note" style="margin-top:10px">Date presets: <strong>Last 7 days · This month · Previous month ·
+        <p class="note" style="margin-top:12px">No <strong>Brand</strong>, <strong>Supplier</strong> or
+          <strong>Dates</strong> text beside the controls. The meaning lives inside each one — “All brands”,
+          “All suppliers”, a calendar glyph and “Financial year 2026–27” — and the accessible name is still
+          carried by a visually hidden <span class="mono">&lt;label&gt;</span>, so the field is announced as
+          “Filter by brand” rather than as an unnamed combo box.</p>
+        <p class="note" style="margin-top:8px">Widths at 1440px: search <strong>460px</strong> (about 40% of the
+          row), brand <strong>184px</strong>, supplier <strong>244px</strong>, financial year
+          <strong>224px</strong>, <strong>12px</strong> between each. All four are 38px tall on a 6px radius with
+          the same <span class="mono">--line-strong</span> border, the same white face and 13.5px type, so the row
+          starts and ends on a single alignment. Below <strong>1360px</strong> the search takes a line of its own
+          and the three filters sit underneath it at full size — two tidy rows, never a row of bare chevrons.</p>
+        <p class="note" style="margin-top:8px">Date presets: <strong>Last 7 days · This month · Previous month ·
           Financial year · Custom range</strong>. The chosen preset becomes the button label so the active window
-          is readable without opening the menu.</p>
+          is readable without opening the menu, and the popover hangs from the right edge of its control so it
+          never runs past the content.</p>
       </div>
     </div>
     <div class="demo" style="margin-top:12px">
@@ -1067,9 +1087,9 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           <div><input class="input sm is-focus" value="INV-2026-0714"></div>
           <div><input class="input sm err" value="17/07/26"></div>
           <div><input class="input sm" value="Auto-filled from GRN" readonly></div>
-          <div class="rh">Select<span>Entity, supplier</span></div>
-          <div><select class="select sm"><option>All entities</option></select></div>
-          <div><select class="select sm is-hover"><option>All entities</option></select></div>
+          <div class="rh">Select<span>Brand, supplier</span></div>
+          <div><select class="select sm"><option>All brands</option></select></div>
+          <div><select class="select sm is-hover"><option>All brands</option></select></div>
           <div><select class="select sm is-focus"><option>Cake Zone</option></select></div>
           <div><select class="select sm err"><option>Select a business unit</option></select></div>
           <div><select class="select sm" disabled><option>Locked by the rule engine</option></select></div>
@@ -1151,7 +1171,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
               <th class="sticky c1" aria-sort="ascending"><span class="sorter">PO number <svg class="gl sm"><use href="#i-up"/></svg></span></th>
               <th class="sticky c2">GRN number</th>
               <th class="sticky c3">Match status</th>
-              <th>Entity</th><th>Supplier</th><th>Invoice number</th><th>Invoice date</th>
+              <th>Brand</th><th>Supplier</th><th>Invoice number</th><th>Invoice date</th>
               <th class="num">GRN value</th><th class="num">Invoice value</th><th class="num">Difference</th>
               <th>Rules</th><th>Last run</th>
             </tr></thead>
@@ -1420,8 +1440,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
               count, a share of the total and a rupee volume, so “186 blocked” is immediately also “₹ 1.4 Cr held up”.
               White cards on neutral borders, equal in height, each named by a 3px status-coloured left rule — a
               summary the eye passes over on the way to the table, never a wall of dashboard tiles.</li>
-            <li><b>One compact control row</b> — the segmented status bar, search, entity, supplier, date preset,
-              Export, Columns.</li>
+            <li><b>Two compact control rows</b> — the segmented status bar with Export and Columns on its right,
+              then the filter line: search, brand, supplier, financial year.</li>
             <li><b>The table</b>, taking the rest of the height: frozen PO / GRN / status columns, a pinned header,
               rows that scroll inside the card, and a pagination footer that stays put beneath them.</li>
           </ol>
@@ -1431,7 +1451,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
           <ul class="why">
             <li>The accountant’s first question is <b>how much is stuck</b>, not which row is first. Volume sits
               above the table for that reason.</li>
-            <li>Filters are one row, never a drawer: narrowing by entity and status is the normal way in, not an
+            <li>Filters are one line, never a drawer: narrowing by brand and status is the normal way in, not an
               advanced feature.</li>
             <li>Frozen identity columns mean a horizontal scan for a difference never loses which invoice you are
               looking at.</li>
@@ -1747,7 +1767,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
     <div class="scopecol in">
       <div class="h"><svg class="gl"><use href="#i-check"/></svg>In phase one</div>
       <ul>
-        <li><b>Dashboard with the full filter row</b> Status, search, entity, supplier, date presets, Excel export, column chooser, pagination inside the table.</li>
+        <li><b>Dashboard with the full filter row</b> Status, search, brand, supplier, financial-year presets, Excel export, column chooser, pagination inside the table.</li>
         <li><b>All six Match Result tabs</b> With counts on Line items and Rule violations.</li>
         <li><b>Paired line comparison with normalisation shown in words</b> The single most important review surface.</li>
         <li><b>Rule violations with resolution actions</b> Re-run, upload and re-run, create debit note, request GRN correction — each with a preview or confirmation.</li>
@@ -1832,10 +1852,10 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Amber is an exception, not a state</div>
       <p>Amber appears for a GST mismatch, a low OCR confidence, a non-blocking variance and “Needs attention”.
         A selection, a navigation item or a build marker never earns it.</p></div>
-    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>A filter always keeps its label</div>
-      <p>At 1280px the toolbar wraps to a second row rather than shrinking a control. Brand, Supplier and Dates
-        keep their visible labels at every width, and Export and Columns stay reachable — a filter may never
-        collapse into a bare chevron.</p></div>
+    <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>A filter always keeps its meaning</div>
+      <p>The label sits inside the control — “All brands”, “All suppliers”, “Financial year 2026–27” — with the
+        accessible name in a visually hidden label. At 1280px the row wraps to a second line rather than shrinking
+        a control, and Export and Columns stay reachable. A filter may never collapse into a bare chevron.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Read-only looks read-only</div>
       <p>Input-style fields belong to the pre-push review, where editing is genuinely possible. Once an invoice is
         posted to Oracle its values are a record: plain value rows on hairlines, no boxes.</p></div>
@@ -1845,7 +1865,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
         with an ellipsis and keeps its full value in a tooltip rather than widening the column. Familiar to an
         Excel user; never an imitation of Excel.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>One neutral product</div>
-      <p>Entity is a filter and a column, never a skin. No brand marketing surfaces anywhere in the console.</p></div>
+      <p>Brand is a filter and a column, never a skin. No brand marketing surfaces anywhere in the console.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Presentation only</div>
       <p>No new backend capability, no changed matching logic, no altered routes or permissions. Where the field
         reference is silent — Oracle push fields — the interface follows the deployed product.</p></div>
@@ -1882,9 +1902,10 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
   }
 
   var GROUPS = [
-    { t:'Ground and surfaces', s:'The base the whole product sits on. Five steps, no more.', items:[
-      ['--ground','Page, rail and content ground — plain white'],
+    { t:'Ground and surfaces', s:'The base the whole product sits on. A white paper stack, plus one working ground under the dashboard.', items:[
+      ['--ground','Header, rail and case-screen ground — plain white'],
       ['--surface','Cards, table rows, inputs, dialogs — also white'],
+      ['--dash-ground','The dashboard working ground, so its white cards read as cards'],
       ['--surface-2','Table hover, card headers, footers, resting fills'],
       ['--tray','The tray a segmented control sits in, behind its tabs'],
       ['--surface-3','Pressed and hover states on controls, Pending chip, ghost hover'],
@@ -1970,8 +1991,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
 
   var SPACE = [
     ['4px','Half-step: gaps inside a chip, between a label and its value'],
-    ['8px','Base unit: gaps between controls in the filter row'],
-    ['12px','Cell padding, gaps between stacked cards in a rail'],
+    ['8px','Base unit: gaps inside a control, between a glyph and its label'],
+    ['12px','Gaps between filter controls, cell padding, stacked cards in a rail'],
     ['16px','Card padding, gaps between sections'],
     ['24px','Page gutter, gap between the two case columns'],
     ['32px','Space above a new major section']

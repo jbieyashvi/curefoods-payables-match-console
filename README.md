@@ -65,12 +65,19 @@ site, and not a literal copy of a spreadsheet.
 
 ## Visual direction
 
-A white finance workspace with quiet Excel familiarity. Page, rail, content and
-cards are all `#FFFFFF`; the only tinted surfaces are a `#F8FAF9` table header
-and a `#F7F8F8` band where two areas genuinely need separating — a card footer,
-a row hover, the neutral canvas behind a scanned invoice page. Borders are a
-thin `#E4E7EC`. No cream, no beige, no warm grey. Roughly 80% white surfaces
-and ink, 15% functional status colour, 5% green.
+A white finance workspace with quiet Excel familiarity. The header, the rail,
+every card and every case screen are `#FFFFFF`; the only tinted surfaces are a
+`#F8FAF9` table header and a `#F7F8F8` band where two areas genuinely need
+separating — a card footer, a row hover, the neutral canvas behind a scanned
+invoice page. Borders are a thin `#E4E7EC`. No cream, no beige, no warm grey.
+Roughly 80% white surfaces and ink, 15% functional status colour, 5% green.
+
+The dashboard is the one screen with a ground of its own: its content sits on a
+very light neutral grey, `#F7F8FA`, while the summary cards, the filter
+controls, the table and its pagination footer stay white on top of it — the
+grey is what makes a white card read as a card. A pressed summary card
+therefore keeps its white face and states itself by lifting, with a stronger
+border and a shadow, rather than filling and sinking back into the ground.
 
 **Green is the product colour.** The 28px mark in the rail is a solid `#2F6B4F`
 tile with a white glyph, the active sidebar item is a soft green fill with a
@@ -80,7 +87,7 @@ background and states itself with a 2px green outline and a green label, so the
 status dot inside it — red for blocking, amber for flags, blue for notes, grey
 for skipped, green for passed — stays readable; the selected tab carries a green
 label and a 2.5px green underline on white; and the dashboard status bar is a
-compact rectangular segmented control on a `#F6F8F7` tray whose selected segment
+compact rectangular segmented control on a `#F8F9FA` tray whose selected segment
 lifts out as a white card with a dark green label and a 2px green underline.
 
 **Red is blocking** — a commercial mismatch, a missing required Oracle field, a
@@ -113,12 +120,20 @@ The dashboard table is deliberately denser than the rest: 52px rows, 13px cell
 text, 11.5px uppercase headers, 23px status chips, and a long supplier or
 location that truncates with an ellipsis and keeps its full value in a tooltip
 rather than widening its column. Nothing inside a table row is set at 15px or
-larger. At a 1280px laptop width the dashboard toolbar wraps to a second row
-rather than shrinking a control: Brand, Supplier and Dates keep their visible
-labels at every width, Export and Columns stay reachable, and the table scrolls
-horizontally with PO number, GRN number and status pinned — at offsets measured
-after each render, so a long PO number widens its column without the next frozen
-column sliding underneath it.
+larger.
+
+The filters sit in one line above the table — search, brand, supplier,
+financial year — with no text labels beside them. Each control says what it
+filters from the inside (`All brands`, `All suppliers`, a calendar glyph and
+`Financial year 2026–27`) and carries its accessible name in a visually hidden
+label, so the row reads as four fields rather than eight fragments. At 1440px
+that is a 460px search, then 184px, 244px and 224px, 12px apart, all 38px tall
+on one radius, one border and one type size. Below 1360px the search takes a
+line of its own and the three filters sit underneath it at full size — two tidy
+rows, never a row of bare chevrons. Export and Columns stay reachable on the
+status row above, and the table scrolls horizontally with PO number, GRN number
+and status pinned — at offsets measured after each render, so a long PO number
+widens its column without the next frozen column sliding underneath it.
 
 ## Scrolling
 

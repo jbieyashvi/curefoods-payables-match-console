@@ -10,10 +10,11 @@
 :root{
   /* --- Neutrals: white paper. White is ~80% of every screen; the greys
          below appear only where two surfaces genuinely need separating. --- */
-  --ground:#FFFFFF;       /* app, sidebar, content and card background */
+  --ground:#FFFFFF;       /* app, sidebar, header and card background */
   --surface:#FFFFFF;
+  --dash-ground:#F7F8FA;  /* the dashboard working ground, so white cards read as cards */
   --surface-2:#F7F8F8;    /* subtle neutral section: card headers, footers, row hover */
-  --tray:#F6F8F7;         /* the tray a segmented control sits in */
+  --tray:#F8F9FA;         /* the tray a segmented control sits in */
   --surface-3:#EFF1F3;    /* pressed and hover states on controls */
   --surface-4:#E6E9EC;    /* document canvas behind the invoice page */
   --th:#F8FAF9;           /* table header */
@@ -299,7 +300,7 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .input.err,.select.err{border-color:var(--red);background:#FFFBFA;box-shadow:0 0 0 3px rgba(180,35,24,.11)}
 .err-msg{display:flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--red);font-weight:500}
 .err-msg svg{width:12px;height:12px;flex:none}
-.searchwrap{position:relative;flex:1 1 260px;min-width:230px;max-width:430px}
+.searchwrap{position:relative;flex:1 1 370px;min-width:300px}
 .searchwrap svg.mag{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-3);pointer-events:none}
 .searchwrap .input{padding-left:33px;padding-right:30px}
 .searchwrap .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:var(--r-xs);display:grid;place-items:center;color:var(--ink-3)}
@@ -318,8 +319,9 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-width:0;box-shadow:var(--sh-1);text-align:left;position:relative;overflow:hidden;transition:border-color .12s,box-shadow .12s,background .12s}
 button.stat:hover{border-color:var(--line-strong);box-shadow:var(--sh-2)}
 /* The cards summarise; the segmented tab bar above the table is the labelled
-   selection control, so a pressed card stays quiet — a neutral tint, not a ring. */
-button.stat[aria-pressed="true"]{background:var(--surface-2);border-color:var(--line-strong)}
+   selection control, so a pressed card stays quiet — it keeps its white face on
+   the grey ground and states itself by lifting, not by filling. */
+button.stat[aria-pressed="true"]{background:var(--surface);border-color:var(--line-strong);box-shadow:var(--sh-2)}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--stat-accent,var(--line-strong))}
 .stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
 .stat-label{font-size:var(--fs-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
@@ -330,13 +332,35 @@ button.stat[aria-pressed="true"]{background:var(--surface-2);border-color:var(--
 /* ============================================================
    COMPONENTS — control row
    ============================================================ */
-.controls{display:flex;flex-direction:column;gap:9px;margin:14px 0 12px}
+.controls{display:flex;flex-direction:column;gap:9px;margin:14px 0 14px}
 .ctl-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:9px;min-height:var(--h-compact)}
-.filt{display:flex;align-items:center;gap:7px;flex:none;min-width:0}
-.filt-l{font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);white-space:nowrap}
-.filt .select,.filt .btn{flex:none}
-.filt #fEntity{width:152px}
-.filt #fSup{width:212px}
+/* Filter row — search, brand, supplier, financial year on one line. There are no
+   labels beside the controls: each one says what it filters from inside ("All
+   brands", "All suppliers", a calendar and the year), and the accessible name is
+   carried by a visually hidden label so the control is still announced. All four
+   share one height, one radius, one border and one type size, so the row starts
+   and ends on a single alignment. Below ~1180px it wraps to a second line rather
+   than collapsing to bare icons. */
+.filter-row{gap:12px;row-gap:12px;min-height:var(--h-primary)}
+.filt{flex:none;min-width:0}
+.filt-brand{width:184px}
+.filt-sup{width:244px}
+.filt-fy{width:224px}
+.filt-fy .pop-host{width:100%}
+.controls .btn:hover{background:var(--surface-3)}
+.controls .btn:active{background:var(--surface-4)}
+/* Below the width where all four controls still fit on one line, the search
+   takes a line of its own and the three filters sit underneath it at full size.
+   Two tidy rows — never a row of unlabelled icon buttons. */
+@media (max-width:1360px){ .filter-row .searchwrap{flex-basis:100%} }
+/* Size only — the border, radius and white face already come from .input/.select
+   /.btn, and restating them here would outrank the :focus rule that turns the
+   border green. */
+.filter-row .input,.filter-row .select,.filter-row .btn{width:100%;height:var(--h-primary);font-size:var(--fs-body)}
+.fy-btn{justify-content:flex-start;padding:0 11px;gap:8px;font-weight:400}
+.fy-btn > svg:first-child,.fy-btn > svg:last-child{color:var(--ink-2)}
+.fy-btn > svg:last-child{margin-left:auto}
+.fy-val{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ctl-div{width:1px;height:24px;background:var(--line);flex:none}
 
 /* Popover */
@@ -362,7 +386,11 @@ button.stat[aria-pressed="true"]{background:var(--surface-2);border-color:var(--
 /* On the dashboard the card owns its own height instead: the column header
    stays pinned, the rows scroll inside the card, the horizontal scrollbar sits
    at the foot of the rows, and the pagination footer below it never moves. */
-.content.dash{display:flex;flex-direction:column;padding-bottom:20px}
+/* The dashboard sits on a very light neutral grey so the summary cards, the
+   filter controls and the table card all read as white surfaces on top of it.
+   Header, rail and every card stay #FFFFFF. */
+.content.dash{display:flex;flex-direction:column;padding-bottom:20px;background:var(--dash-ground)}
+.content.dash .tfoot{background:var(--surface)}
 .content.dash > *{flex:none}
 .content.dash > .tablewrap{flex:1 1 auto;min-height:260px;display:flex;flex-direction:column}
 .content.dash .tscroll{flex:1 1 auto;min-height:0;overflow:auto}
@@ -2208,7 +2236,7 @@ function popover(kind){
   }
   if(kind==='date'){
     const keys=[['7D','Last 7 days'],['MTD','This month'],['PREV','Previous month'],['FY','Financial year 2026–27'],['ALL','All dates'],['CUSTOM','Custom range']];
-    return `<div class="pop w-date" role="dialog" aria-label="Choose GRN date range">
+    return `<div class="pop w-date right" role="dialog" aria-label="Choose GRN date range">
       <div class="pop-title">GRN date</div>
       ${keys.map(([k,l])=>`<button class="pop-item" type="button" aria-selected="${S.dateKey===k}" data-act="date" data-arg="${k}">${ic('check')}<span>${l}</span></button>`).join('')}
       ${S.dateKey==='CUSTOM'?`<div class="pop-custom">
@@ -2250,31 +2278,31 @@ function controlRow(){
       ${S.pop==='cols'?popover('cols'):''}
     </div>
     </div>
-    <div class="ctl-row">
+    <div class="ctl-row filter-row">
       <div class="searchwrap">
         ${ic('search','class="mag"')}
         <label class="vis-hidden" for="q">Search invoices</label>
-        <input class="input sm" id="q" type="search" placeholder="Search PO, GRN, invoice number or supplier" value="${esc(S.q)}" data-act="q" autocomplete="off">
+        <input class="input" id="q" type="search" placeholder="Search PO, GRN, invoice number or supplier" value="${esc(S.q)}" data-act="q" autocomplete="off">
         ${S.q?`<button class="clear" type="button" data-act="clearq" aria-label="Clear search">${ic('x')}</button>`:''}
       </div>
-      <div class="filt">
-        <label class="filt-l" for="fEntity">Brand</label>
-        <select class="select sm" id="fEntity" data-act="entity">
+      <div class="filt filt-brand">
+        <label class="vis-hidden" for="fEntity">Filter by brand</label>
+        <select class="select" id="fEntity" data-act="entity">
           <option value="ALL"${S.entity==='ALL'?' selected':''}>All brands</option>
           ${BRANDS.map(b=>`<option value="${esc(b)}"${S.entity===b?' selected':''}>${esc(b)}</option>`).join('')}
         </select>
       </div>
-      <div class="filt">
-        <label class="filt-l" for="fSup">Supplier</label>
-        <select class="select sm" id="fSup" data-act="supplier">
+      <div class="filt filt-sup">
+        <label class="vis-hidden" for="fSup">Filter by supplier</label>
+        <select class="select" id="fSup" data-act="supplier">
           <option value="ALL"${S.supplier==='ALL'?' selected':''}>All suppliers</option>
           ${supList.map(s=>`<option value="${esc(s)}"${S.supplier===s?' selected':''}>${esc(s)}</option>`).join('')}
         </select>
       </div>
-      <div class="filt">
-        <span class="filt-l" id="fDateL">Dates</span>
+      <div class="filt filt-fy">
+        <span class="vis-hidden" id="fDateL">Filter by GRN date range</span>
         <div class="pop-host">
-          <button class="btn btn-ghost sm" type="button" data-act="pop" data-arg="date" aria-labelledby="fDateL fDateV" aria-expanded="${S.pop==='date'}" aria-haspopup="dialog">${ic('cal')}<span id="fDateV">${dateLabel()}</span>${ic('chevD')}</button>
+          <button class="btn fy-btn" type="button" data-act="pop" data-arg="date" aria-labelledby="fDateL fDateV" aria-expanded="${S.pop==='date'}" aria-haspopup="dialog">${ic('cal')}<span class="fy-val" id="fDateV" title="${esc(dateLabel())}">${dateLabel()}</span>${ic('chevD')}</button>
           ${S.pop==='date'?popover('date'):''}
         </div>
       </div>
