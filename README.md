@@ -82,13 +82,21 @@ border and a shadow, rather than filling and sinking back into the ground.
 **Green is the product colour.** The 28px mark in the rail is a solid `#2F6B4F`
 tile with a white glyph, the active sidebar item is a soft green fill with a
 green left rule, and matched or safely normalized values read green.
-**Selection is an edge, never a fill**: a pressed filter pill keeps its white
-background and states itself with a 2px green outline and a green label, so the
-status dot inside it — red for blocking, amber for flags, blue for notes, grey
-for skipped, green for passed — stays readable; the selected tab carries a green
-label and a 2.5px green underline on white; and the dashboard status bar is a
-compact rectangular segmented control on a `#F8F9FA` tray whose selected segment
-lifts out as a white card with a dark green label and a 2px green underline.
+**Selection is an edge, never a fill**: the selected case tab carries a green
+label and a 2.5px green underline on white, and every filter is a segmented
+control — one tray, one border, no outline around any individual tab — whose
+selected segment lifts out as a white face with a green label and a 2px green
+underline. The dashboard status bar sits on a `#F8F9FA` tray; the secondary
+filters on Line Items and Rule Violations sit on a `#F6F8F7` one, 36px tall with
+28px tabs, deliberately smaller than the 38px case tabs above them. Because the
+selection is never a fill or a ring, the 6px status dot inside a segment — red
+for blocking, amber for flags, blue for notes, grey for skipped, green for
+passed or matched — stays the loudest thing in it. Only a segment naming a
+single outcome carries a dot; *All rules*, *All lines*, *Unmatched* and
+*Non-commercial* are mixed groups and carry none. The evaluation metadata stays
+hard right on the control's line and is the part that gives way — it drops to
+its own line rather than squeezing the tabs, and narrower still the tray scrolls
+sideways so a tab never breaks onto a line of its own.
 
 **Red is blocking** — a commercial mismatch, a missing required Oracle field, a
 destructive action. **Amber appears only when something genuinely needs

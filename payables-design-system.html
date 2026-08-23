@@ -13,7 +13,7 @@
 :root{
   /* --- surfaces: white paper. White is ~80% of every screen; the greys
          below appear only where two surfaces genuinely need separating --- */
-  --ground:#FFFFFF; --surface:#FFFFFF; --dash-ground:#F7F8FA; --surface-2:#F7F8F8; --tray:#F8F9FA;
+  --ground:#FFFFFF; --surface:#FFFFFF; --dash-ground:#F7F8FA; --surface-2:#F7F8F8; --tray:#F8F9FA; --tray-2:#F6F8F7;
   --surface-3:#EFF1F3; --surface-4:#E6E9EC;
   --th:#F8FAF9;
   --line:#E4E7EC; --line-strong:#D0D5DD;
@@ -259,7 +259,7 @@ table.spec .mono{font-size:var(--fs-sm)}
 
 /* tabs */
 .utabs{display:flex;gap:2px;align-items:flex-end;border-bottom:1px solid var(--line);padding:0 6px}
-.utab{position:relative;height:40px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);
+.utab{position:relative;height:38px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);
   display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;
   transition:background .12s,color .12s}
 .utab:hover,.utab.is-hover{background:var(--surface-2);color:var(--ink)}
@@ -286,17 +286,23 @@ table.spec .mono{font-size:var(--fs-sm)}
 .seg.is-focus{outline:none;box-shadow:0 0 0 3px rgba(47,107,79,.17)}
 .seg-dot{width:7px;height:7px;border-radius:50%;flex:none}
 
-/* filter pill */
-.pillbar{display:flex;flex-wrap:wrap;gap:6px}
-.pill{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);
-  background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);
-  display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s,border-color .12s}
-.pill:hover,.pill.is-hover{background:var(--surface-2);color:var(--ink)}
-.pill[aria-pressed="true"]{background:var(--surface);border-color:var(--green);color:var(--green);
-  font-weight:600;box-shadow:inset 0 0 0 1px var(--green)}
-.pill[aria-pressed="true"] .cnt{color:var(--green)}
-.pill .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.pill.is-focus{outline:none;box-shadow:0 0 0 3px rgba(47,107,79,.17);border-color:var(--green)}
+/* secondary filter — line items and rule results */
+.fseg{display:inline-flex;gap:2px;padding:3px;background:var(--tray-2);border:1px solid var(--line);
+  border-radius:8px;max-width:100%;overflow-x:auto;scrollbar-width:thin}
+.fseg-t{flex:none;height:28px;padding:0 11px;border:0;border-bottom:2px solid transparent;
+  border-radius:var(--r-sm);background:none;font-size:12.5px;font-weight:500;color:var(--ink-2);
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  transition:background .12s,color .12s,border-color .12s}
+.fseg-t:hover,.fseg-t.is-hover{background:rgba(255,255,255,.72);color:var(--ink)}
+.fseg-t[aria-selected="true"]{background:var(--surface);color:var(--green);font-weight:600;
+  border-bottom-color:var(--green);box-shadow:var(--sh-1)}
+.fseg-t .cnt{font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.fseg-t[aria-selected="true"] .cnt{color:var(--green)}
+.fseg-t.is-focus{outline:none;box-shadow:0 0 0 3px rgba(47,107,79,.17)}
+.fseg-d{width:6px;height:6px;border-radius:50%;flex:none}
+.fseg-d.d-block{background:var(--red)} .fseg-d.d-flag{background:var(--amber-deep)}
+.fseg-d.d-note{background:var(--blue)} .fseg-d.d-skip{background:var(--slate)}
+.fseg-d.d-pass{background:var(--green)}
 .seg-dot.chip-matched{background:var(--green)} .seg-dot.chip-blocked{background:var(--red)}
 .seg-dot.chip-pending{background:var(--blue)} .seg-dot.chip-skipped{background:var(--slate)}
 
@@ -651,7 +657,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
               <td>Clock or minus glyph + the word. Two grey fills keep the two apart.</td></tr>
             <tr><td class="k"><span class="badge-current"><svg class="gl sm"><use href="#i-right"/></svg>Current GRN</span></td>
               <td class="k mono">--green</td>
-              <td>Selection itself: the active navigation item, the pressed filter pill, the selected status tab and the current GRN row and badge</td>
+              <td>Selection itself: the active navigation item, the selected filter segment, the selected status tab and the current GRN row and badge</td>
               <td>An explicit “Current GRN” badge and a 3px left rule — never the tint alone</td></tr>
             <tr><td class="k"><span class="chip chip-testing">Brand mark</span></td>
               <td class="k mono">--green</td>
@@ -667,8 +673,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       <span class="mono">--red-deep</span> 7.6:1, <span class="mono">--blue</span> 5.4:1,
       <span class="mono">--slate</span> 5.1:1, <span class="mono">--amber-deep</span> 4.9:1.
       White on the solid <span class="mono">--green</span> fill — every primary button and the product mark —
-      is 6.3:1. A selected tab or filter pill keeps a white background and states its selection with
-      <span class="mono">--green</span> text and outline, which reads at 8.2:1. One tone is graphical only and
+      is 6.3:1. A selected tab or filter segment keeps a white background and states its selection with
+      <span class="mono">--green</span> text and a green underline, which reads at 8.2:1. One tone is graphical only and
       never carries readable text: <span class="mono">--ink-3</span>, the disabled grey — placeholders, dimmed
       glyphs and controls a person cannot use.</p>
   </div>
@@ -929,9 +935,9 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
     <h3><span class="h-num">2.2</span> Tabs</h3>
     <p class="p">Two mechanisms, used for different things. <strong>Case tabs</strong> switch the data layer you are
       looking at for one invoice pair; the selected tab is marked with a green rule, green label and semibold weight.
-      <strong>Segmented filters</strong> narrow a list in place and always show a count.</p>
+      <strong>Segmented filters</strong> narrow a list in place, always show a count, and always read as one control rather than a row of separate buttons.</p>
     <div class="demo">
-      <div class="demo-h"><span class="t">Case tabs</span><span class="s">40px, white background, green 2.5px underline on the selected tab</span></div>
+      <div class="demo-h"><span class="t">Case tabs</span><span class="s">38px, white background, green 2.5px underline on the selected tab</span></div>
       <div class="demo-b pad0">
         <div class="utabs" role="tablist" aria-label="Match result sections">
           <button class="utab" role="tab" aria-selected="false">Purchase order</button>
@@ -947,7 +953,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       </div>
     </div>
     <div class="demo" style="margin-top:12px">
-      <div class="demo-h"><span class="t">Segmented filters</span><span class="s">34px bar · 26px tabs · dot + label + count</span></div>
+      <div class="demo-h"><span class="t">Segmented filters</span><span class="s">Dashboard 34px · secondary 36px · dot + label + count</span></div>
       <div class="demo-b stack">
         <div>
           <h4>Dashboard status</h4>
@@ -966,19 +972,43 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
             filled green tab — a solid fill would swallow the coloured status dot and the count beside it.</p>
         </div>
         <div>
-          <h4>Filter pills — line items and rule violations</h4>
-          <div class="pillbar" style="margin-top:8px">
-            <button class="pill" aria-pressed="true">All lines <span class="cnt">18</span></button>
-            <button class="pill is-hover" aria-pressed="false">Blocking <span class="cnt">2</span></button>
-            <button class="pill" aria-pressed="false">Flags <span class="cnt">4</span></button>
-            <button class="pill is-focus" aria-pressed="false">Freight and charges <span class="cnt">1</span></button>
+          <h4>Secondary filter — rule violations</h4>
+          <div class="row" style="margin-top:8px;align-items:center;gap:10px">
+            <div class="fseg" role="tablist" aria-label="Filter rule results">
+              <button class="fseg-t" role="tab" aria-selected="false">All rules <span class="cnt">16</span></button>
+              <button class="fseg-t" role="tab" aria-selected="true"><span class="fseg-d d-block"></span>Blocking <span class="cnt">2</span></button>
+              <button class="fseg-t is-hover" role="tab" aria-selected="false"><span class="fseg-d d-flag"></span>Flags <span class="cnt">0</span></button>
+              <button class="fseg-t" role="tab" aria-selected="false"><span class="fseg-d d-note"></span>Notes <span class="cnt">0</span></button>
+              <button class="fseg-t is-focus" role="tab" aria-selected="false"><span class="fseg-d d-skip"></span>Skipped <span class="cnt">10</span></button>
+              <button class="fseg-t" role="tab" aria-selected="false"><span class="fseg-d d-pass"></span>Passed <span class="cnt">4</span></button>
+            </div>
+            <span class="note" style="margin-left:auto;text-align:right">16 rules evaluated · attempt 4<br>21 Aug 2026, 8:30 PM</span>
+          </div>
+        </div>
+        <div>
+          <h4>Secondary filter — line items</h4>
+          <div class="fseg" role="tablist" aria-label="Filter line items" style="margin-top:8px">
+            <button class="fseg-t" role="tab" aria-selected="true">All lines <span class="cnt">18</span></button>
+            <button class="fseg-t" role="tab" aria-selected="false"><span class="fseg-d d-pass"></span>Matched <span class="cnt">14</span></button>
+            <button class="fseg-t" role="tab" aria-selected="false">Unmatched <span class="cnt">3</span></button>
+            <button class="fseg-t" role="tab" aria-selected="false">Non-commercial <span class="cnt">1</span></button>
           </div>
         </div>
         <p class="note">A zero-count segment stays visible and disabled rather than disappearing, so the set of
           possible outcomes is always legible. Rule filters default to <strong>Blocked</strong> when the invoice
-          is blocked, and to <strong>All</strong> otherwise. A pressed pill keeps its white background and states
-          itself with a 2px green outline and a green label, so the status dot inside it stays readable — never a
-          solid fill, never black, never amber.</p>
+          is blocked, and to <strong>All</strong> otherwise.</p>
+        <p class="note">The secondary filter is <strong>one object, not a row of buttons</strong>: a single
+          <span class="mono">--tray-2 #F6F8F7</span> tray with one <span class="mono">--line</span> border and an
+          8px radius, 3px of padding, 28px tabs and no border of its own on any tab — 36px overall, deliberately
+          smaller than the 38px case tabs above it. A selected tab is a white face with a
+          <span class="mono">--green</span> label at 600 and a 2px green underline; there is no green ring, so the
+          6px status dot beside the label stays the loudest thing in the tab. Labels sit at 12.5px and counts at
+          11.5px. Only a segment that names a single outcome carries a dot — <em>All rules</em>,
+          <em>All lines</em>, <em>Unmatched</em> and <em>Non-commercial</em> are mixed groups and carry none.</p>
+        <p class="note">The evaluation metadata stays hard right on the control's line and is the part that gives
+          way: below about 1300px it drops to a line of its own rather than squeezing the tabs, and narrower still
+          the tray itself scrolls sideways. The tabs stay one strip at every width — a tab never breaks onto a
+          line of its own.</p>
       </div>
     </div>
   </div>
@@ -1845,9 +1875,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
         headers, <code>aria-expanded</code> on disclosures, live regions for toasts.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Green means selected</div>
       <p>Selection is always green, and always drawn as an edge rather than a fill: a soft-green fill with a green
-        left rule on the sidebar, a green outline and green label on a pressed filter pill, a green label and a
-        2.5px green underline on the active tab, a white card with a dark green label and a 2px green underline on
-        the selected segment of the status bar. Never black, never yellow, and never a solid green block that hides
+        left rule on the sidebar, a green label and a 2.5px green underline on the active case tab, and a white
+        face with a green label and a 2px green underline on the selected segment of a segmented filter. Never black, never yellow, and never a solid green block that hides
         the status dot beside the label.</p></div>
     <div class="rule"><div class="rh"><svg class="gl"><use href="#i-check"/></svg>Amber is an exception, not a state</div>
       <p>Amber appears for a GST mismatch, a low OCR confidence, a non-blocking variance and “Needs attention”.
@@ -1907,7 +1936,8 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       ['--surface','Cards, table rows, inputs, dialogs — also white'],
       ['--dash-ground','The dashboard working ground, so its white cards read as cards'],
       ['--surface-2','Table hover, card headers, footers, resting fills'],
-      ['--tray','The tray a segmented control sits in, behind its tabs'],
+      ['--tray','The tray the dashboard status segments sit in, on the dashboard ground'],
+      ['--tray-2','The tray the secondary filter segments sit in, on white'],
       ['--surface-3','Pressed and hover states on controls, Pending chip, ghost hover'],
       ['--surface-4','The neutral canvas behind a scanned invoice page, and the skeleton highlight'],
       ['--th','Table header fill — the one tinted band in a data table'],
@@ -1921,7 +1951,7 @@ ul.techlist .cat{margin-left:auto;font-size:10px;color:var(--ink-2);text-transfo
       ['--ink-inv','Text on the green and red solid fills']
     ]},
     { t:'Green — selection, matched, primary', s:'The working colour: selection, success, normalised values and every primary action.', items:[
-      ['--green','Primary buttons, the product mark, the outline and label of a pressed filter pill, selected sidebar rule, selected-tab and selected-segment underline, matched state, focus ring'],
+      ['--green','Primary buttons, the product mark, the label and underline of a selected filter segment, selected sidebar rule, selected-tab and selected-segment underline, matched state, focus ring'],
       ['--green-deep','Primary hover, matched chip text, selected sidebar, selected-tab and selected-segment label'],
       ['--green-bg','Selected sidebar item, matched chip, success alert and Current-GRN badge fill'],
       ['--green-bg-2','Current row tint and the normalised-value tint on a line item'],

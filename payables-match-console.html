@@ -14,7 +14,8 @@
   --surface:#FFFFFF;
   --dash-ground:#F7F8FA;  /* the dashboard working ground, so white cards read as cards */
   --surface-2:#F7F8F8;    /* subtle neutral section: card headers, footers, row hover */
-  --tray:#F8F9FA;         /* the tray a segmented control sits in */
+  --tray:#F8F9FA;         /* the tray the dashboard status segments sit in */
+  --tray-2:#F6F8F7;       /* the tray the secondary filter segments sit in, on white */
   --surface-3:#EFF1F3;    /* pressed and hover states on controls */
   --surface-4:#E6E9EC;    /* document canvas behind the invoice page */
   --th:#F8FAF9;           /* table header */
@@ -266,7 +267,7 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .seg[aria-selected="true"] .cnt{color:var(--green-deep)}
 
 .utabs{display:flex;gap:2px;align-items:flex-end}
-.utab{position:relative;height:40px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;transition:background .12s,color .12s}
+.utab{position:relative;height:38px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;transition:background .12s,color .12s}
 .utab:hover{background:var(--surface-3);color:var(--ink)}
 .utab[aria-selected="true"]{color:var(--green);font-weight:600}
 .utab[aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2.5px;background:var(--green);border-radius:2px 2px 0 0}
@@ -275,14 +276,24 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .badge-amber{background:var(--surface);color:var(--amber-deep);border:1px solid var(--amber)}
 .badge-neutral{background:var(--surface-3);color:var(--ink-2);border:1px solid var(--line-strong)}
 
-/* Filter pills */
-.pillbar{display:flex;flex-wrap:wrap;gap:6px}
-.pill{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:all .12s}
-.pill:hover{background:var(--surface-2);color:var(--ink)}
-.pill[aria-pressed="true"]{background:var(--surface);border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green);color:var(--green);font-weight:600}
-.pill[aria-pressed="true"] .cnt{color:var(--green)}
-.pill .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.pill .dot{width:7px;height:7px;border-radius:50%;flex:none}
+/* Secondary filter — line items and rule results.
+   One compact segmented control rather than a row of outlined pills: the group
+   is a single object with one border and one tray, and the selected tab states
+   itself with a white face and a 2px green underline instead of a green ring.
+   Deliberately not the dashboard's .segbar — that one sits on the grey dashboard
+   ground and is tuned for it; this one sits on white and must stay smaller than
+   the primary PO / GRN / Invoice nav above it. 36px overall: 28px tabs inside
+   3px of tray padding and a 1px border. Below its natural width the tray scrolls
+   sideways rather than breaking each tab onto a line of its own. */
+.fseg{display:inline-flex;gap:2px;padding:3px;background:var(--tray-2);border:1px solid var(--line);border-radius:8px;flex:0 1 auto;min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+.fseg::-webkit-scrollbar{height:6px}
+.fseg::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px}
+.fseg-t{flex:none;height:28px;padding:0 11px;border:0;border-bottom:2px solid transparent;border-radius:var(--r-sm);background:none;font-size:12.5px;font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:background .12s,color .12s,border-color .12s}
+.fseg-t:hover{background:rgba(255,255,255,.72);color:var(--ink)}
+.fseg-t[aria-selected="true"]{background:var(--surface);color:var(--green);font-weight:600;border-bottom-color:var(--green);box-shadow:var(--sh-1)}
+.fseg-t .cnt{font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.fseg-t[aria-selected="true"] .cnt{color:var(--green)}
+.fseg-t .dot{width:6px;height:6px;border-radius:50%;flex:none}
 </style>
 <style>
 /* ============================================================
@@ -3158,6 +3169,14 @@ function tabInvoice(c,row){
 </script>
 <style>
 .li-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+/* The evaluation metadata sits hard right on the segmented control's line and is
+   the part that gives way: it re-flows onto two short lines rather than pushing
+   the control around. Its 170px flex-basis is what decides the wrap — while the
+   row can hold the control and that much text the metadata stays beside it; once
+   it cannot, the text drops to a line of its own instead of squeezing the tabs.
+   Narrower still and the control itself scrolls sideways within the row, so the
+   tabs stay one strip and never break one to a line. */
+.li-toolbar .sect-sub{flex:1 1 170px;min-width:0;text-align:right}
 .li-outcome{padding:10px 14px;border-top:1px solid var(--line);background:var(--surface-2);display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:var(--fs-body)}
 .li-outcome.bad{background:var(--red-bg);border-top-color:var(--red-line)}
 .li-outcome.warn{background:var(--surface);border-top-color:var(--amber-line)}
@@ -3299,7 +3318,9 @@ function tabLines(c,row){
     if(f==='NC') return l.isFreight;
     return true;
   });
-  const pills = [['ALL','All lines'],['MATCHED','Matched'],['UNMATCHED','Unmatched'],['NC','Non-commercial']];
+  // Only Matched names a single outcome, so only Matched carries a dot. All lines
+  // and Unmatched are mixed groups and Non-commercial has no severity at all.
+  const pills = [['ALL','All lines'],['MATCHED','Matched','var(--green)'],['UNMATCHED','Unmatched'],['NC','Non-commercial']];
   return `<div class="legend" role="note">
       <span class="li"><span class="sw sw-ok">${ic('check')}</span><b>Green</b> — matched, or safely normalized</span>
       <span class="li"><span class="sw sw-warn">${ic('warn')}</span><b>Amber</b> — a real difference to review, not blocking on its own</span>
@@ -3308,8 +3329,8 @@ function tabLines(c,row){
       <span class="li subtle">A different item description or unit alone is not an error.</span>
     </div>
     <div class="li-toolbar">
-      <div class="pillbar" role="group" aria-label="Filter line items">
-        ${pills.map(([k,l])=>`<button class="pill" type="button" aria-pressed="${f===k}" data-act="lifilter" data-arg="${k}">${l}<span class="cnt">${counts[k]}</span></button>`).join('')}
+      <div class="fseg" role="tablist" aria-label="Filter line items">
+        ${pills.map(([k,l,dot])=>`<button class="fseg-t" type="button" role="tab" aria-selected="${f===k}" data-act="lifilter" data-arg="${k}">${dot?`<span class="dot" style="background:${dot}"></span>`:''}${l}<span class="cnt">${counts[k]}</span></button>`).join('')}
       </div>
       <span class="ctl-grow"></span>
       <span class="sect-sub">Invoice ${esc(c.invoice.no)} against ${esc(c.grnNo)} · ${inr(c.invoice.total)} invoiced, ${inr(c.grn.total)} received</span>
@@ -3533,8 +3554,8 @@ function tabRules(c,row){
       ${headAlert}
       <div>
         <div class="li-toolbar">
-          <div class="pillbar" role="group" aria-label="Filter rule results">
-            ${pills.map(([k,l])=>`<button class="pill" type="button" aria-pressed="${f===k}" data-act="rulefilter" data-arg="${k}">${k!=='ALL'?`<span class="dot" style="background:${(SEV[k]||{}).colour}"></span>`:''}${l}<span class="cnt">${n[k]||0}</span></button>`).join('')}
+          <div class="fseg" role="tablist" aria-label="Filter rule results">
+            ${pills.map(([k,l])=>`<button class="fseg-t" type="button" role="tab" aria-selected="${f===k}" data-act="rulefilter" data-arg="${k}">${k!=='ALL'?`<span class="dot" style="background:${(SEV[k]||{}).colour}"></span>`:''}${l}<span class="cnt">${n[k]||0}</span></button>`).join('')}
           </div>
           <span class="ctl-grow"></span>
           <span class="sect-sub">${n.ALL} rules evaluated · attempt ${c.attempt} · ${fmtDateTime(c.lastRun)}</span>
