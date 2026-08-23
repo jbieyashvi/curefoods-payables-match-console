@@ -30,8 +30,9 @@ node .claude/serve.js
 Then open <http://localhost:8781>. Or just open either `.html` file directly in
 a browser — they work from the filesystem too.
 
-Designed for **1440px desktop**. One committed light theme, deliberately: this
-is a tool accountants keep open all day, not a site to theme.
+Designed for **1440px desktop** and verified down to a 1280px laptop. One
+committed light theme, deliberately: this is a tool accountants keep open all
+day, not a site to theme.
 
 ## The users
 
@@ -64,21 +65,46 @@ site, and not a literal copy of a spreadsheet.
 
 ## Visual direction
 
-A neutral finance workspace with quiet Excel familiarity: white surfaces, thin
-`#E4E7EC` borders, compact tables, right-aligned tabular numerals. Roughly 80%
-neutral, 15% functional status colour, 5% brand.
+A neutral finance workspace with quiet Excel familiarity: an off-white `#F7F8F6`
+ground, white card and table surfaces, thin `#E4E7EC` borders, compact tables,
+right-aligned tabular numerals. Roughly 80% neutral surfaces and ink, 15%
+functional status colour, 5% product mark.
 
-Green marks matched, approved, normalized, the selected tab and every primary
-action. Red is blocking and destructive. Amber is a difference worth reviewing
-that does not necessarily block. Grey is pending and skipped. Blue is
-informational and in-progress. CureFoods gold appears only on the logo, the
-active navigation item and small brand markers — never on a warning, so amber
-stays unmistakable.
+**Green is selection and success.** The active sidebar item is a soft green fill
+with a green left rule, a pressed filter pill is a solid green fill with white
+text, the selected tab carries a green label and a green underline, and matched
+or safely normalized values read green. **Red is blocking** — a commercial
+mismatch, a missing required Oracle field, a destructive action. **Amber appears
+only when something genuinely needs attention**: a GST mismatch, a low OCR
+confidence, a non-blocking variance, "Needs attention". It never marks a
+selection, a navigation item or a build marker. Grey is pending and skipped;
+blue is informational and in progress.
 
-Contrast is measured rather than assumed: body ink 14.7:1, secondary ink 5.0:1,
-and every colour that carries readable text clears 4.5:1. The two brand-weight
-tones (`#B68A2F`, `#C97812`) are graphical only — icons, borders and rules —
-and a separate readable tone carries the words.
+CureFoods gold survives in exactly one place — the 28px product mark in the
+rail — so nothing competes with green for selection or with amber for
+attention.
+
+Contrast is measured rather than assumed:
+
+| Pair | Ratio |
+| --- | --- |
+| `--ink` `#1F2933` on white | 14.8:1 |
+| `--ink-2` `#667085` on white | 5.0:1 |
+| `--green-deep` `#255840` on white | 8.2:1 |
+| `--green-deep` on `--green-bg` `#EAF4EE` | 7.3:1 |
+| white on `--green` `#2F6B4F` | 6.3:1 |
+| `--red` `#B42318` on white | 6.6:1 |
+| `--red-deep` on `--red-bg` `#FEECEB` | 7.6:1 |
+| `--amber` `#A15C16` on `--amber-bg` `#FFF7ED` | 4.9:1 |
+
+Every tone that carries readable text clears 4.5:1. `--gold-brand` `#B68A2F` is
+graphical only and carries no words.
+
+Interface text sits at 13–14px, table headers at 12px, and no interactive
+control is shorter than 34px. At a 1280px laptop width the dashboard toolbar
+wraps to a second row rather than shrinking a control: Brand, Supplier and Dates
+keep their visible labels at every width, Export and Columns stay reachable, and
+the table scrolls horizontally with PO number, GRN number and status pinned.
 
 ## Note on the Oracle push fields
 

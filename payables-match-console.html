@@ -23,23 +23,19 @@
 
   /* --- Green: matched, approved, normalized, selected tabs, primary --- */
   --green:#2F6B4F;
-  --green-deep:#245540;
-  --green-bg:#E9F5EE;
+  --green-deep:#255840;
+  --green-bg:#EAF4EE;
   --green-bg-2:#F3FAF6;
   --green-line:#BFDFCD;
 
-  /* --- CureFoods gold: logo, active rail item, current selection only --- */
-  --gold:#8A6820;         /* readable gold text */
-  --gold-brand:#B68A2F;   /* the brand tone: rules, markers, logo */
-  --gold-bg:#FFF7DD;
-  --gold-bg-2:#FFFCF0;
-  --gold-line:#E8D191;
+  /* --- CureFoods gold: reserved for the logo mark alone --- */
+  --gold-brand:#B68A2F;   /* the brand tone, used only inside the product mark */
 
   /* --- Amber: a difference to review, not necessarily blocking --- */
-  --amber:#C97812;        /* icons, borders, left rules */
-  --amber-deep:#8F5410;   /* readable amber text */
-  --amber-bg:#FFF3D6;
-  --amber-line:#F0CE8E;
+  --amber:#A15C16;        /* icons, borders, left rules */
+  --amber-deep:#A15C16;   /* readable amber text */
+  --amber-bg:#FFF7ED;
+  --amber-line:#E8C9A6;
 
   /* --- Red: blocked, failed processing, reject, financial mismatch --- */
   --red:#B42318;
@@ -134,7 +130,7 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:0 10px;height:var(--h-compact);border-radius:var(--r-sm);color:var(--ink-2);font-size:var(--fs-body);font-weight:500;text-align:left;transition:background .12s,color .12s}
 .nav-item:hover{background:var(--surface-3);color:var(--ink)}
 .nav-item svg{width:16px;height:16px;flex:none;opacity:.85}
-.nav-item[aria-current="page"]{background:var(--gold-bg);color:var(--gold);font-weight:600;box-shadow:inset 2px 0 0 var(--gold-brand)}
+.nav-item[aria-current="page"]{background:var(--green-bg);color:var(--green-deep);font-weight:600;box-shadow:inset 3px 0 0 var(--green)}
 .nav-item[aria-current="page"] svg{opacity:1}
 .rail-foot{border-top:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;gap:10px}
 .avatar{width:30px;height:30px;border-radius:var(--r-pill);background:var(--surface-3);border:1px solid var(--line);display:grid;place-items:center;font-size:var(--fs-xs);font-weight:600;color:var(--ink-2);flex:none}
@@ -159,7 +155,7 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .btn:active{background:var(--surface-3)}
 .btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;box-shadow:none}
 .btn.sm{height:var(--h-compact);padding:0 11px;font-size:var(--fs-sm)}
-.btn.xs{height:28px;padding:0 9px;font-size:var(--fs-xs);gap:5px}
+.btn.xs{height:30px;padding:0 10px;font-size:var(--fs-sm);gap:5px}
 .btn.xs svg{width:13px;height:13px}
 .btn.icon{width:var(--h-compact);height:var(--h-compact);padding:0}
 .btn-primary{background:var(--green);border-color:var(--green-deep);color:var(--ink-inv);box-shadow:var(--sh-1)}
@@ -192,7 +188,6 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .chip-pending{background:var(--surface-3);color:var(--slate);border-color:var(--line-strong)}
 .chip-skipped{background:var(--slate-bg);color:var(--slate);border-color:var(--slate-line)}
 .chip-neutral{background:var(--surface-3);color:var(--ink-2);border-color:var(--line-strong)}
-.chip-gold{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-line)}
 .chip-processing{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
 .chip-processing .glyph{animation:spin 1.4s linear infinite}
 
@@ -250,11 +245,11 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
    COMPONENTS — tabs
    ============================================================ */
 .segbar{display:inline-flex;padding:3px;background:var(--surface-3);border:1px solid var(--line);border-radius:var(--r-sm);gap:2px}
-.seg{height:28px;padding:0 11px;border-radius:var(--r-xs);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s}
+.seg{height:var(--h-compact);padding:0 12px;border-radius:var(--r-xs);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:background .12s,color .12s}
 .seg:hover{color:var(--ink)}
-.seg[aria-selected="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:var(--sh-1)}
+.seg[aria-selected="true"]{background:var(--surface);color:var(--green-deep);font-weight:600;box-shadow:var(--sh-1),inset 0 -2px 0 var(--green)}
 .seg .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.seg[aria-selected="true"] .cnt{color:var(--ink-2)}
+.seg[aria-selected="true"] .cnt{color:var(--green-deep)}
 
 .utabs{display:flex;gap:2px;align-items:flex-end}
 .utab{position:relative;height:40px;padding:0 13px;font-size:var(--fs-body);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px;border-radius:var(--r-sm) var(--r-sm) 0 0;transition:background .12s,color .12s}
@@ -268,10 +263,10 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 
 /* Filter pills */
 .pillbar{display:flex;flex-wrap:wrap;gap:6px}
-.pill{height:30px;padding:0 11px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:all .12s}
+.pill{height:var(--h-compact);padding:0 13px;border-radius:var(--r-pill);border:1px solid var(--line-strong);background:var(--surface);font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;transition:all .12s}
 .pill:hover{background:var(--surface-2);color:var(--ink)}
-.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ink-inv);font-weight:600}
-.pill[aria-pressed="true"] .cnt{color:rgba(255,255,255,.72)}
+.pill[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--ink-inv);font-weight:600}
+.pill[aria-pressed="true"] .cnt{color:rgba(255,255,255,.78)}
 .pill .cnt{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
 .pill .dot{width:7px;height:7px;border-radius:50%;flex:none}
 </style>
@@ -287,11 +282,11 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
 .input:focus,.select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(47,107,79,.17)}
 .input[readonly]{background:var(--surface-2);color:var(--ink-2)}
 .input.sm,.select.sm{height:var(--h-compact);font-size:var(--fs-sm)}
-.select{appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23828A7D' stroke-width='1.6'%3E%3Cpath d='M4 6.5 8 10.5 12 6.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;background-size:14px}
+.select{appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23667085' stroke-width='1.6'%3E%3Cpath d='M4 6.5 8 10.5 12 6.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;background-size:14px}
 .input.err,.select.err{border-color:var(--red);background:#FFFBFA;box-shadow:0 0 0 3px rgba(180,35,24,.11)}
 .err-msg{display:flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--red);font-weight:500}
 .err-msg svg{width:12px;height:12px;flex:none}
-.searchwrap{position:relative;flex:1;min-width:180px}
+.searchwrap{position:relative;flex:1 1 260px;min-width:230px;max-width:430px}
 .searchwrap svg.mag{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-3);pointer-events:none}
 .searchwrap .input{padding-left:33px;padding-right:30px}
 .searchwrap .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:var(--r-xs);display:grid;place-items:center;color:var(--ink-3)}
@@ -307,20 +302,26 @@ svg{width:15px;height:15px;flex:none}   /* safety net: no icon may stretch to it
    COMPONENTS — summary cards
    ============================================================ */
 .statrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 13px;box-shadow:var(--sh-1);text-align:left;position:relative;overflow:hidden;transition:border-color .12s,box-shadow .12s,transform .12s}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 13px;min-width:0;box-shadow:var(--sh-1);text-align:left;position:relative;overflow:hidden;transition:border-color .12s,box-shadow .12s,transform .12s}
 button.stat:hover{border-color:var(--line-strong);box-shadow:var(--sh-2)}
-button.stat[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+button.stat[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--stat-accent,var(--line-strong))}
 .stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
 .stat-label{font-size:var(--fs-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
 .stat-pct{font-size:10px;font-weight:700;padding:1px 5px;border-radius:var(--r-xs);border:1px solid;font-variant-numeric:tabular-nums}
-.stat-n{font-size:23px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.1}
-.stat-vol{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums;margin-top:2px}
+.stat-n{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;font-size:22px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:2px}
+.stat-vol{display:block;font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ============================================================
    COMPONENTS — control row
    ============================================================ */
-.controls{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;margin:14px 0 12px;min-height:var(--h-primary)}
+.controls{display:flex;flex-direction:column;gap:9px;margin:14px 0 12px}
+.ctl-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;row-gap:9px;min-height:var(--h-compact)}
+.filt{display:flex;align-items:center;gap:7px;flex:none;min-width:0}
+.filt-l{font-size:var(--fs-sm);font-weight:500;color:var(--ink-2);white-space:nowrap}
+.filt .select,.filt .btn{flex:none}
+.filt #fEntity{width:152px}
+.filt #fSup{width:212px}
 .ctl-div{width:1px;height:24px;background:var(--line);flex:none}
 
 /* Popover */
@@ -348,7 +349,7 @@ button.stat[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px va
 .tscroll::-webkit-scrollbar-thumb:hover,.docview::-webkit-scrollbar-thumb:hover,.detailpane::-webkit-scrollbar-thumb:hover{background:#AEB5C1}
 .tscroll::-webkit-scrollbar-corner,.docview::-webkit-scrollbar-corner,.detailpane::-webkit-scrollbar-corner{background:var(--surface-3)}
 table.dt{font-size:var(--fs-table);min-width:100%}
-table.dt th{position:sticky;top:0;z-index:20;background:var(--surface-3);border-bottom:1px solid var(--line-strong);padding:0 12px;height:36px;text-align:left;font-size:var(--fs-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+table.dt th{position:sticky;top:0;z-index:20;background:var(--surface-3);border-bottom:1px solid var(--line-strong);padding:0 12px;height:38px;text-align:left;font-size:var(--fs-sm);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
 table.dt td{padding:0 12px;height:42px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap;background:var(--surface)}
 table.dt tbody tr:last-child td{border-bottom:0}
 table.dt tbody tr:hover td{background:var(--surface-2)}
@@ -504,9 +505,9 @@ table.dt tbody tr.is-blocked:hover td.sticky{background:#FFFAF9}
 .hero-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
 .hero-cell{background:var(--surface-2);padding:13px 16px}
 .hero-cell .f-val{font-size:14px;font-weight:600}
-.badge-current{display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 7px;border-radius:var(--r-xs);background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-line);font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
-tr.is-current td{background:var(--gold-bg-2) !important}
-tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--gold-brand)}
+.badge-current{display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 7px;border-radius:var(--r-xs);background:var(--green-bg);color:var(--green-deep);border:1px solid var(--green-line);font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+tr.is-current td{background:var(--green-bg-2) !important}
+tr.is-current td:first-child{box-shadow:inset 3px 0 0 var(--green)}
 .matrix-metric{font-size:var(--fs-xs);font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
 .attach{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2)}
 .attach + .attach{margin-top:8px}
@@ -777,6 +778,7 @@ const P = {
   scale:'M8 2.6v10.8M4.4 5.6 2 10.4h4.8zM11.6 5.6 9.2 10.4H14zM3.6 5.6h8.8',
   target:'M8 14.2A6.2 6.2 0 1 0 8 1.8a6.2 6.2 0 0 0 0 12.4ZM8 11.4A3.4 3.4 0 1 0 8 4.6a3.4 3.4 0 0 0 0 6.8ZM8 9.2a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z'
 };
+function plu(k,one,many){return k.toLocaleString('en-IN')+' '+(k===1?one:(many||one+'s'));}
 function ic(n,attr){return '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" '+(attr||'')+'><path d="'+(P[n]||'')+'"/></svg>';}
 </script>
 <script>
@@ -1051,7 +1053,7 @@ CASE_B.rules = [
   {code:'HEADER_INVOICE_NUMBER_MISMATCH', name:'Invoice number does not match the GRN record', type:'HEADER', sev:'FLAG',
    field:'sellerInvoiceNo', sku:null, where:'Header · Invoice number',
    reason:'The number read from the document differs from the number keyed on the GRN. The characters differ only where the scan is faint, so this is treated as a reading difference and not a commercial issue.',
-   expected:'ODI/01499/26-27 recorded on GRN', actual:'ODDI 01/499/26-27 extracted from invoice', diff:'2 characters differ',
+   expected:'ODI/01499/26-27 recorded on GRN', actual:'ODDI 01/499/26-27 extracted from invoice', diff:'2-character difference',
    diffAmount:'No commercial impact', threshold:'Exact match after removing spaces and separators',
    norm:'Normalised for comparison: ODI0149926-27 against ODDI0149926-27. Extraction confidence on this field is 62%.'},
   {code:'LINE_ITEM_HSN_MISMATCH', name:'HSN code differs from the purchase order', type:'LINE_ITEM', sev:'NOTE',
@@ -1601,8 +1603,7 @@ function deriveRuleValues(c){
         r.expected=c.grn.sellerInvoiceNo+' recorded on GRN';
         r.actual=c.invoice.no+' extracted from invoice';
         const a=(c.grn.sellerInvoiceNo||'').replace(/[^A-Za-z0-9]/g,''), b=(c.invoice.no||'').replace(/[^A-Za-z0-9]/g,'');
-        r.diff=Math.abs(a.length-b.length)+Math.max(0,0)+' characters differ';
-        r.diff=(Math.abs(a.length-b.length)||1)+' character'+((Math.abs(a.length-b.length)||1)>1?'s':'')+' differ';
+        r.diff=(Math.abs(a.length-b.length)||1)+'-character difference';
         r.norm='Normalised for comparison: '+a+' against '+b+'. Extraction confidence on this field is '+Math.round((c.invoice.fieldConf.no||0)*100)+'%.'; break;
       }
       case 'MANDATORY_FIELD_MISSING': {
@@ -1920,7 +1921,7 @@ function buildCase(row, transient){
   if(pending){
     c.rules=[]; c.worstBreach=null; c.attempt=0; c.lastRun=null; c.reason=null;
     c.oracle={state:'NOT_READY', attempt:0};
-    c.timeline=[{t:c.grn.createdAt.slice(0,19), title:'GRN created', sub:c.lines.length+' lines received', kind:''}];
+    c.timeline=[{t:c.grn.createdAt.slice(0,19), title:'GRN created', sub:plu(c.lines.length,'line')+' received', kind:''}];
     if(row.runStatus==='RUNNING') c.timeline.unshift({t:shift('2026-08-22T09:00:00',0,-1), title:'Match run in progress', sub:'Queued at 8:00 AM', kind:''});
   } else {
     c.rules.forEach(r=>{ if(r.sev==='PASS' && GENERIC_PASS[r.code]) r.reason=GENERIC_PASS[r.code]; });
@@ -1934,7 +1935,7 @@ function buildCase(row, transient){
     if(c.oracle.state==='PUSHED') c.timeline.unshift({t:c.oracle.pushedAt, title:'Posted to Oracle', sub:c.oracle.oracleInvoiceNo, kind:'ok'});
     if(c.oracle.state==='FAILED') c.timeline.unshift({t:c.oracle.error.at, title:'Oracle push failed', sub:c.oracle.error.code, kind:'bad'});
     if(row.attempt>1) c.timeline.push({t:shift(row.lastRun,-2), title:'Match run — attempt '+(row.attempt-1), sub:'Blocked', kind:'bad'});
-    c.timeline.push({t:c.grn.createdAt.slice(0,19), title:'GRN created', sub:c.lines.filter(l=>!l.isFreight).length+' lines received', kind:''});
+    c.timeline.push({t:c.grn.createdAt.slice(0,19), title:'GRN created', sub:plu(c.lines.filter(l=>!l.isFreight).length,'line')+' received', kind:''});
   }
   c.reason = c.reason || null;
   if(!transient) CASE_CACHE[row.id]=c;
@@ -2038,11 +2039,19 @@ window.addEventListener('hashchange', route);
 <style>
 /* ---- additions used by the render layer ---- */
 .vis-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.nav-soon{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);background:var(--surface-3);border:1px solid var(--line);border-radius:var(--r-pill);padding:1px 6px}
+.navlater{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+.navlater-h{display:flex;align-items:center;gap:8px;padding:0 10px;height:30px;border-radius:var(--r-sm);cursor:pointer;list-style:none;font-size:var(--fs-sm);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2)}
+.navlater-h::-webkit-details-marker{display:none}
+.navlater-h:hover{background:var(--surface-3);color:var(--ink)}
+.navlater-h:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.navlater-c{width:13px;height:13px;flex:none;color:var(--ink-3);transition:transform .14s}
+.navlater[open] .navlater-c{transform:rotate(90deg)}
+.navlater-n{margin-left:auto;font-size:10px;font-weight:700;color:var(--ink-2);background:var(--surface-3);border:1px solid var(--line);border-radius:var(--r-pill);padding:0 6px;line-height:15px}
+.rail-collapsed .navlater{display:none}
 .nav-item[aria-disabled="true"]{opacity:.55;cursor:default}
 .nav-item[aria-disabled="true"]:hover{background:transparent;color:var(--ink-2)}
-.stat-sub{font-size:var(--fs-xs);color:var(--ink-2);margin-top:5px;padding-top:5px;border-top:1px dashed var(--line)}
-.stat-u{font-size:var(--fs-xs);font-weight:500;color:var(--ink-2);margin-left:5px;letter-spacing:0}
+.stat-sub{display:block;font-size:var(--fs-xs);line-height:1.45;color:var(--ink-2);margin-top:7px;padding-top:6px;border-top:1px dashed var(--line)}
+.stat-u{font-size:var(--fs-xs);font-weight:500;color:var(--ink-2);letter-spacing:0;white-space:nowrap}
 .stat-pct.p-all{background:var(--surface-3);color:var(--ink-2);border-color:var(--line-strong)}
 .stat-pct.p-pending{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
 .stat-pct.p-matched{background:var(--green-bg);color:var(--green-deep);border-color:var(--green-line)}
@@ -2081,12 +2090,14 @@ const NAV = [
   {k:'users',   label:'Users & roles',    icon:'users'}
 ];
 function renderNav(){
+  const live = NAV.filter(n=>n.on), later = NAV.filter(n=>!n.on);
   $('#nav').innerHTML =
     `<div class="navgroup-label">Accounts payable</div>` +
-    NAV.map(n=> n.on
-      ? `<a class="nav-item" href="#/" aria-current="page">${ic(n.icon)}<span class="nav-txt">${n.label}</span></a>`
-      : `<a class="nav-item" role="link" aria-disabled="true" tabindex="-1">${ic(n.icon)}<span class="nav-txt">${n.label}</span><span class="nav-soon">Soon</span></a>`
-    ).join('');
+    live.map(n=>`<a class="nav-item" href="#/" aria-current="page">${ic(n.icon)}<span class="nav-txt">${n.label}</span></a>`).join('') +
+    (later.length ? `<details class="navlater">
+      <summary class="navlater-h">${ic('chevR','class="navlater-c"')}<span class="nav-txt">Coming later</span><span class="navlater-n">${later.length}</span></summary>
+      ${later.map(n=>`<a class="nav-item" role="link" aria-disabled="true" tabindex="-1">${ic(n.icon)}<span class="nav-txt">${n.label}</span></a>`).join('')}
+    </details>` : '');
 }
 function render(){
   $('#main').innerHTML = S.view==='case' ? renderCase() : renderDash();
@@ -2157,8 +2168,8 @@ function popover(kind){
     const n = viewRows().length, cn = COLS.filter(c=>S.cols[c.k]).length;
     return `<div class="pop w-exp right" role="dialog" aria-label="Export options">
       <div class="pop-title">Export current view</div>
-      <button class="pop-item stack" type="button" data-act="export" data-arg="xlsx">${ic('sheet')}<span>Excel workbook (.xlsx)<span class="pop-sub">${n.toLocaleString('en-IN')} rows · ${cn} columns · opens in Excel</span></span></button>
-      <button class="pop-item stack" type="button" data-act="export" data-arg="csv">${ic('file')}<span>Comma separated (.csv)<span class="pop-sub">${n.toLocaleString('en-IN')} rows · ${cn} columns · plain text</span></span></button>
+      <button class="pop-item stack" type="button" data-act="export" data-arg="xlsx">${ic('sheet')}<span>Excel workbook (.xlsx)<span class="pop-sub">${plu(n,'row')} · ${plu(cn,'column')} · opens in Excel</span></span></button>
+      <button class="pop-item stack" type="button" data-act="export" data-arg="csv">${ic('file')}<span>Comma separated (.csv)<span class="pop-sub">${plu(n,'row')} · ${plu(cn,'column')} · plain text</span></span></button>
       <div class="pop-sep"></div>
       <div class="pop-note" style="padding:2px 8px 4px">Filters, search and sort order are applied to the export.</div>
     </div>`;
@@ -2171,30 +2182,10 @@ function controlRow(){
   const supList = Array.from(new Set(ROWS.map(r=>r.supplier))).sort((a,b)=>a.localeCompare(b));
   const tabs = [['ALL','All'],['PENDING','Pending'],['MATCHED','Matched'],['BLOCKED','Blocked'],['SKIPPED','Skipped']];
   return `<div class="controls">
+    <div class="ctl-row">
     <div class="segbar" role="tablist" aria-label="Filter by match status">
       ${tabs.map(([k,l])=>`<button class="seg" type="button" role="tab" aria-selected="${S.status===k}" data-act="status" data-arg="${k}">
         ${k!=='ALL'?`<span class="seg-dot chip-${k.toLowerCase()}" aria-hidden="true"></span>`:''}${l}<span class="cnt">${st.t[k].toLocaleString('en-IN')}</span></button>`).join('')}
-    </div>
-    <div class="ctl-div" aria-hidden="true"></div>
-    <div class="searchwrap">
-      ${ic('search','class="mag"')}
-      <label class="vis-hidden" for="q">Search invoices</label>
-      <input class="input sm" id="q" type="search" placeholder="Search PO, GRN, invoice number or supplier" value="${esc(S.q)}" data-act="q" autocomplete="off">
-      ${S.q?`<button class="clear" type="button" data-act="clearq" aria-label="Clear search">${ic('x')}</button>`:''}
-    </div>
-    <label class="vis-hidden" for="fEntity">Filter by brand</label>
-    <select class="select sm" id="fEntity" data-act="entity">
-      <option value="ALL"${S.entity==='ALL'?' selected':''}>All brands</option>
-      ${BRANDS.map(b=>`<option value="${esc(b)}"${S.entity===b?' selected':''}>${esc(b)}</option>`).join('')}
-    </select>
-    <label class="vis-hidden" for="fSup">Filter by supplier</label>
-    <select class="select sm" id="fSup" data-act="supplier">
-      <option value="ALL"${S.supplier==='ALL'?' selected':''}>All suppliers</option>
-      ${supList.map(s=>`<option value="${esc(s)}"${S.supplier===s?' selected':''}>${esc(s)}</option>`).join('')}
-    </select>
-    <div class="pop-host">
-      <button class="btn btn-ghost sm" type="button" data-act="pop" data-arg="date" aria-expanded="${S.pop==='date'}" aria-haspopup="dialog">${ic('cal')}<span>${DATE_LABEL[S.dateKey]}</span>${ic('chevD')}</button>
-      ${S.pop==='date'?popover('date'):''}
     </div>
     <div class="ctl-grow"></div>
     <div class="pop-host">
@@ -2204,6 +2195,36 @@ function controlRow(){
     <div class="pop-host">
       <button class="btn sm" type="button" data-act="pop" data-arg="cols" aria-expanded="${S.pop==='cols'}" aria-haspopup="dialog">${ic('cols')}<span>Columns</span></button>
       ${S.pop==='cols'?popover('cols'):''}
+    </div>
+    </div>
+    <div class="ctl-row">
+      <div class="searchwrap">
+        ${ic('search','class="mag"')}
+        <label class="vis-hidden" for="q">Search invoices</label>
+        <input class="input sm" id="q" type="search" placeholder="Search PO, GRN, invoice number or supplier" value="${esc(S.q)}" data-act="q" autocomplete="off">
+        ${S.q?`<button class="clear" type="button" data-act="clearq" aria-label="Clear search">${ic('x')}</button>`:''}
+      </div>
+      <div class="filt">
+        <label class="filt-l" for="fEntity">Brand</label>
+        <select class="select sm" id="fEntity" data-act="entity">
+          <option value="ALL"${S.entity==='ALL'?' selected':''}>All brands</option>
+          ${BRANDS.map(b=>`<option value="${esc(b)}"${S.entity===b?' selected':''}>${esc(b)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="filt">
+        <label class="filt-l" for="fSup">Supplier</label>
+        <select class="select sm" id="fSup" data-act="supplier">
+          <option value="ALL"${S.supplier==='ALL'?' selected':''}>All suppliers</option>
+          ${supList.map(s=>`<option value="${esc(s)}"${S.supplier===s?' selected':''}>${esc(s)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="filt">
+        <span class="filt-l" id="fDateL">Dates</span>
+        <div class="pop-host">
+          <button class="btn btn-ghost sm" type="button" data-act="pop" data-arg="date" aria-labelledby="fDateL fDateV" aria-expanded="${S.pop==='date'}" aria-haspopup="dialog">${ic('cal')}<span id="fDateV">${dateLabel()}</span>${ic('chevD')}</button>
+          ${S.pop==='date'?popover('date'):''}
+        </div>
+      </div>
     </div>
   </div>`;
 }
@@ -2227,7 +2248,7 @@ table.dt th[aria-sort="ascending"],table.dt th[aria-sort="descending"]{color:var
 .sk{display:block;height:11px;border-radius:var(--r-xs);background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-4) 37%,var(--surface-3) 63%);background-size:400% 100%;animation:shimmer 1.3s ease-in-out infinite}
 @keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
 @media (prefers-reduced-motion:reduce){.sk{animation:none}}
-.per-sel{height:30px;padding:0 24px 0 8px;font-size:var(--fs-sm);border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23828A7D' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m4.5 6.5 3.5 3.5 3.5-3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 5px center}
+.per-sel{height:30px;padding:0 24px 0 8px;font-size:var(--fs-sm);border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23667085' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m4.5 6.5 3.5 3.5 3.5-3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 5px center}
 .per-sel:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(47,107,79,.17)}
 </style>
 <script>
@@ -2359,7 +2380,7 @@ function renderDash(){
         <p class="page-sub">Three-way match of purchase order, goods received note and vendor invoice · ${DATE_LABEL[S.dateKey]}</p>
       </div>
       <div class="tb-right">
-        <span class="flagpill flagpill-amber" title="Bulk re-run is a UAT convenience and will be removed before release">${ic('warn')}Testing only</span>
+        <span class="flagpill flagpill-neutral" title="Bulk re-run is a UAT convenience and will be removed before release">${ic('info')}Testing only</span>
         <button class="btn sm" type="button" data-act="runall" ${busy?'disabled':''}>
           ${busy?'<span class="spin" aria-hidden="true"></span>':ic('play')}${busy?'Running…':'Run all'}
         </button>
@@ -2394,7 +2415,7 @@ function renderDash(){
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:9px;flex:none}
 .flagpill{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;border-radius:var(--r-sm);font-size:var(--fs-xs);font-weight:600;letter-spacing:.02em}
 .flagpill svg{width:12px;height:12px;flex:none}
-.flagpill-amber{background:var(--amber-bg);color:var(--amber-deep);border:1px solid var(--amber-line)}
+.flagpill-neutral{background:var(--surface-3);color:var(--ink-2);border:1px solid var(--line-strong)}
 .alert .acts{display:flex;gap:7px;align-items:flex-start;flex:none;margin-left:auto}
 .alert{margin-bottom:12px}
 .tscroll .empty{border-top:1px solid var(--line)}
@@ -2573,7 +2594,7 @@ function tabPO(c,row){
             ['Product subtotal', inr(c.po.subtotal)],
             ['Tax', inr(c.po.tax)],
             ['Additional charges', inr(c.po.additionalCharges||0)],
-            ['PO total', inr(c.po.total), `${c.lines.filter(l=>!l.isFreight).length} ordered line items`]
+            ['PO total', inr(c.po.total), plu(c.lines.filter(l=>!l.isFreight).length,'ordered line item')]
           ])}
         </div>
       </section>
@@ -2998,7 +3019,7 @@ function tabInvoice(c,row){
             ${ocrField('Invoice number', `<span class="mono">${esc(inv.no)}</span>`, fc.no)}
             ${ocrField('Invoice date', fmtDate(inv.date), fc.date)}
             ${ocrField('Due date', inv.dueDate?fmtDate(inv.dueDate):null, fc.dueDate)}
-            ${ocrField('Line count', `${inv.lineCount} lines`, null)}
+            ${ocrField('Line count', plu(inv.lineCount,'line'), null)}
             ${ocrField('Taxable value', inr(inv.subtotal), fc.subtotal)}
             ${ocrField('Total tax', inr(inv.tax), null)}
             ${ocrField('Freight charges', inv.freight?inr(inv.freight):null, null, {note:inv.freight?'Not present on the purchase order':null})}
@@ -3413,7 +3434,7 @@ function tabRules(c,row){
         <span class="glyphbox">${ic('search')}</span>
         <h3>No rules in this group</h3>
         <p>The engine recorded no ${esc((SEV[f]||{label:'matching'}).label.toLowerCase())} results on attempt ${c.attempt}.</p>
-        <div class="acts"><button class="btn sm" type="button" data-act="rulefilter" data-arg="ALL">Show all ${n.ALL} rules</button></div>
+        <div class="acts"><button class="btn sm" type="button" data-act="rulefilter" data-arg="ALL">Show all ${plu(n.ALL,'rule')}</button></div>
       </div>`;
 
   return `<div class="rule-layout">
@@ -3501,6 +3522,12 @@ function tabRules(c,row){
 .ofield.bad .oval{border-color:var(--red-line);background:var(--red-bg);color:var(--red-deep)}
 .ofield .err-msg{margin-top:5px}
 .ofield .f-note{margin-top:5px}
+/* Once posted, Oracle values are a record of what was sent — never an editable field */
+.opush-wrap.is-posted .ofields{gap:0 18px;padding:4px 16px 8px}
+.opush-wrap.is-posted .ofield{padding:10px 0;border-bottom:1px solid var(--line)}
+.opush-wrap.is-posted .ofield .oval{padding:0;min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;margin-top:3px;line-height:1.45}
+.opush-wrap.is-posted .ofield.missing .oval,.opush-wrap.is-posted .ofield.bad .oval{border:0;background:transparent;box-shadow:none;color:var(--red-deep);font-weight:600}
+.opush-wrap.is-posted .ofield.missing{border-bottom-color:var(--red-line)}
 .osec-h .sect-title{flex:1;min-width:0}
 .osec-h .osec-count{font-size:var(--fs-xs);color:var(--ink-2);font-variant-numeric:tabular-nums}
 .osec-ico{width:22px;height:22px;border-radius:var(--r-xs);background:var(--surface);border:1px solid var(--line-strong);display:grid;place-items:center;color:var(--ink-2);flex:none}
@@ -3566,7 +3593,7 @@ function oracleSection(sec,i){
       <span class="osec-ico">${ic(sec.icon||'file')}</span>
       <span class="sect-title">${esc(sec.title)}</span>
       ${miss?`<span class="chip chip-blocked tiny">${ic('warn','class="glyph"')}${miss} missing</span>`:''}
-      <span class="osec-count">${sec.fields.length} fields</span>
+      <span class="osec-count">${plu(sec.fields.length,'field')}</span>
     </div>
     <div class="ofields">${sec.fields.map(oracleField).join('')}</div>
   </section>`;
@@ -3579,7 +3606,7 @@ function oracleLines(c){
       <span class="n">${o.sections.length+1}</span>
       <span class="osec-ico">${ic('sheet')}</span>
       <span class="sect-title">Line items and accounting distribution</span>
-      <span class="osec-count">${o.lines.length} distribution lines</span>
+      <span class="osec-count">${plu(o.lines.length,'distribution line')}</span>
     </div>
     <div class="tscroll plain">
       <table class="dt">
@@ -3676,7 +3703,7 @@ function tabOracle(c,row){
       <span class="m"><b>${esc(o.error.title)}</b> — ${esc(o.error.msg)}</span>
     </div>` : '';
 
-  return `<div class="opush-wrap">
+  return `<div class="opush-wrap${o.state==='PUSHED'?' is-posted':''}">
     <div class="opush-bar ${st.cls}" role="status">
       <span class="ob-ico" style="background:${tone.bg};border-color:${tone.line};color:${tone.fg}">${ic(st.icon)}</span>
       <span class="ob-main">
@@ -3709,7 +3736,7 @@ function tabOracle(c,row){
 </script>
 <style>
 /* ---- interaction layer additions ---- */
-.li-card.hi{outline:2px solid var(--gold-brand);outline-offset:2px}
+.li-card.hi{outline:2px solid var(--green);outline-offset:2px}
 .d-list{margin:10px 0 0;padding-left:18px;line-height:1.75}
 .d-list li{margin-bottom:2px}
 .d-note{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.55;margin-top:12px;padding-top:11px;border-top:1px dashed var(--line)}
