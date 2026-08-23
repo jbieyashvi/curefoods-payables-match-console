@@ -67,11 +67,12 @@
 
   /* --- Control heights --- */
   --h-primary:38px; --h-compact:34px; --h-chip:26px;
-  /* The dashboard's own control height, set by the Testing-only badge that
-     already sits in the top bar: Run all, Export, Columns, the search and the
-     three filters are all one object at that one size, so the whole band reads
-     as a single line of controls. */
-  --h-dash:26px; --r-dash:6px;
+  /* The dashboard's own control height. Run all, Export, Columns, the search
+     and the three filters are all one object at that one size, so the whole
+     band reads as a single line of controls. It sits one step under the 34px
+     compact button, which is what buys back the rows below it, and one step
+     over the 26px Testing-only badge beside it. */
+  --h-dash:30px; --r-dash:6px;
 
   /* --- Type --- */
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;

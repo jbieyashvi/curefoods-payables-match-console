@@ -143,14 +143,14 @@ filters from the inside (`All brands`, `All suppliers`, a calendar glyph and
 label, so the row reads as four fields rather than eight fragments. At 1440px
 that is a 472px search, then 184px, 244px and 224px, 8px apart. Those four and the
 Run all, Export and Columns buttons on the status row above them are **one control
-at one size**: 26px tall on a 6px radius, one border, one white face, 11.5px type
+at one size**: 30px tall on a 6px radius, one border, one white face, 11.5px type
 on a 14px line, 9px of horizontal padding, no vertical padding and 13px glyphs —
 so the whole band above the table reads as a single line of controls rather than
-two heights arguing with each other. That height is not picked in the abstract: it
-is the height of the `Testing only` badge already sitting in the same top bar, so
-the badge and every control beside it share one baseline. It clears the 24×24px
-WCAG 2.2 target minimum, and it is the one place in the console that goes below
-the 34px control floor — traded knowingly for rows of invoices. Below 1360px the search takes a line of its own and the three filters sit
+two heights arguing with each other. It sits one step under the 34px compact
+button, which is what buys back the rows below it, and one step over the 26px
+`Testing only` badge beside it. It clears the 24×24px WCAG 2.2 target minimum,
+and it is the one place in the console that goes below the 34px control floor —
+traded knowingly for rows of invoices. Below 1360px the search takes a line of its own and the three filters sit
 underneath it at full size — two tidy rows, never a row of bare chevrons. The row
 is a row of controls rather than a panel, so nothing wraps around it to pad: it
 sits 8px below the status segments and 8px above the table, because every pixel
